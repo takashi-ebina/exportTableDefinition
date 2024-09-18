@@ -1,0 +1,2 @@
+# exportTableDefinition
+【PostgreSQL】Markdown形式のテーブル定義書を作成するリポジトリ
