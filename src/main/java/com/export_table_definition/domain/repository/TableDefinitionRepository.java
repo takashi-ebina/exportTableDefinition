@@ -2,24 +2,59 @@ package com.export_table_definition.domain.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.AllForeignkeyEntity;
+import com.export_table_definition.domain.model.AllIndexEntity;
+import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.BaseInfoEntity;
 
-import com.export_table_definition.domain.repository.vo.AllColumnVo;
-import com.export_table_definition.domain.repository.vo.AllForeignkeyVo;
-import com.export_table_definition.domain.repository.vo.AllIndexVo;
-import com.export_table_definition.domain.repository.vo.AllTableVo;
-import com.export_table_definition.domain.repository.vo.BaseInfoVo;
-
-@Mapper
+/**
+ * テーブル定義出力に関するリポジトリインターフェース
+ * 
+ * @since 1.0
+ * @version 1.0
+ * @author takashi.ebina
+ */
 public interface TableDefinitionRepository {
 	
-	BaseInfoVo selectBaseInfo();
+	/**
+	 * データベースの基本情報を取得するメソッド
+	 * 
+	 * @return データベースの基本情報
+	 */
+	BaseInfoEntity selectBaseInfo();
 	
-	List<AllTableVo> selectAllTableInfo();
+	/**
+	 * データベースのテーブル情報を取得するメソッド
+	 * 
+	 * @return データベースのテーブル情報
+	 */
+	List<AllTableEntity> selectAllTableInfo();
 	
-	List<AllColumnVo> selectAllColumnInfo();
+	/**
+	 * データベースのカラム情報を取得するメソッド
+	 * 
+	 * @param schemaList テーブル定義出力対象のスキーマのリスト
+	 * @param tableList テーブル定義出力対象のテーブルのリスト
+	 * @return データベースのカラム情報
+	 */
+	List<AllColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList);
 	
-	List<AllIndexVo> selectAllIndexInfo();
+	/**
+	 * データベースのインデックス情報を取得するメソッド
+	 * 
+	 * @param schemaList テーブル定義出力対象のスキーマのリスト
+	 * @param tableList テーブル定義出力対象のテーブルのリスト
+	 * @return データベースのインデックス情報
+	 */
+	List<AllIndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList);
 	
-	List<AllForeignkeyVo> selectAllForeignkeyInfo();
+	/**
+	 * データベースの外部キー情報を取得するメソッド
+	 * 
+	 * @param schemaList テーブル定義出力対象のスキーマのリスト
+	 * @param tableList テーブル定義出力対象のテーブルのリスト
+	 * @return データベースの外部キー情報
+	 */
+	List<AllForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList);
 }

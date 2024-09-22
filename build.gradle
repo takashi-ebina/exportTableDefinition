@@ -35,6 +35,7 @@ jar {
             'Main-Class': 'com.export_table_definition.ExportTableDefinition'
         )
     }
+	exclude('/conf/mybatis.properties')
 }
 
 tasks.named('build').configure {
@@ -44,3 +45,16 @@ tasks.named('build').configure {
 shadowJar {
     archiveClassifier.set('') // 実行可能JARを作成（デフォルトの「-all」サフィックスを削除）
 }
+
+task copyResources(type: Copy) {
+    from 'src/main/resources/conf'
+    into "$buildDir/../build/libs/conf"
+}
+
+javadoc {
+    options.charSet = 'UTF-8'
+    options.encoding = 'UTF-8'
+    destinationDir = file("docs/javadoc")
+}
+
+build.dependsOn(copyResources)

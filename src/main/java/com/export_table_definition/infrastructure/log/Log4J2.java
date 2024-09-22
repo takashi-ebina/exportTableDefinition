@@ -6,19 +6,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * <p>
  * ロギング処理を行うクラス
  * 
+ * @since 1.0
+ * @version 1.0
+ * @author takashi.ebina
  */
 public class Log4J2 {
 
 	/** 唯一のLog4J2インスタンス */
-	private static Log4J2 thisInstance = null;
+	private static Log4J2 thisInstance;
 	/** 改行コード */
 	private final String lineSeparator = System.getProperty("line.separator");
 
 	/**
-	 * <p>
 	 * インスタンス返却メソッド
 	 * 
 	 * @return Log4J2インスタンス
@@ -31,10 +32,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * コンストラクタ
-	 * <p>
-	 * Singleton実装の為、外部からのインスタンス化は不可とする。
+	 * コンストラクタ（インスタンス化不可）
 	 */
 	private Log4J2() {
 	}
@@ -59,7 +57,7 @@ public class Log4J2 {
 	}
 	
 	/**
-	 * 現在のメソッドを呼び出したクラスの名前を取得する。
+	 * 現在のメソッドを呼び出したクラスの名前を取得するメソッド
 	 * 
 	 * @param name パッケージ名付きのクラス名
 	 * @return パッケージ名を削除したクラス名。取得できない場合は空文字列
@@ -73,8 +71,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2でデバッグレベルの情報をロギングする
+	 * Log4J2でデバッグレベルの情報をロギングするメソッド
 	 * 
 	 * @param msg デバッグメッセージ
 	 */
@@ -84,8 +81,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2でinfoレベルの情報をロギングする
+	 * Log4J2でinfoレベルの情報をロギングするメソッド
 	 * 
 	 * @param msg 出力メッセージ
 	 */
@@ -95,8 +91,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2でinfoレベルの情報をロギングする
+	 * Log4J2でinfoレベルの情報をロギングするメソッド
 	 * 
 	 * @param obj ログが出力される Class Object
 	 * @param msg 出力メッセージ
@@ -107,8 +102,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2で警告レベルの情報をロギングする
+	 * Log4J2で警告レベルの情報をロギングするメソッド
 	 * 
 	 * @param msg 警告メッセージ
 	 */
@@ -118,8 +112,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2でエラーレベル情報ををロギングする
+	 * Log4J2でエラーレベル情報をロギングするメソッド
 	 * 
 	 * @param logMessage ログメッセージ
 	 * @param e          例外情報
@@ -141,8 +134,7 @@ public class Log4J2 {
 	}
 
 	/**
-	 * <p>
-	 * Log4J2でエラーレベル情報ををロギングする
+	 * Log4J2でエラーレベル情報ををロギングするメソッド
 	 * 
 	 * @param e 例外情報
 	 */

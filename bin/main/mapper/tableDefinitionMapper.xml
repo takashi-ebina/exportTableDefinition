@@ -2,48 +2,90 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.export_table_definition.domain.repository.TableDefinitionRepository">
 
-<select id="selectBaseInfo" resultType="BaseInfoVo">
+<select id="selectBaseInfo" resultType="BaseInfoDto">
 SELECT concat('|', 'PostgreSQL', '|', current_database(), '|', to_char(current_timestamp, 'yyyy/MM/dd'), '|') AS "baseInfo" fetch first 1 rows only;
 </select>
 
-<select id="selectAllTableInfo" resultType="AllTableVo">
+<select id="selectAllTableInfo" resultType="AllTableDto">
 WITH all_tables AS (
     SELECT 
         coalesce(t1.schemaname, '') AS schema_name,
         'table' AS table_type,
-        coalesce(pg_catalog.obj_description(concat(t1.schemaname, '.', t1.tablename)::regclass), '') AS logical_table_name,
+        coalesce(regexp_replace(pg_catalog.obj_description(concat(t1.schemaname, '.', t1.tablename)::regclass),'\r|\n|\r\n', '', 'g'), '') AS logical_table_name,
         coalesce(t1.tablename, '') AS physical_table_name,
-        ' ' AS remarks,
+        '' AS remarks,
         concat('[■](./tables/', t1.schemaname, '/', t1.tablename, '.md)') AS link,
-        ' ' AS definition
+        '' AS definition
     FROM pg_catalog.pg_tables t1
     WHERE t1.schemaname NOT IN ('pg_catalog', 'information_schema')
-
+    <if test="schemaList != null and schemaList.size() > 0">
+        AND t1.schemaname IN
+        <foreach item="schema" index="index" collection="schemaList"
+            open="(" separator="," close=")">
+            #{schema}
+        </foreach>
+    </if>
+    <if test="tableList != null and tableList.size() > 0">
+        AND t1.tablename IN
+        <foreach item="table" index="index" collection="tableList"
+            open="(" separator="," close=")">
+            #{table}
+        </foreach>
+    </if>
+    
     UNION ALL
 
     SELECT 
         coalesce(t2.schemaname, '') AS schema_name,
         'view' AS table_type,
-        coalesce(obj_description(concat(t2.schemaname, '.', t2.viewname)::regclass), '') AS logical_table_name,
+        coalesce(regexp_replace(obj_description(concat(t2.schemaname, '.', t2.viewname)::regclass),'\r|\n|\r\n', '', 'g'), '') AS logical_table_name,
         coalesce(t2.viewname, '') AS physical_table_name,
         ' ' AS remarks,
         concat('[■](./tables/', t2.schemaname, '/', t2.viewname, '.md)') AS link,
         definition AS definition
     FROM pg_catalog.pg_views t2
     WHERE t2.schemaname NOT IN ('pg_catalog', 'information_schema')
+    <if test="schemaList != null and schemaList.size() > 0">
+        AND t1.schemaname IN
+        <foreach item="schema" index="index" collection="schemaList"
+            open="(" separator="," close=")">
+            #{schema}
+        </foreach>
+    </if>
+    <if test="tableList != null and tableList.size() > 0">
+        AND t1.tablename IN
+        <foreach item="table" index="index" collection="tableList"
+            open="(" separator="," close=")">
+            #{table}
+        </foreach>
+    </if>
 
     UNION ALL
 
     SELECT 
         coalesce(t3.schemaname, '') AS schema_name,
         'materialized view' AS table_type,
-        coalesce(obj_description(concat(t3.schemaname, '.', t3.matviewname)::regclass), '') AS logical_table_name,
+        coalesce(regexp_replace(obj_description(concat(t3.schemaname, '.', t3.matviewname)::regclass),'\r|\n|\r\n', '', 'g'), '') AS logical_table_name,
         coalesce(t3.matviewname, '') AS physical_table_name,
         ' ' AS remarks,
         concat('[■](./tables/', t3.schemaname, '/', t3.matviewname, '.md)') AS link,
         definition AS definition
     FROM pg_catalog.pg_matviews t3
     WHERE t3.schemaname NOT IN ('pg_catalog', 'information_schema')
+    <if test="schemaList != null and schemaList.size() > 0">
+        AND t1.schemaname IN
+        <foreach item="schema" index="index" collection="schemaList"
+            open="(" separator="," close=")">
+            #{schema}
+        </foreach>
+    </if>
+    <if test="tableList != null and tableList.size() > 0">
+        AND t1.tablename IN
+        <foreach item="table" index="index" collection="tableList"
+            open="(" separator="," close=")">
+            #{table}
+        </foreach>
+    </if>
 )
 SELECT 
     schema_name AS "schemaName"
@@ -59,13 +101,13 @@ ORDER BY
     , physical_table_name;
 </select>
 
-<select id="selectAllColumnInfo" resultType="AllColumnVo">
+<select id="selectAllColumnInfo" resultType="AllColumnDto">
 WITH all_columns AS (
     SELECT
         t1.schemaname AS schema_name,
         t1.tablename AS table_name,
         t3.attnum AS column_num,
-        substring(coalesce((t4.description), ''), '^[^:\\t\\r\\n]*') AS logical_column_name,
+        coalesce(substring(coalesce((t4.description), ''), '^[^:\\t\\r\\n]*'), '') AS logical_column_name,
         t3.attname AS physical_column_name,
         pg_catalog.format_type(t3.atttypid, t3.atttypmod) AS column_type,
         coalesce((
@@ -85,7 +127,7 @@ WITH all_columns AS (
             WHERE d.adrelid = t3.attrelid
             AND d.adnum = t3.attnum
         ), '') AS default_value,
-        substring(coalesce((t4.description), ''), '^.*[:\\t\\r\\n]+(.*)')  AS remarks
+        coalesce(substring(coalesce((t4.description), ''), '^.*[:\\t\\r\\n]+(.*)'), '')  AS remarks
     FROM
         pg_catalog.pg_tables t1
         LEFT OUTER JOIN pg_catalog.pg_class t2
@@ -97,6 +139,20 @@ WITH all_columns AS (
     WHERE
         t1.schemaname NOT IN ('pg_catalog', 'information_schema')
         AND t3.attnum > 0
+        <if test="schemaList != null and schemaList.size() > 0">
+            AND t1.schemaname IN
+            <foreach item="schema" index="index" collection="schemaList"
+                open="(" separator="," close=")">
+                #{schema}
+            </foreach>
+        </if>
+        <if test="tableList != null and tableList.size() > 0">
+            AND t1.tablename IN
+            <foreach item="table" index="index" collection="tableList"
+                open="(" separator="," close=")">
+                #{table}
+            </foreach>
+        </if>
     ORDER BY
         t1.schemaname,
         t1.tablename,
@@ -114,13 +170,13 @@ ORDER BY
     column_num;
 </select>
 
-<select id="selectAllIndexInfo" resultType="AllIndexVo">
+<select id="selectAllIndexInfo" resultType="AllIndexDto">
 WITH all_indexes AS (
     SELECT
         t5.schemaname AS schema_name,
         t1.relname AS table_name,
         t2.relname AS index_name,
-        array_to_string(array_agg(t4.attname ORDER BY t4.attnum), ',') AS column_names
+        coalesce(array_to_string(array_agg(t4.attname ORDER BY t4.attnum), ','), '') AS column_names
     FROM
         pg_class AS t1
     LEFT OUTER JOIN
@@ -136,6 +192,20 @@ WITH all_indexes AS (
         AND t3.indisunique = false
         AND t1.relkind = 'r'
         AND t5.schemaname NOT IN ('pg_catalog', 'information_schema')
+        <if test="schemaList != null and schemaList.size() > 0">
+            AND t5.schemaname IN
+            <foreach item="schema" index="index" collection="schemaList"
+                open="(" separator="," close=")">
+                #{schema}
+            </foreach>
+        </if>
+        <if test="tableList != null and tableList.size() > 0">
+            AND t1.relname IN
+            <foreach item="table" index="index" collection="tableList"
+                open="(" separator="," close=")">
+                #{table}
+            </foreach>
+        </if>
     GROUP BY
         t5.schemaname, t1.relname, t2.relname
 )
@@ -151,16 +221,16 @@ ORDER BY
     schema_name, table_name;
 </select>
 
-<select id="selectAllForeignkeyInfo" resultType="AllForeignkeyVo">
+<select id="selectAllForeignkeyInfo" resultType="AllForeignkeyDto">
 WITH all_foreignkeys AS (
     SELECT
         t1.constraint_name AS foreignkey_name,
         t2.table_schema AS schema_name,
         t2.table_name AS table_name,
-        array_to_string(array_agg(DISTINCT t2.column_name), ',')  AS column_names,
+        coalesce(array_to_string(array_agg(DISTINCT t2.column_name), ','), '') AS column_names,
         t3.table_schema AS reference_schema_name,
         t3.table_name AS reference_table_name,
-        array_to_string(array_agg(DISTINCT t3.column_name), ',') AS reference_column_names
+        coalesce(array_to_string(array_agg(DISTINCT t3.column_name), ','), '') AS reference_column_names
     FROM
         information_schema.table_constraints AS t1
     LEFT OUTER JOIN information_schema.key_column_usage AS t2
@@ -175,6 +245,20 @@ WITH all_foreignkeys AS (
     WHERE
         t1.constraint_type = 'FOREIGN KEY'
         AND t1.constraint_schema NOT IN ('pg_catalog', 'information_schema')
+        <if test="schemaList != null and schemaList.size() > 0">
+            AND t1.constraint_schema IN
+            <foreach item="schema" index="index" collection="schemaList"
+                open="(" separator="," close=")">
+                #{schema}
+            </foreach>
+        </if>
+        <if test="tableList != null and tableList.size() > 0">
+            AND t2.table_schema IN
+            <foreach item="table" index="index" collection="tableList"
+                open="(" separator="," close=")">
+                #{table}
+            </foreach>
+        </if>
     GROUP BY
         t1.constraint_name, t2.table_schema, t2.table_name, t3.table_schema, t3.table_name
     ORDER BY 
