@@ -109,7 +109,7 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 	}
 
 	private BaseInfoEntity makeBaseInfoEntity(BaseInfoDto dto) {
-		return new BaseInfoEntity(dto.getBaseInfo());
+		return new BaseInfoEntity(dto.getDbName(), dto.getBaseInfo());
 	}
 
 	private List<AllTableEntity> makeAllTableEntityList(List<AllTableDto> dtoList) {

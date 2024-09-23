@@ -7,7 +7,7 @@ package com.export_table_definition.domain.model;
  * @version 1.0
  * @author takashi.ebina
  */
-public record BaseInfoEntity(String baseInfo) {
+public record BaseInfoEntity(String dbName, String baseInfo) {
 	
 }
 

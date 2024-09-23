@@ -85,7 +85,7 @@ public class TableDefinitionWriter {
 	public void writeTableDefinitionList(List<AllTableEntity> tables, BaseInfoEntity baseInfo, File outputFile) {
 		try (final TableDefinitionBufferedWriterWrap bw = new TableDefinitionBufferedWriterWrap(new FileWriter(outputFile, false))) {
 			// ヘッダー
-			writeHeader(bw, "テーブル一覧");
+			writeHeader(bw, "テーブル一覧" + "（" + baseInfo.dbName() + "）");
 			// 基本情報
 			writeBaseInfo(bw, baseInfo);
 			// テーブル一覧

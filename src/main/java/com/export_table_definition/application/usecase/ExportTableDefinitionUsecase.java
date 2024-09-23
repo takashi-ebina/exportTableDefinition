@@ -1,6 +1,7 @@
 package com.export_table_definition.application.usecase;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
@@ -22,8 +23,9 @@ import com.export_table_definition.infrastructure.util.FileUtil;
  */
 public class ExportTableDefinitionUsecase {
 
-	private final String OUTPUT_TABLES_DIRECTORY = "./output/tables";
-	private final String OUTPUT_TABLE_LIST_FILE = "./output/tableList.md";
+	private final String OUTPUT_DIRECTORY = "./output";
+	private final String TABLES_DIRECTORY_NAME = "tables";
+	private final String TABLE_LIST_FILE_PREFIX = "tableList";
 
 	private final Log4J2 logger = Log4J2.getInstance();
 	
@@ -34,7 +36,7 @@ public class ExportTableDefinitionUsecase {
 	 * コンストラクタ
 	 * 
 	 * @param repository テーブル定義出力に関するリポジトリクラス
-	 * @param writer
+	 * @param writer テーブル定義を書き込むクラス
 	 */
 	public ExportTableDefinitionUsecase(TableDefinitionRepository repository, TableDefinitionWriter writer) {
 		this.tableDefinitionRepository = repository;
@@ -48,9 +50,6 @@ public class ExportTableDefinitionUsecase {
 	 * @param tableList テーブル定義出力対象のテーブルのリスト
 	 */
 	public void exportTableDefinition(List<String> schemaList, List<String> tableList) {
-		
-		// テーブル定義の出力先ディレクトリ作成
-		FileUtil.createDirectory(OUTPUT_TABLES_DIRECTORY);
 
 		// Entity取得
 		final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
@@ -59,18 +58,33 @@ public class ExportTableDefinitionUsecase {
 		final List<AllIndexEntity> indexEntityList = tableDefinitionRepository.selectAllIndexInfo(schemaList, tableList);
 		final List<AllForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(schemaList, tableList);
 
-		// テーブル一覧出力
-		tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, new File(OUTPUT_TABLE_LIST_FILE));
+		// テーブル定義の出力先ディレクトリ作成 -> ./output/{DB名}/tables/
+		final Path tablesDirectoryPath = createOutputTablesDirectory(baseEntity);
+		FileUtil.createDirectory(tablesDirectoryPath.toString());
+		
+		// テーブル一覧出力 -> ./output/tableList_{DB名}.md
+		final Path tableListFilePath = createTableListFilePath(baseEntity);
+		tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, tableListFilePath.toFile());
 
 		// テーブル定義出力
 		tableEntityList.forEach(tableVo -> {
-			final String directoryPath = OUTPUT_TABLES_DIRECTORY + "/" + tableVo.schemaName();
-			final String filePath = directoryPath + "/" + tableVo.physicalTableName() + ".md";
-			
-			FileUtil.createDirectory(directoryPath);
-			tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList, foreignkeyEntityList, new File(filePath));
+			// ./output/{DB名}/tables/{スキーマ名}
+			final Path directoryPath = tablesDirectoryPath.resolve(tableVo.schemaName());
+			// ./output/{DB名}/tables/{スキーマ名}/{物理テーブル名}.md
+			final Path filePath = directoryPath.resolve(tableVo.physicalTableName() + ".md");
+
+			FileUtil.createDirectory(directoryPath.toString());
+			tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList, foreignkeyEntityList, filePath.toFile());
 			
 			logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath));
 		});
+	}
+	
+	private Path createOutputTablesDirectory(BaseInfoEntity baseEntity) {
+		return Paths.get(OUTPUT_DIRECTORY, baseEntity.dbName(), TABLES_DIRECTORY_NAME);
+	}
+	
+	private Path createTableListFilePath(BaseInfoEntity baseEntity) {
+		return Paths.get(OUTPUT_DIRECTORY, TABLE_LIST_FILE_PREFIX , "_" , baseEntity.dbName() , ".md");
 	}
 }
