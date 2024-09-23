@@ -97,8 +97,7 @@ SELECT
     , definition AS definition
 FROM all_tables
 ORDER BY 
-    schema_name
-    , physical_table_name;
+    schema_name, physical_table_name;
 </select>
 
 <select id="selectAllColumnInfo" resultType="AllColumnDto">
@@ -154,20 +153,16 @@ WITH all_columns AS (
             </foreach>
         </if>
     ORDER BY
-        t1.schemaname,
-        t1.tablename,
-        t3.attnum
+        t1.schemaname, t1.tablename, t3.attnum
 )
 SELECT
     schema_name AS "schemaName",
     table_name AS "tableName",
-    CONCAT('|', column_num, '|', logical_column_name, '|', physical_column_name, '|', column_type, '|', primary_key, '|', not_null, '|', default_value, '|', remarks, '|') AS "columnInfo"
+    concat('|', column_num, '|', logical_column_name, '|', physical_column_name, '|', column_type, '|', primary_key, '|', not_null, '|', default_value, '|', remarks, '|') AS "columnInfo"
 FROM
     all_columns
 ORDER BY
-    schema_name,
-    table_name,
-    column_num;
+    schema_name, table_name, column_num;
 </select>
 
 <select id="selectAllIndexInfo" resultType="AllIndexDto">
@@ -213,12 +208,60 @@ SELECT
     schema_name AS "schemaName",
     table_name AS "tableName",
     CASE WHEN index_name IS NOT NULL THEN
-        CONCAT('|', row_number() over (PARTITION BY schema_name, table_name ORDER BY index_name), '|', index_name, '|', column_names, '|')
+        concat('|', row_number() over (PARTITION BY schema_name, table_name ORDER BY index_name), '|', index_name, '|', column_names, '|')
     ELSE NULL END AS "indexInfo"
 FROM
     all_indexes
 ORDER BY
     schema_name, table_name;
+</select>
+
+<select id="selectAllConstraintInfo" resultType="AllConstraintDto">
+WITH all_constraints AS (
+    SELECT
+        t3.nspname AS schema_name,
+        t2.relname AS table_name,
+        t1.conname AS constraints_name,
+        CASE t1.contype 
+            WHEN 'c' THEN 'CHECK' 
+            WHEN 'f' THEN 'FOREIGN KEY' 
+            WHEN 'p' THEN 'PRIMARY KEY' 
+            WHEN 'u' THEN 'UNIQUE' 
+            ELSE NULL 
+        END AS constraints_type,
+        pg_get_constraintdef(t1.oid) AS constraints_definition
+    FROM
+        pg_catalog.pg_constraint t1
+    LEFT OUTER JOIN pg_catalog.pg_class t2
+        ON t1.conrelid = t2.oid
+    LEFT OUTER JOIN pg_catalog.pg_namespace t3
+        ON t2.relnamespace = t3.oid
+    WHERE
+        t1.contype in ('c', 'f', 'p', 'u')
+        AND t3.nspname NOT IN ('pg_catalog', 'information_schema')
+        <if test="schemaList != null and schemaList.size() > 0">
+            AND t3.nspname IN
+            <foreach item="schema" index="index" collection="schemaList"
+                open="(" separator="," close=")">
+                #{schema}
+            </foreach>
+        </if>
+        <if test="tableList != null and tableList.size() > 0">
+            AND t2.relname IN
+            <foreach item="table" index="index" collection="tableList"
+                open="(" separator="," close=")">
+                #{table}
+            </foreach>
+        </if>
+)
+SELECT
+    schema_name AS "schemaName",
+    table_name AS "tableName",
+    concat('|', row_number() over (PARTITION BY schema_name, table_name ORDER BY constraints_type, constraints_name), '|', constraints_name, '|', constraints_type, '|', constraints_definition, '|') AS "constraintInfo"
+FROM
+    all_constraints
+ORDER BY
+    schema_name, table_name, constraints_type, constraints_name;
 </select>
 
 <select id="selectAllForeignkeyInfo" resultType="AllForeignkeyDto">
@@ -268,7 +311,7 @@ SELECT
     schema_name AS "schemaName",
     table_name AS "tableName",
     CASE WHEN foreignkey_name IS NOT NULL THEN
-        CONCAT('|', row_number() over (PARTITION BY schema_name, table_name ORDER BY foreignkey_name), 
+        concat('|', row_number() over (PARTITION BY schema_name, table_name ORDER BY foreignkey_name), 
         '|', foreignkey_name, '|', column_names, '|', reference_schema_name, '.' , reference_table_name, '|', reference_column_names, '|')
     ELSE NULL END AS "foreignkeyInfo"
 FROM

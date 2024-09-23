@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.AllConstraintEntity;
 import com.export_table_definition.domain.model.AllForeignkeyEntity;
 import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
@@ -16,6 +17,7 @@ import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.infrastructure.mybatis.MyBatisSqlSessionFactory;
 import com.export_table_definition.infrastructure.mybatis.repository.dto.AllColumnDto;
+import com.export_table_definition.infrastructure.mybatis.repository.dto.AllConstraintDto;
 import com.export_table_definition.infrastructure.mybatis.repository.dto.AllForeignkeyDto;
 import com.export_table_definition.infrastructure.mybatis.repository.dto.AllIndexDto;
 import com.export_table_definition.infrastructure.mybatis.repository.dto.AllTableDto;
@@ -92,6 +94,21 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 			return makeAllIndexEntityList(dtoList);
 		}
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<AllConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList) {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			Map<String, Object> param = new HashMap<>();
+			param.put("schemaList", schemaList);
+			param.put("tableList", tableList);
+			List<AllConstraintDto> dtoList = session.selectList(
+					"com.export_table_definition.domain.repository.TableDefinitionRepository.selectAllConstraintInfo", param);
+			return makeAllConstraintEntityList(dtoList);
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -131,6 +148,13 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 	    return dtoList.stream()
 	            .map(dto -> new AllIndexEntity(dto.getSchemaName(), dto.getTableName(),
 	                    dto.getIndexInfo()))
+	            .collect(Collectors.toList());
+	}
+	
+	private List<AllConstraintEntity> makeAllConstraintEntityList(List<AllConstraintDto> dtoList) {
+	    return dtoList.stream()
+	            .map(dto -> new AllConstraintEntity(dto.getSchemaName(), dto.getTableName(),
+	                    dto.getConstraintInfo()))
 	            .collect(Collectors.toList());
 	}
 

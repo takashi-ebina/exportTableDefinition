@@ -3,6 +3,7 @@ package com.export_table_definition.domain.repository;
 import java.util.List;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.AllConstraintEntity;
 import com.export_table_definition.domain.model.AllForeignkeyEntity;
 import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
@@ -48,6 +49,15 @@ public interface TableDefinitionRepository {
 	 * @return データベースのインデックス情報
 	 */
 	List<AllIndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList);
+	
+	/**
+	 * データベースの制約情報を取得するメソッド
+	 * 
+	 * @param schemaList テーブル定義出力対象のスキーマのリスト
+	 * @param tableList テーブル定義出力対象のテーブルのリスト
+	 * @return データベースの制約情報
+	 */
+	List<AllConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList);
 	
 	/**
 	 * データベースの外部キー情報を取得するメソッド

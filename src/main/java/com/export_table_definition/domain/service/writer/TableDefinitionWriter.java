@@ -7,6 +7,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.AllConstraintEntity;
 import com.export_table_definition.domain.model.AllForeignkeyEntity;
 import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
@@ -69,6 +70,12 @@ public class TableDefinitionWriter {
 			| No. | インデックス名 | カラムリスト |
 			|:---|:---|:---|
 			""";
+	private final String constraintInfoTableHeader = """
+			## 制約情報
+			
+			| No. | 制約名 | 種類 | 制約定義 |
+			|:---|:---|:---|:---|
+			""";
 	private final String foreignkeyInfoTableHeader = """
 			## 外部キー情報
 			
@@ -106,11 +113,12 @@ public class TableDefinitionWriter {
 	 * @param baseInfo データベースの基本情報
 	 * @param columns カラム情報
 	 * @param indexes インデックス情報
+	 * @param constraints 制約情報
 	 * @param foreignkeys 外部キー情報
 	 * @param outputFile 出力ファイル
 	 */
-	public void writeTableDefinition(AllTableEntity table, BaseInfoEntity baseInfo, 
-			List<AllColumnEntity> columns, List<AllIndexEntity> indexes, List<AllForeignkeyEntity> foreignkeys, File outputFile) {
+	public void writeTableDefinition(AllTableEntity table, BaseInfoEntity baseInfo, List<AllColumnEntity> columns, 
+			List<AllIndexEntity> indexes, List<AllConstraintEntity> constraints, List<AllForeignkeyEntity> foreignkeys, File outputFile) {
 		try (final TableDefinitionBufferedWriterWrap bw = new TableDefinitionBufferedWriterWrap(new FileWriter(outputFile, false))) {
 			// ヘッダー
 			writeHeader(bw, table.getHeaderTableName());
@@ -126,6 +134,8 @@ public class TableDefinitionWriter {
 			writeViewInfo(bw, table);
 			// インデックス情報
 			writeIndexInfo(bw, indexes, table);
+			// 制約情報
+			writeConstraintInfo(bw, constraints, table);
 			// 外部キー情報
 			writeForeignkeyInfo(bw, foreignkeys, table);
 			// フッター
@@ -182,6 +192,15 @@ public class TableDefinitionWriter {
 			.forEach(index -> bw.write(index.indexInfo() + lineSeparator));
 		bw.write(lineSeparator);
 	}
+	
+	private void writeConstraintInfo(TableDefinitionBufferedWriterWrap bw, List<AllConstraintEntity> constraints, AllTableEntity table) {
+		bw.write(constraintInfoTableHeader);
+		constraints.stream()
+			.filter(constraint -> constraint.getSchemaTableName().equals(table.getSchemaTableName()))
+			.forEach(constraint -> bw.write(constraint.constraintInfo() + lineSeparator));
+		bw.write(lineSeparator);
+	}
+	
 	private void writeForeignkeyInfo(TableDefinitionBufferedWriterWrap bw, List<AllForeignkeyEntity> foreignkeys, AllTableEntity table) {
 		bw.write(foreignkeyInfoTableHeader);
 		foreignkeys.stream()

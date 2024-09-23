@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.AllConstraintEntity;
 import com.export_table_definition.domain.model.AllForeignkeyEntity;
 import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
@@ -56,6 +57,7 @@ public class ExportTableDefinitionUsecase {
 		final List<AllTableEntity> tableEntityList = tableDefinitionRepository.selectAllTableInfo();
 		final List<AllColumnEntity> columnEntityList = tableDefinitionRepository.selectAllColumnInfo(schemaList, tableList);
 		final List<AllIndexEntity> indexEntityList = tableDefinitionRepository.selectAllIndexInfo(schemaList, tableList);
+		final List<AllConstraintEntity> constraintEntityList = tableDefinitionRepository.selectAllConstraintInfo(schemaList, tableList);
 		final List<AllForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(schemaList, tableList);
 
 		// テーブル定義の出力先ディレクトリ作成 -> ./output/{DB名}/tables/
@@ -74,7 +76,7 @@ public class ExportTableDefinitionUsecase {
 			final Path filePath = directoryPath.resolve(tableVo.physicalTableName() + ".md");
 
 			FileUtil.createDirectory(directoryPath.toString());
-			tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList, foreignkeyEntityList, filePath.toFile());
+			tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList, constraintEntityList, foreignkeyEntityList, filePath.toFile());
 			
 			logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath));
 		});
