@@ -70,6 +70,9 @@ public class ExportTableDefinitionUsecase {
 
 		// テーブル定義出力
 		tableEntityList.forEach(tableVo -> {
+			if (!needsWriteTableDefinition(tableVo, columnEntityList)) {
+				return;
+			}
 			// ./output/{DB名}/tables/{スキーマ名}
 			final Path directoryPath = tablesDirectoryPath.resolve(tableVo.schemaName());
 			// ./output/{DB名}/tables/{スキーマ名}/{物理テーブル名}.md
@@ -88,5 +91,9 @@ public class ExportTableDefinitionUsecase {
 	
 	private Path createTableListFilePath(BaseInfoEntity baseEntity) {
 		return Paths.get(OUTPUT_DIRECTORY, TABLE_LIST_FILE_PREFIX + "_" + baseEntity.dbName() + ".md");
+	}
+	
+	private boolean needsWriteTableDefinition(AllTableEntity table, List<AllColumnEntity> columns) {
+		return columns.stream().anyMatch(column -> table.getSchemaTableName().equals(column.getSchemaTableName()));
 	}
 }
