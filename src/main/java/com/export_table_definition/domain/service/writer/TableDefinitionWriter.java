@@ -37,6 +37,10 @@ public class TableDefinitionWriter {
 			| No. | スキーマ名 | 論理テーブル名 | 物理テーブル名 | 区分 | Link | 備考 |
 			|:---|:---|:---|:---|:---|:---|:---|
 			""";
+	private final String tableExplanationHeader = """
+			## テーブル説明
+			
+			""";
 	private final String tableInfoTableHeader = """
 			## テーブル情報
 			
@@ -72,7 +76,7 @@ public class TableDefinitionWriter {
 			|:---|:---|:---|:---|:---|
 			""";
 	
-	private final String tableListLink = "[テーブル一覧へ](../../tableList.md)  ";
+	private final String tableListLink = "[テーブル一覧へ](../../../tableList_%s.md)  ";
 	
 
 	/**
@@ -85,7 +89,7 @@ public class TableDefinitionWriter {
 	public void writeTableDefinitionList(List<AllTableEntity> tables, BaseInfoEntity baseInfo, File outputFile) {
 		try (final TableDefinitionBufferedWriterWrap bw = new TableDefinitionBufferedWriterWrap(new FileWriter(outputFile, false))) {
 			// ヘッダー
-			writeHeader(bw, "テーブル一覧" + "（" + baseInfo.dbName() + "）");
+			writeHeader(bw, "テーブル一覧" + "（DB名：" + baseInfo.dbName() + "）");
 			// 基本情報
 			writeBaseInfo(bw, baseInfo);
 			// テーブル一覧
@@ -112,6 +116,8 @@ public class TableDefinitionWriter {
 			writeHeader(bw, table.getHeaderTableName());
 			// 基本情報
 			writeBaseInfo(bw, baseInfo);
+			// テーブル説明
+			writeTableExplanation(bw);
 			// テーブル情報
 			writeTableInfo(bw, table);
 			// カラム情報
@@ -123,7 +129,7 @@ public class TableDefinitionWriter {
 			// 外部キー情報
 			writeForeignkeyInfo(bw, foreignkeys, table);
 			// フッター
-			writeFooter(bw);
+			writeFooter(bw, baseInfo);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -141,6 +147,10 @@ public class TableDefinitionWriter {
 		bw.write(tableInfoListTableHeader);
 		tables.stream().forEach(table -> bw.write(table.tableInfoList() + lineSeparator));
 		bw.write(lineSeparator);
+	}
+	
+	private void writeTableExplanation(TableDefinitionBufferedWriterWrap bw) {
+		bw.write(tableExplanationHeader);
 	}
 	
 	private void writeTableInfo(TableDefinitionBufferedWriterWrap bw, AllTableEntity table) {
@@ -180,10 +190,10 @@ public class TableDefinitionWriter {
 		bw.write(lineSeparator);
 	}
 	
-	private void writeFooter(TableDefinitionBufferedWriterWrap bw) {
+	private void writeFooter(TableDefinitionBufferedWriterWrap bw, BaseInfoEntity baseInfo) {
 		bw.write(horizonLine);
 		bw.write(lineSeparator);
-		bw.write(tableListLink);
+		bw.write(String.format(tableListLink, baseInfo.dbName()));
 		bw.write(lineSeparator);
 	}
 }

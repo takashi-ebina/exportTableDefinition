@@ -85,6 +85,6 @@ public class ExportTableDefinitionUsecase {
 	}
 	
 	private Path createTableListFilePath(BaseInfoEntity baseEntity) {
-		return Paths.get(OUTPUT_DIRECTORY, TABLE_LIST_FILE_PREFIX , "_" , baseEntity.dbName() , ".md");
+		return Paths.get(OUTPUT_DIRECTORY, TABLE_LIST_FILE_PREFIX + "_" + baseEntity.dbName() + ".md");
 	}
 }
