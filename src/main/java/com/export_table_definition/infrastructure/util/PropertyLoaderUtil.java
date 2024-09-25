@@ -54,6 +54,6 @@ public class PropertyLoaderUtil {
 			// プロジェクトから実行した場合
 			return p2.toFile();
 		}
-		throw new FileNotFoundException("conf Directory is not exists");
+		throw new FileNotFoundException("conf directory dose not exist");
 	}
 }

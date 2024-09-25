@@ -94,6 +94,7 @@ public class ExportTableDefinitionUsecase {
 	}
 	
 	private boolean needsWriteTableDefinition(AllTableEntity table, List<AllColumnEntity> columns) {
-		return columns.stream().anyMatch(column -> table.getSchemaTableName().equals(column.getSchemaTableName()));
+	    final String schemaTableName = table.getSchemaTableName();
+	    return columns.stream().anyMatch(column -> schemaTableName.equals(column.getSchemaTableName()));
 	}
 }
