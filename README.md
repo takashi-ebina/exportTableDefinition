@@ -6,6 +6,10 @@ DBからMarkdown形式のテーブル定義書を作成するリポジトリ
 
 ## Description
 
+対象のDBに接続し、テーブル一覧と各TBLのテーブル一覧をMarkdown形式で出力します。
+
+※対象DBMSはPostgreSQL
+
 ### 主なディレクトリ構成
 
 ```
