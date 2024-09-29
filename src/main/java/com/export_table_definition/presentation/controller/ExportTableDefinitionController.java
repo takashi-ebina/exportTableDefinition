@@ -6,6 +6,8 @@ import com.export_table_definition.application.usecase.ExportTableDefinitionUsec
 import com.export_table_definition.domain.service.writer.TableDefinitionWriter;
 import com.export_table_definition.infrastructure.log.Log4J2;
 import com.export_table_definition.infrastructure.mybatis.repository.MyBatisTableDefinitionRepository;
+import com.export_table_definition.presentation.controller.dto.ResultDto;
+import com.export_table_definition.presentation.controller.type.ProcessResult;
 
 /**
  * テーブル定義出力処理のコントローラークラス
@@ -15,6 +17,8 @@ import com.export_table_definition.infrastructure.mybatis.repository.MyBatisTabl
  * @author takashi.ebina
  */
 public class ExportTableDefinitionController {
+	
+	private final String lineSeparator = System.getProperty("line.separator");
 	
 	private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
 	private final Log4J2 logger = Log4J2.getInstance();
@@ -30,10 +34,17 @@ public class ExportTableDefinitionController {
 	 * @param schemaList テーブル定義出力対象のスキーマのリスト
 	 * @param tableList テーブル定義出力対象のテーブルのリスト
 	 */
-	public void execute(List<String> schemaList, List<String> tableList) {
+	public ResultDto execute(List<String> schemaList, List<String> tableList, String outputPath) {
 		logger.logInfo("[START] exportTableDefinition");
-		exportTableDefinitionUsecase.exportTableDefinition(schemaList, tableList);
+		try {
+			exportTableDefinitionUsecase.exportTableDefinition(schemaList, tableList, outputPath);
+		} catch (Exception e) {
+			logger.logError(e);
+			return new ResultDto(ProcessResult.FAIL, 
+					String.format("Failed to output table definition document. %s [errmsg]:%s", lineSeparator, e.getMessage()));
+		} 
 		logger.logInfo("[ END ] exportTableDefinition");
+		return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");
 	};
 
 }

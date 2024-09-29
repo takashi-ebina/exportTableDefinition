@@ -1,6 +1,7 @@
 package com.export_table_definition.infrastructure.mybatis;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -9,7 +10,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.export_table_definition.infrastructure.mybatis.type.DBType;
 import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
 
 /**
@@ -59,14 +59,10 @@ public final class MyBatisSqlSessionFactory {
 	 * @return 接続するデータベースの名称
 	 */
 	public static String getConnectionDbName() {
-		String dbName = "";
-		try (final SqlSession session = getSqlSessionFactory().openSession()){
-			final String driverName = session.getConnection().getMetaData().getDriverName();
-			System.out.println(driverName);
-			dbName = DBType.getByDrivarName(driverName).getDbName();
-		} catch (Exception e) {
-			e.printStackTrace();
+		try (final SqlSession session = getSqlSessionFactory().openSession()) {
+			return session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-		return dbName;
 	}
 }

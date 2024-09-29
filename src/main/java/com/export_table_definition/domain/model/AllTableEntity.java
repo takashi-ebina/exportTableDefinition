@@ -40,6 +40,6 @@ public record AllTableEntity(String schemaName, String logicalTableName, String 
 	 * @return view または materialized viewの場合はture。それ以外の場合はfalseを返却
 	 */
 	public boolean isView() {
-		return "materialized view".equals(tableType) || "view".equals(tableType);
+		return "materialized_view".equals(tableType) || "view".equals(tableType);
 	}
 }

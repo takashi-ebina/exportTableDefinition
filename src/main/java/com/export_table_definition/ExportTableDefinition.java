@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
 import com.export_table_definition.presentation.controller.ExportTableDefinitionController;
+import com.export_table_definition.presentation.controller.dto.ResultDto;
 
 /**
  * テーブル定義出力処理を呼び出すクラス
@@ -27,8 +28,15 @@ public class ExportTableDefinition {
 		final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("ExportTableDefinition");
 		final List<String> schemaList = convertStringToList(res.getString("schema"));
 		final List<String> tableList = convertStringToList(res.getString("table"));
+		final String outputPath = res.getString("outputPath");
 		
-		new ExportTableDefinitionController().execute(schemaList, tableList);
+		System.out.println("Starting output of table definition document.");
+		System.out.println("Please wait a moment ...");
+		System.out.println("");
+		
+		final ResultDto resultDto = new ExportTableDefinitionController().execute(schemaList, tableList, outputPath);
+		
+		System.out.println(resultDto.getResultMessage());
 	}
 
 	private static List<String> convertStringToList(String input) {

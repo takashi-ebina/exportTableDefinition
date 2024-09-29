@@ -14,7 +14,7 @@ WITH ora_all_tables AS (
         COALESCE(REGEXP_REPLACE(tcom.COMMENTS, '\r|\n|\r\n', ''), '') AS logical_table_name,
         COALESCE(t1.TABLE_NAME, '') AS physical_table_name,
         '' AS remarks,
-        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/tables/' || t1.OWNER || '/' || t1.TABLE_NAME || '.md)' AS link,
+        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/' || t1.OWNER || '/table/' || t1.TABLE_NAME || '.md)' AS link,
         NULL AS definition
     FROM ALL_TABLES t1
     LEFT OUTER JOIN ALL_MVIEWS m
@@ -49,7 +49,7 @@ WITH ora_all_tables AS (
         COALESCE(REGEXP_REPLACE(vcom.COMMENTS, '\r|\n|\r\n', ''), '') AS logical_table_name,
         COALESCE(t2.VIEW_NAME, '') AS physical_table_name,
         '' AS remarks,
-        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/tables/' || t2.OWNER || '/' || t2.VIEW_NAME || '.md)' AS link,
+        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/' || t2.OWNER || '/view/' || t2.VIEW_NAME || '.md)' AS link,
         TEXT AS definition
     FROM ALL_VIEWS t2
     LEFT OUTER JOIN ALL_TAB_COMMENTS vcom
@@ -76,11 +76,11 @@ WITH ora_all_tables AS (
 
     SELECT 
         COALESCE(t3.OWNER, '') AS schema_name,
-        'materialized view' AS table_type,
+        'materialized_view' AS table_type,
         COALESCE(REGEXP_REPLACE(mcom.COMMENTS, '\r|\n|\r\n', ''), '') AS logical_table_name,
         COALESCE(t3.MVIEW_NAME, '') AS physical_table_name,
         '' AS remarks,
-        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/tables/' || t3.OWNER || '/' || t3.MVIEW_NAME || '.md)' AS link,
+        '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/' || t3.OWNER || '/materialized_view/' || t3.MVIEW_NAME || '.md)' AS link,
         QUERY AS definition
     FROM ALL_MVIEWS t3
     LEFT OUTER JOIN ALL_TAB_COMMENTS mcom
