@@ -1,5 +1,7 @@
 package com.export_table_definition.domain.model;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -41,5 +43,51 @@ public record AllTableEntity(String schemaName, String logicalTableName, String 
 	 */
 	public boolean isView() {
 		return "materialized_view".equals(tableType) || "view".equals(tableType);
+	}
+	
+	/**
+	 *  テーブル定義書の作成を行うか判定するメソッド<br>
+	 *  <br>
+	 *  条件を整理すると以下となる
+	 *  
+ 	 *	+------------------+-----------------+------------------+-----------------+---------------------------+ <br>
+	 *	| 条件                                                                    | 結果                      | <br>
+	 *	+------------------+-----------------+------------------+-----------------+                           + <br>
+	 *	| リストの中身が1件以上か            | 対象のスキーマ／TBLが存在するか    |                           | <br>
+	 *	+------------------+-----------------+------------------+-----------------+---------------------------+ <br>
+	 *	| targetSchemaList | targetTableList | targetSchemaList | targetTableList | TBL定義の書込を実施するか | <br>
+	 *	+------------------+-----------------+-----------------+------------------+---------------------------+ <br>
+	 *	| ×               | ×              | -                | -               | TRUE                      | <br>
+	 *	| ×               | ○              | -                | ○              | TRUE                      | <br>
+	 *	| ×               | ○              | -                | ×              | FALSE                     | <br>
+	 *	| ○               | ×              | ○               | -               | TRUE                      | <br>
+	 *	| ○               | ×              | ×               | -               | FALSE                     | <br>
+	 *	| ○               | ○              | ○               | ○              | TRUE                      | <br>
+	 *	| ○               | ○              | ○               | ×              | FALSE                     | <br>
+	 *	| ○               | ○              | ×               | ○              | FALSE                     | <br>
+	 *	| ○               | ○              | ×               | ×              | FALSE                     | <br>
+	 *	+------------------+-----------------+-----------------+------------------+---------------------------+ <br>
+	 *
+	 * @param targetSchemaList スキーマ名のリスト
+	 * @param targetTableList テーブル名のリスト
+	 * @return テーブル定義書の書き込みが必要かどうか
+	 */
+	public boolean needsWriteTableDefinition(List<String> targetSchemaList, List<String> targetTableList) {
+		final boolean hasSchemaList = targetSchemaList != null && !targetSchemaList.isEmpty();
+		final boolean hasTableList = targetTableList != null && !targetTableList.isEmpty();
+
+		final boolean isSchemaMatch = hasSchemaList && targetSchemaList.contains(schemaName);
+		final boolean isTableMatch = hasTableList && targetTableList.contains(physicalTableName);
+
+		if (!hasSchemaList && !hasTableList) {
+			return true;
+		}
+		if (!hasSchemaList) {
+			return isTableMatch;
+		}
+		if (!hasTableList) {
+			return isSchemaMatch;
+		}
+		return isSchemaMatch && isTableMatch;
 	}
 }

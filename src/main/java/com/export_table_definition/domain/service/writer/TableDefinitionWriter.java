@@ -144,6 +144,7 @@ public class TableDefinitionWriter {
 			throw new UncheckedIOException(e);
 		}
 	}
+	
 	private void writeHeader(TableDefinitionBufferedWriterWrap bw, String headerName) {
 		bw.write("# " + headerName + lineSeparatorDouble);
 	}

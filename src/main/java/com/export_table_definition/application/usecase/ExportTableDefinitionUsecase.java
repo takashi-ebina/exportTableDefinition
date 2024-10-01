@@ -54,7 +54,7 @@ public class ExportTableDefinitionUsecase {
 	public void exportTableDefinition(List<String> targetSchemaList, List<String> targetTableList, String outputPath) {
 		
 		// ベースディレクトリパス
-		final String strOutputBaseDirectory = StringUtils.isEmpty(outputPath) ? OUTPUT_BASE_DIRECTORY : outputPath;
+		final String strOutputBaseDirectory = StringUtils.isBlank(outputPath) ? OUTPUT_BASE_DIRECTORY : outputPath;
 
 		// Entity取得
 		final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
@@ -74,15 +74,15 @@ public class ExportTableDefinitionUsecase {
 
 		// テーブル定義出力
 		tableEntityList.forEach(tableVo -> {
-			if (!needsWriteTableDefinition(tableVo, targetTableList)) {
+			if (!tableVo.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
 				return;
 			}
 			// テーブル定義出力先ディレクトリパス 
-			//  -> ./output/{DB名}/{TBL分類}/{スキーマ名} 
+			//  -> ./output/{DB名}/{スキーマ名}/{TBL分類}
 			//     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}
 			final Path directoryPath = tablesDirectoryPath.resolve(tableVo.schemaName()).resolve(tableVo.tableType());
 			// テーブル定義出力先ファイルパス
-			//  -> ./output/{DB名}/{TBL分類}/{スキーマ名}/{物理テーブル名}.md 
+			//  -> ./output/{DB名}//{スキーマ名}{TBL分類}/{物理テーブル名}.md 
 			//     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
 			final Path filePath = directoryPath.resolve(tableVo.physicalTableName() + ".md");
 
@@ -101,12 +101,5 @@ public class ExportTableDefinitionUsecase {
 	private Path createTableListFilePath(String outputDirectoryString, BaseInfoEntity baseEntity) {
 		return Paths.get(outputDirectoryString, TABLE_LIST_FILE_PREFIX + "_" + baseEntity.dbName() + ".md");
 	}
-	
-	private boolean needsWriteTableDefinition(AllTableEntity table, List<String> targetTableList) {
-		if (targetTableList == null || targetTableList.size() < 1) {
-			return true;
-		}
-	    final String tableName = table.physicalTableName();
-	    return targetTableList.stream().anyMatch(targetTable -> tableName.equals(targetTable));
-	}
+
 }
