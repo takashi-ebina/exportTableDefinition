@@ -3,11 +3,10 @@ package com.export_table_definition.presentation.controller;
 import java.util.List;
 
 import com.export_table_definition.application.usecase.ExportTableDefinitionUsecase;
-import com.export_table_definition.domain.service.writer.TableDefinitionWriter;
 import com.export_table_definition.infrastructure.log.Log4J2;
-import com.export_table_definition.infrastructure.mybatis.repository.MyBatisTableDefinitionRepository;
 import com.export_table_definition.presentation.controller.dto.ResultDto;
 import com.export_table_definition.presentation.controller.type.ProcessResult;
+import com.google.inject.Inject;
 
 /**
  * テーブル定義出力処理のコントローラークラス
@@ -23,10 +22,13 @@ public class ExportTableDefinitionController {
 	private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
 	private final Log4J2 logger = Log4J2.getInstance();
 	
-	public ExportTableDefinitionController() {
-		exportTableDefinitionUsecase = new ExportTableDefinitionUsecase(
-				new MyBatisTableDefinitionRepository(), new TableDefinitionWriter());
-	}
+	/**
+	 * コンストラクタ
+	 */
+	@Inject
+    public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
+        this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
+    }
 	
 	/**
 	 * コントローラーメソッド

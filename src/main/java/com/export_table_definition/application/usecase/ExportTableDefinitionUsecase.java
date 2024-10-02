@@ -16,6 +16,7 @@ import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriter;
 import com.export_table_definition.infrastructure.log.Log4J2;
 import com.export_table_definition.infrastructure.util.FileUtil;
+import com.google.inject.Inject;
 
 /**
  * テーブル定義出力に関するユースケースクラス
@@ -40,6 +41,7 @@ public class ExportTableDefinitionUsecase {
 	 * @param repository テーブル定義出力に関するリポジトリクラス
 	 * @param writer テーブル定義を書き込むクラス
 	 */
+	@Inject
 	public ExportTableDefinitionUsecase(TableDefinitionRepository repository, TableDefinitionWriter writer) {
 		this.tableDefinitionRepository = repository;
 		this.tableDefinitionWriter = writer;
