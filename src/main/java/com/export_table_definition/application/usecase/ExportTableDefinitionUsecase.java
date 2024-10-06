@@ -50,8 +50,9 @@ public class ExportTableDefinitionUsecase {
 	/**
 	 * テーブル定義出力のユースケースを扱うメソッド
 	 * 
-	 * @param schemaList テーブル定義出力対象のスキーマのリスト
+	 * @param targetSchemaList テーブル定義出力対象のスキーマのリスト
 	 * @param targetTableList テーブル定義出力対象のテーブルのリスト
+	 * @param outputPath テーブル定義出力の出力先のパス
 	 */
 	public void exportTableDefinition(List<String> targetSchemaList, List<String> targetTableList, String outputPath) {
 		
@@ -84,7 +85,7 @@ public class ExportTableDefinitionUsecase {
 			//     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}
 			final Path directoryPath = tablesDirectoryPath.resolve(tableVo.schemaName()).resolve(tableVo.tableType());
 			// テーブル定義出力先ファイルパス
-			//  -> ./output/{DB名}//{スキーマ名}{TBL分類}/{物理テーブル名}.md 
+			//  -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md 
 			//     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
 			final Path filePath = directoryPath.resolve(tableVo.physicalTableName() + ".md");
 

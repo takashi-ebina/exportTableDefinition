@@ -16,6 +16,8 @@ public class TableDefinitionBufferedWriterWrap extends BufferedWriter {
 
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param out Writerオブジェクト
 	 */
 	public TableDefinitionBufferedWriterWrap(Writer out) {
 		super(out);

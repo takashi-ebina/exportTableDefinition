@@ -33,6 +33,9 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 
 	private final String connectionDbName;
 	
+	/**
+	 * コンストラクタ
+	 */
 	public MyBatisTableDefinitionRepository() {
 		this.connectionDbName = MyBatisSqlSessionFactory.getConnectionDbName();
 	}
@@ -55,6 +58,8 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 	@Override
 	public List<AllTableEntity> selectAllTableInfo() {
 		try (SqlSession session = MyBatisSqlSessionFactory.openSession()) {
+			// FIXME OracleのLong型をJDBCDriverでは扱えないため、OracleにおいてView/materialized_viewのソースは表示不可
+			// 参考リンク：https://support.oracle.com/knowledge/Middleware/832903_1.html
 			final List<AllTableDto> dtoList = session.selectList(
 					"com.export_table_definition.domain.repository." + connectionDbName + ".TableDefinitionRepository.selectAllTableInfo");
 			return makeAllTableEntityList(dtoList);
@@ -67,7 +72,7 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 	@Override
 	public List<AllColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList) {
 		try (SqlSession session = MyBatisSqlSessionFactory.openSession()) {
-			// FIXME OracleのLong型をOracleのDriverでは扱えないため、Oracleにおいてデフォルト定義は表示不可
+			// FIXME OracleのLong型をJDBCDriverでは扱えないため、Oracleにおいてデフォルト定義は表示不可
 			// 参考リンク：https://support.oracle.com/knowledge/Middleware/832903_1.html
 			final Map<String, Object> param = new HashMap<>();
 			param.put("schemaList", schemaList);
@@ -102,7 +107,7 @@ public class MyBatisTableDefinitionRepository implements TableDefinitionReposito
 			final Map<String, Object> param = new HashMap<>();
 			param.put("schemaList", schemaList);
 			param.put("tableList", tableList);
-			// FIXME OracleのLong型をOracleのDriverでは扱えないため、Oracleにおいて制約定義は表示不可
+			// FIXME OracleのLong型をJDBCDriverでは扱えないため、Oracleにおいて制約定義は表示不可
 			// 参考リンク：https://support.oracle.com/knowledge/Middleware/832903_1.html
 			final List<AllConstraintDto> dtoList = session.selectList(
 					"com.export_table_definition.domain.repository." + connectionDbName + ".TableDefinitionRepository.selectAllConstraintInfo", param);

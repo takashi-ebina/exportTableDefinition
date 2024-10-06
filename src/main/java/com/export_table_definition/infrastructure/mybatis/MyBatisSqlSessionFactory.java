@@ -25,6 +25,12 @@ public final class MyBatisSqlSessionFactory {
 	private static SqlSessionFactory sqlSessionFactory;
 
 	/**
+	 * コンストラクタ（インスタンス化不可）
+	 */
+	private MyBatisSqlSessionFactory() {
+	}
+	
+	/**
 	 * SqlSessionFactoryインスタンスの取得
 	 * 
 	 * @return SqlSessionFactory

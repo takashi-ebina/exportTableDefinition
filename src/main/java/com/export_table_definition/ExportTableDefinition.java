@@ -11,7 +11,6 @@ import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
 import com.export_table_definition.presentation.controller.ExportTableDefinitionController;
 import com.export_table_definition.presentation.controller.dto.ResultDto;
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 /**
  * テーブル定義出力処理を呼び出すクラス
@@ -40,8 +39,8 @@ public class ExportTableDefinition {
 		System.out.println("");
 		
 		// テーブル定義出力処理実行
-		final Injector injector = Guice.createInjector(new ExportTableDefinitionModule());
-        final ExportTableDefinitionController controller = injector.getInstance(ExportTableDefinitionController.class);
+        final ExportTableDefinitionController controller = 
+        		Guice.createInjector(new ExportTableDefinitionModule()).getInstance(ExportTableDefinitionController.class);
 		final ResultDto resultDto = controller.execute(schemaList, tableList, outputPath);
 		
 		// 処理終了メッセージ出力

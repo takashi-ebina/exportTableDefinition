@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li>ネスト</li>
 <li>フィールド</li>
-<li><a href="#constructor-summary">コンストラクタ</a></li>
+<li>コンストラクタ</li>
 <li><a href="#method-summary">メソッド</a></li>
 </ul>
 </li>
@@ -47,7 +47,7 @@ loadScripts(document, 'script');</script>
 <p>詳細:</p>
 <ul>
 <li>フィールド</li>
-<li><a href="#constructor-detail">コンストラクタ</a></li>
+<li>コンストラクタ</li>
 <li><a href="#method-detail">メソッド</a></li>
 </ul>
 </li>
@@ -59,13 +59,13 @@ loadScripts(document, 'script');</script>
 <li>概要:&nbsp;</li>
 <li>ネスト&nbsp;|&nbsp;</li>
 <li>フィールド&nbsp;|&nbsp;</li>
-<li><a href="#constructor-summary">コンストラクタ</a>&nbsp;|&nbsp;</li>
+<li>コンストラクタ&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">メソッド</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>詳細:&nbsp;</li>
 <li>フィールド&nbsp;|&nbsp;</li>
-<li><a href="#constructor-detail">コンストラクタ</a>&nbsp;|&nbsp;</li>
+<li>コンストラクタ&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">メソッド</a></li>
 </ul>
 </div>
@@ -99,19 +99,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<li>
-<section class="constructor-summary" id="constructor-summary">
-<h2>コンストラクタの概要</h2>
-<div class="caption"><span>コンストラクタ</span></div>
-<div class="summary-table two-column-summary">
-<div class="table-header col-first">コンストラクタ</div>
-<div class="table-header col-last">説明</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">MyBatisSqlSessionFactory</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
-</section>
-</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -123,14 +110,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">修飾子とタイプ</div>
 <div class="table-header col-second">メソッド</div>
 <div class="table-header col-last">説明</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.apache.ibatis.session.SqlSessionFactory</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSqlSessionFactory()" class="member-name-link">getSqlSessionFactory</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getConnectionDbName()" class="member-name-link">getConnectionDbName</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">接続するデータベースの名称を取得する</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.apache.ibatis.session.SqlSessionFactory</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getSqlSessionFactory()" class="member-name-link">getSqlSessionFactory</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">SqlSessionFactoryインスタンスの取得</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.apache.ibatis.session.SqlSession</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#openSession()" class="member-name-link">openSession</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.apache.ibatis.session.SqlSession</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#openSession()" class="member-name-link">openSession</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">SqlSession開始</div>
 </div>
 </div>
@@ -145,20 +137,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<li>
-<section class="constructor-details" id="constructor-detail">
-<h2>コンストラクタの詳細</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;()">
-<h3>MyBatisSqlSessionFactory</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MyBatisSqlSessionFactory</span>()</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li>
 <section class="method-details" id="method-detail">
@@ -183,6 +161,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>戻り値:</dt>
 <dd>SqlSession</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getConnectionDbName()">
+<h3>getConnectionDbName</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a></span>&nbsp;<span class="element-name">getConnectionDbName</span>()</div>
+<div class="block">接続するデータベースの名称を取得する</div>
+<dl class="notes">
+<dt>戻り値:</dt>
+<dd>接続するデータベースの名称</dd>
 </dl>
 </section>
 </li>

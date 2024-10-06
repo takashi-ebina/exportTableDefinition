@@ -127,8 +127,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">メソッド</div>
 <div class="table-header col-last">説明</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#exportTableDefinition(java.util.List,java.util.List)" class="member-name-link">exportTableDefinition</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;schemaList,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;tableList)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#exportTableDefinition(java.util.List,java.util.List,java.lang.String)" class="member-name-link">exportTableDefinition</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;targetSchemaList,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;targetTableList,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;outputPath)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">テーブル定義出力のユースケースを扱うメソッド</div>
 </div>
@@ -152,7 +153,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(com.export_table_definition.domain.repository.TableDefinitionRepository,com.export_table_definition.domain.service.writer.TableDefinitionWriter)">
 <h3>ExportTableDefinitionUsecase</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ExportTableDefinitionUsecase</span><wbr><span class="parameters">(<a href="../../domain/repository/TableDefinitionRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">TableDefinitionRepository</a>&nbsp;repository,
+<div class="member-signature"><span class="annotations">@Inject
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">ExportTableDefinitionUsecase</span><wbr><span class="parameters">(<a href="../../domain/repository/TableDefinitionRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">TableDefinitionRepository</a>&nbsp;repository,
  <a href="../../domain/service/writer/TableDefinitionWriter.html" title="com.export_table_definition.domain.service.writer内のクラス">TableDefinitionWriter</a>&nbsp;writer)</span></div>
 <div class="block">コンストラクタ</div>
 <dl class="notes">
@@ -171,15 +173,17 @@ loadScripts(document, 'script');</script>
 <h2>メソッドの詳細</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="exportTableDefinition(java.util.List,java.util.List)">
+<section class="detail" id="exportTableDefinition(java.util.List,java.util.List,java.lang.String)">
 <h3>exportTableDefinition</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">exportTableDefinition</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;schemaList,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;tableList)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">exportTableDefinition</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;targetSchemaList,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&gt;&nbsp;targetTableList,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;outputPath)</span></div>
 <div class="block">テーブル定義出力のユースケースを扱うメソッド</div>
 <dl class="notes">
 <dt>パラメータ:</dt>
-<dd><code>schemaList</code> - テーブル定義出力対象のスキーマのリスト</dd>
-<dd><code>tableList</code> - テーブル定義出力対象のテーブルのリスト</dd>
+<dd><code>targetSchemaList</code> - テーブル定義出力対象のスキーマのリスト</dd>
+<dd><code>targetTableList</code> - テーブル定義出力対象のテーブルのリスト</dd>
+<dd><code>outputPath</code> - テーブル定義出力の出力先のパス</dd>
 </dl>
 </section>
 </li>

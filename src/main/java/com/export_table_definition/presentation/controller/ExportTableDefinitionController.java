@@ -18,23 +18,27 @@ import com.google.inject.Inject;
 public class ExportTableDefinitionController {
 	
 	private final String lineSeparator = System.getProperty("line.separator");
+	private final Log4J2 logger = Log4J2.getInstance();
 	
 	private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
-	private final Log4J2 logger = Log4J2.getInstance();
 	
 	/**
 	 * コンストラクタ
+	 * 
+	 * @param exportTableDefinitionUsecase テーブル定義出力に関するユースケースクラス
 	 */
 	@Inject
-    public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
-        this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
-    }
+	public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
+		this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
+	}
 	
 	/**
 	 * コントローラーメソッド
 	 * 
 	 * @param schemaList テーブル定義出力対象のスキーマのリスト
 	 * @param tableList テーブル定義出力対象のテーブルのリスト
+	 * @param outputPath テーブル定義出力の出力先のパス
+	 * @return 処理結果
 	 */
 	public ResultDto execute(List<String> schemaList, List<String> tableList, String outputPath) {
 		logger.logInfo("[START] exportTableDefinition");

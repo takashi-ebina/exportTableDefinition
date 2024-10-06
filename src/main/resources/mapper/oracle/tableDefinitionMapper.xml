@@ -50,7 +50,7 @@ WITH ora_all_tables AS (
         COALESCE(t2.VIEW_NAME, '') AS physical_table_name,
         '' AS remarks,
         '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/' || t2.OWNER || '/view/' || t2.VIEW_NAME || '.md)' AS link,
-        TEXT AS definition
+        '-- Oracleは未対応 --' AS definition
     FROM ALL_VIEWS t2
     LEFT OUTER JOIN ALL_TAB_COMMENTS vcom
         ON t2.OWNER = vcom.OWNER
@@ -81,7 +81,7 @@ WITH ora_all_tables AS (
         COALESCE(t3.MVIEW_NAME, '') AS physical_table_name,
         '' AS remarks,
         '[■](./' || SYS_CONTEXT('USERENV','DB_NAME') || '/' || t3.OWNER || '/materialized_view/' || t3.MVIEW_NAME || '.md)' AS link,
-        QUERY AS definition
+        '-- Oracleは未対応 --' AS definition
     FROM ALL_MVIEWS t3
     LEFT OUTER JOIN ALL_TAB_COMMENTS mcom
         ON t3.OWNER = mcom.OWNER
@@ -118,12 +118,17 @@ ORDER BY
 </select>
 
 <select id="selectAllColumnInfo" resultType="AllColumnDto">
+
 WITH ora_all_columns AS (
     SELECT
         c.OWNER AS schema_name,
         c.TABLE_NAME AS table_name,
         c.COLUMN_ID AS column_num,
-        coalesce(substr(coalesce(com.COMMENTS, ''), 1, instr(coalesce(com.COMMENTS, ''), '（') - 1), '') AS logical_column_name,
+        <![CDATA[
+        CASE WHEN regexp_instr(com.COMMENTS, '[(（]') < 1 THEN com.COMMENTS
+             ELSE coalesce(substr(com.COMMENTS, 1, regexp_instr(com.COMMENTS, '[(（]') - 1), '') 
+        END AS logical_column_name,
+        ]]>
         c.COLUMN_NAME AS physical_column_name,
         c.DATA_TYPE || CASE WHEN c.DATA_TYPE IN ('VARCHAR2', 'CHAR', 'NVARCHAR2', 'NCHAR') 
                             THEN '(' || c.DATA_LENGTH || ')' 
@@ -147,7 +152,11 @@ WITH ora_all_columns AS (
             ELSE ''
         END AS not_null,
         ' ' AS default_value,
-        regexp_replace(coalesce(substr(coalesce(com.COMMENTS, ''), instr(coalesce(com.COMMENTS, ''), '（') + 1), ''), '[）)]$', '') AS remarks
+        <![CDATA[
+        CASE WHEN regexp_instr(com.COMMENTS, '[(（]') < 1 then ''
+             ELSE regexp_replace(coalesce(substr(com.COMMENTS, regexp_instr(com.COMMENTS, '[(（]') + 1), ''), '[）)]$', '')
+        END AS remarks
+        ]]>
     FROM
         ALL_TAB_COLUMNS c
     LEFT OUTER JOIN
@@ -388,6 +397,8 @@ SELECT
     ELSE NULL END AS "foreignkeyInfo"
 FROM 
     ora_all_foreignkeys
+WHERE
+    column_names IS NOT NULL
 ORDER BY 
     schema_name, table_name
 </select>
