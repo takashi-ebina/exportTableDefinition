@@ -8,6 +8,10 @@ DBからMarkdown形式のテーブル定義書を作成するリポジトリ
 
 対象のDBに接続し、テーブル一覧と各TBLのテーブル一覧をMarkdown形式で出力します。
 
+### sample
+
+[テーブル一覧](./sample/tableList_testdb.md)
+
 ### 対象DBMS
 * PostgreSQL
 * Oracle(一部制限あり)
