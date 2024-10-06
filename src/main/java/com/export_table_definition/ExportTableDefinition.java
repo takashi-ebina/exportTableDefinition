@@ -39,8 +39,8 @@ public class ExportTableDefinition {
 		System.out.println("");
 		
 		// テーブル定義出力処理実行
-        final ExportTableDefinitionController controller = 
-        		Guice.createInjector(new ExportTableDefinitionModule()).getInstance(ExportTableDefinitionController.class);
+		final ExportTableDefinitionController controller = 
+				Guice.createInjector(new ExportTableDefinitionModule()).getInstance(ExportTableDefinitionController.class);
 		final ResultDto resultDto = controller.execute(schemaList, tableList, outputPath);
 		
 		// 処理終了メッセージ出力
