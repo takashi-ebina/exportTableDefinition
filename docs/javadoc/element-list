@@ -1,0 +1,14 @@
+com.export_table_definition
+com.export_table_definition.application.usecase
+com.export_table_definition.domain.model
+com.export_table_definition.domain.repository
+com.export_table_definition.domain.service.writer
+com.export_table_definition.infrastructure.log
+com.export_table_definition.infrastructure.module
+com.export_table_definition.infrastructure.mybatis
+com.export_table_definition.infrastructure.mybatis.repository
+com.export_table_definition.infrastructure.mybatis.repository.dto
+com.export_table_definition.infrastructure.util
+com.export_table_definition.presentation.controller
+com.export_table_definition.presentation.controller.dto
+com.export_table_definition.presentation.controller.type

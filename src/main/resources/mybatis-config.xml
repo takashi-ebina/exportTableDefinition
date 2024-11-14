@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.BaseInfoDto" alias="BaseInfoDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllTableDto" alias="AllTableDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllColumnDto" alias="AllColumnDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllIndexDto" alias="AllIndexDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllConstraintDto" alias="AllConstraintDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllForeignkeyDto" alias="AllForeignkeyDto"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="mapper/postgresql/tableDefinitionMapper.xml"/>
+		<mapper resource="mapper/oracle/tableDefinitionMapper.xml"/>
+	</mappers>
+</configuration>
