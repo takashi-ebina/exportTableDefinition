@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class AllIndexDto {
-	private String schemaName;
-	private String tableName;
-	private String indexInfo;
+    private String schemaName;
+    private String tableName;
+    private String indexInfo;
 }

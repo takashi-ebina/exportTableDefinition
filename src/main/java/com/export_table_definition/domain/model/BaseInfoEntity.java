@@ -8,6 +8,5 @@ package com.export_table_definition.domain.model;
  * @author takashi.ebina
  */
 public record BaseInfoEntity(String dbName, String baseInfo) {
-	
-}
 
+}

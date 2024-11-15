@@ -11,6 +11,6 @@ import lombok.Data;
  */
 @Data
 public class BaseInfoDto {
-	private String dbName;
-	private String baseInfo;
+    private String dbName;
+    private String baseInfo;
 }

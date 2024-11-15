@@ -8,14 +8,13 @@ package com.export_table_definition.domain.model;
  * @author takashi.ebina
  */
 public record AllForeignkeyEntity(String schemaName, String tableName, String foreignkeyInfo) {
-	
-	/**
-	 * スキーマ.テーブル 形式の名称を取得するメソッド
-	 * 
-	 * @return スキーマ.テーブル 形式の名称
-	 */
-	public String getSchemaTableName() {
-		return schemaName + "." + tableName;
-	}
-}
 
+    /**
+     * スキーマ.テーブル 形式の名称を取得するメソッド
+     * 
+     * @return スキーマ.テーブル 形式の名称
+     */
+    public String getSchemaTableName() {
+        return schemaName + "." + tableName;
+    }
+}

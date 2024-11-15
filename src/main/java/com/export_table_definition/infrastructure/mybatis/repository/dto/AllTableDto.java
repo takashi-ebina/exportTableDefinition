@@ -11,11 +11,11 @@ import lombok.Data;
  */
 @Data
 public class AllTableDto {
-	private String schemaName;
-	private String logicalTableName;
-	private String physicalTableName;
-	private String tableType;
-	private String tableInfoList;
-	private String tableInfo;
-	private String definition;
+    private String schemaName;
+    private String logicalTableName;
+    private String physicalTableName;
+    private String tableType;
+    private String tableInfoList;
+    private String tableInfo;
+    private String definition;
 }

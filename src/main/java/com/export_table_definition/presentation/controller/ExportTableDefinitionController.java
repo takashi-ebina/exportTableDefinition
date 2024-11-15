@@ -16,41 +16,42 @@ import com.google.inject.Inject;
  * @author takashi.ebina
  */
 public class ExportTableDefinitionController {
-	
-	private final String lineSeparator = System.getProperty("line.separator");
-	private final Log4J2 logger = Log4J2.getInstance();
-	
-	private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
-	
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param exportTableDefinitionUsecase テーブル定義出力に関するユースケースクラス
-	 */
-	@Inject
-	public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
-		this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
-	}
-	
-	/**
-	 * コントローラーメソッド
-	 * 
-	 * @param schemaList テーブル定義出力対象のスキーマのリスト
-	 * @param tableList テーブル定義出力対象のテーブルのリスト
-	 * @param outputPath テーブル定義出力の出力先のパス
-	 * @return 処理結果
-	 */
-	public ResultDto execute(List<String> schemaList, List<String> tableList, String outputPath) {
-		logger.logInfo("[START] exportTableDefinition");
-		try {
-			exportTableDefinitionUsecase.exportTableDefinition(schemaList, tableList, outputPath);
-		} catch (Exception e) {
-			logger.logError(e);
-			return new ResultDto(ProcessResult.FAIL, 
-					String.format("Failed to output table definition document. %s [errmsg]:%s", lineSeparator, e.getMessage()));
-		} 
-		logger.logInfo("[ END ] exportTableDefinition");
-		return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");
-	};
+
+    private final String lineSeparator = System.getProperty("line.separator");
+    private final Log4J2 logger = Log4J2.getInstance();
+
+    private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
+
+    /**
+     * コンストラクタ
+     * 
+     * @param exportTableDefinitionUsecase テーブル定義出力に関するユースケースクラス
+     */
+    @Inject
+    public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
+        this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
+    }
+
+    /**
+     * コントローラーメソッド
+     * 
+     * @param schemaList テーブル定義出力対象のスキーマのリスト
+     * @param tableList テーブル定義出力対象のテーブルのリスト
+     * @param outputPath テーブル定義出力の出力先のパス
+     * @return 処理結果
+     */
+    public ResultDto execute(List<String> schemaList, List<String> tableList, String outputPath) {
+        logger.logInfo("[START] exportTableDefinition");
+        try {
+            exportTableDefinitionUsecase.exportTableDefinition(schemaList, tableList, outputPath);
+        } catch (Exception e) {
+            logger.logError(e);
+            return new ResultDto(ProcessResult.FAIL,
+                    String.format("Failed to output table definition document. %s [errmsg]:%s", lineSeparator,
+                            e.getMessage()));
+        }
+        logger.logInfo("[ END ] exportTableDefinition");
+        return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");
+    };
 
 }

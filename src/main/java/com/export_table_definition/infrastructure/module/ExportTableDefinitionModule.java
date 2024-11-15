@@ -15,10 +15,10 @@ import com.google.inject.AbstractModule;
  */
 public class ExportTableDefinitionModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		bind(TableDefinitionRepository.class).to(MyBatisTableDefinitionRepository.class);
-		bind(TableDefinitionWriter.class);
-		bind(ExportTableDefinitionUsecase.class);
-	}
+    @Override
+    protected void configure() {
+        bind(TableDefinitionRepository.class).to(MyBatisTableDefinitionRepository.class);
+        bind(TableDefinitionWriter.class);
+        bind(ExportTableDefinitionUsecase.class);
+    }
 }

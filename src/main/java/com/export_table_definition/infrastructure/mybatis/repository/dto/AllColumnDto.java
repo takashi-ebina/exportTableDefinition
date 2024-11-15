@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class AllColumnDto {
-	private String schemaName;
-	private String tableName;
-	private String columnInfo;
+    private String schemaName;
+    private String tableName;
+    private String columnInfo;
 }

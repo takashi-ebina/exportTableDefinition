@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class AllForeignkeyDto {
-	private String schemaName;
-	private String tableName;
-	private String foreignkeyInfo;
+    private String schemaName;
+    private String tableName;
+    private String foreignkeyInfo;
 }

@@ -9,15 +9,15 @@ import com.export_table_definition.presentation.controller.type.ProcessResult;
  * @version 1.0
  * @author takashi.ebina
  */
-public record ResultDto (ProcessResult result, String message) {
-	
-	/**
-	 * 処理結果のメッセージを返却する
-	 * 
-	 * @return 処理結果のメッセージ
-	 */
-	public String getResultMessage() {
-		return "[result]:" + result.toString() + "\r\n" + message;
-	}
+public record ResultDto(ProcessResult result, String message) {
+
+    /**
+     * 処理結果のメッセージを返却する
+     * 
+     * @return 処理結果のメッセージ
+     */
+    public String getResultMessage() {
+        return "[result]:" + result.toString() + "\r\n" + message;
+    }
 
 }

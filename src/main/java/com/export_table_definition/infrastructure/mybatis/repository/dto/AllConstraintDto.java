@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class AllConstraintDto {
-	private String schemaName;
-	private String tableName;
-	private String constraintInfo;
+    private String schemaName;
+    private String tableName;
+    private String constraintInfo;
 }

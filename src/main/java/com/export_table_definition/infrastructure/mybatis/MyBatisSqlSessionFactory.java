@@ -20,55 +20,55 @@ import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
  * @author takashi.ebina
  */
 public final class MyBatisSqlSessionFactory {
-	
-	/** 唯一のSqlSessionFactoryインスタンス */
-	private static SqlSessionFactory sqlSessionFactory;
 
-	/**
-	 * コンストラクタ（インスタンス化不可）
-	 */
-	private MyBatisSqlSessionFactory() {
-	}
-	
-	/**
-	 * SqlSessionFactoryインスタンスの取得
-	 * 
-	 * @return SqlSessionFactory
-	 */
-	public static SqlSessionFactory getSqlSessionFactory() {
-		if (sqlSessionFactory == null) {
-			try {
-				final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-				final Properties properties = new Properties();
-				final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("mybatis");
-				res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
-				sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return sqlSessionFactory;
-	}
+    /** 唯一のSqlSessionFactoryインスタンス */
+    private static SqlSessionFactory sqlSessionFactory;
 
-	/**
-	 * SqlSession開始
-	 * 
-	 * @return SqlSession
-	 */
-	public static SqlSession openSession() {
-		return getSqlSessionFactory().openSession();
-	}
-	
-	/**
-	 * 接続するデータベースの名称を取得する
-	 * 
-	 * @return 接続するデータベースの名称
-	 */
-	public static String getConnectionDbName() {
-		try (final SqlSession session = getSqlSessionFactory().openSession()) {
-			return session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    /**
+     * コンストラクタ（インスタンス化不可）
+     */
+    private MyBatisSqlSessionFactory() {
+    }
+
+    /**
+     * SqlSessionFactoryインスタンスの取得
+     * 
+     * @return SqlSessionFactory
+     */
+    public static SqlSessionFactory getSqlSessionFactory() {
+        if (sqlSessionFactory == null) {
+            try {
+                final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+                final Properties properties = new Properties();
+                final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("mybatis");
+                res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
+                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return sqlSessionFactory;
+    }
+
+    /**
+     * SqlSession開始
+     * 
+     * @return SqlSession
+     */
+    public static SqlSession openSession() {
+        return getSqlSessionFactory().openSession();
+    }
+
+    /**
+     * 接続するデータベースの名称を取得する
+     * 
+     * @return 接続するデータベースの名称
+     */
+    public static String getConnectionDbName() {
+        try (final SqlSession session = getSqlSessionFactory().openSession()) {
+            return session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
