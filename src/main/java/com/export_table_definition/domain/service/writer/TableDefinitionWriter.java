@@ -158,7 +158,14 @@ public class TableDefinitionWriter {
 
     private void writeTableInfoList(TableDefinitionBufferedWriterWrap bw, List<AllTableEntity> tables) {
         bw.write(tableInfoListTableHeader);
-        tables.stream().forEach(table -> bw.write(table.tableInfoList() + lineSeparator));
+        for (int i = 0; i < tables.size(); i++) {
+            // Markdownの表に表示できる文字数に制限があるため、一定数を超えたら表を分割する（数字は適宜調整）
+            if (i % 2500 == 0) {
+                bw.write(lineSeparator);
+                bw.write(tableInfoListTableHeader);
+            }
+            bw.write(tables.get(i).tableInfoList() + lineSeparator);
+        }
         bw.write(lineSeparator);
     }
 
