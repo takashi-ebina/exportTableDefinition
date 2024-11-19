@@ -138,6 +138,7 @@ WITH all_columns AS (
                 ON t3.attrelid = t4.objoid AND t3.attnum = t4.objsubid
         WHERE
             t1.schemaname NOT IN ('pg_catalog', 'information_schema')
+            AND t2.relkind = 'r'
             AND t3.attnum > 0
             AND t3.attname NOT LIKE '%pg.dropped%'
             <if test="schemaList != null and schemaList.size() > 0">
@@ -194,6 +195,7 @@ WITH all_columns AS (
                 ON t3.attrelid = t4.objoid AND t3.attnum = t4.objsubid
         WHERE
             t1.schemaname NOT IN ('pg_catalog', 'information_schema')
+            AND t2.relkind = 'v'
             AND t3.attnum > 0
             AND t3.attname NOT LIKE '%pg.dropped%'
             <if test="schemaList != null and schemaList.size() > 0">
@@ -250,6 +252,7 @@ WITH all_columns AS (
                 ON t3.attrelid = t4.objoid AND t3.attnum = t4.objsubid
         WHERE
             t1.schemaname NOT IN ('pg_catalog', 'information_schema')
+            AND t2.relkind = 'm'
             AND t3.attnum > 0
             AND t3.attname NOT LIKE '%pg.dropped%'
             <if test="schemaList != null and schemaList.size() > 0">

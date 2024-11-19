@@ -110,12 +110,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">修飾子とタイプ</div>
 <div class="table-header col-second">メソッド</div>
 <div class="table-header col-last">説明</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createDirectory(java.lang.String)" class="member-name-link">createDirectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;filePath)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createDirectory(java.lang.String)" class="member-name-link">createDirectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;targetFilePath)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">ディレクトリ作成メソッド<br>
  <br>
  親ディレクトリを含めて指定したパスの全てのディレクトリを作成する</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#safedCreateFile(java.lang.String)" class="member-name-link">safedCreateFile</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;targetFilePath)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">ファイル作成メソッド<br>
+ <br>
+ 新しい空のファイルを作成する</div>
 </div>
 </div>
 </div>
@@ -137,13 +144,30 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="createDirectory(java.lang.String)">
 <h3>createDirectory</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">createDirectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;filePath)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">createDirectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;targetFilePath)</span></div>
 <div class="block">ディレクトリ作成メソッド<br>
  <br>
  親ディレクトリを含めて指定したパスの全てのディレクトリを作成する</div>
 <dl class="notes">
 <dt>パラメータ:</dt>
-<dd><code>filePath</code> - ディレクトリ作成対象のファイルパス</dd>
+<dd><code>targetFilePath</code> - ディレクトリ作成対象のファイルパス</dd>
+<dt>戻り値:</dt>
+<dd>ディレクトリを作成できたらtrue。それ以外の場合はfalseを返却</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="safedCreateFile(java.lang.String)">
+<h3>safedCreateFile</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">safedCreateFile</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="java.lang内のクラスまたはインタフェース" class="external-link">String</a>&nbsp;targetFilePath)</span></div>
+<div class="block">ファイル作成メソッド<br>
+ <br>
+ 新しい空のファイルを作成する</div>
+<dl class="notes">
+<dt>パラメータ:</dt>
+<dd><code>filePath</code> - ファイル作成対象のファイルパス</dd>
+<dt>戻り値:</dt>
+<dd>空ファイルを作成できたらtrue。それ以外の場合はfalseを返却</dd>
 </dl>
 </section>
 </li>
