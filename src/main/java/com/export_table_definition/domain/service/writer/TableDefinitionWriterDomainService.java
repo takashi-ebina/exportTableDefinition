@@ -44,9 +44,9 @@ public class TableDefinitionWriterDomainService {
         final int maxTableSize = tables.size();
         int tableCount = 0;
         int fileIndex = 1;
-        final Path filePath = outputFilePath.resolve(makeTableListFileName(baseInfo, fileIndex));
         while (tableCount < maxTableSize) {
             // Markdownの表に表示できる最大件数毎に、テーブル一覧を分割して出力する
+            final Path filePath = outputFilePath.resolve(makeTableListFileName(baseInfo, fileIndex));
             try (final var bw = new TableDefinitionBufferedWriter(filePath)) {
                 // ヘッダー
                 bw.write(MarkdownTemplates.header("テーブル一覧" + "（DB名：" + baseInfo.dbName() + "）"));
