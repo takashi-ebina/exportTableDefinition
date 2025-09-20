@@ -2,8 +2,8 @@ package com.export_table_definition.infrastructure.module;
 
 import com.export_table_definition.application.usecase.ExportTableDefinitionUsecase;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
-import com.export_table_definition.domain.service.writer.TableDefinitionWriter;
-import com.export_table_definition.infrastructure.mybatis.repository.MyBatisTableDefinitionRepository;
+import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
+import com.export_table_definition.infrastructure.mybatis.MyBatisSqlSessionFactory;
 import com.google.inject.AbstractModule;
 
 /**
@@ -17,8 +17,8 @@ public class ExportTableDefinitionModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(TableDefinitionRepository.class).to(MyBatisTableDefinitionRepository.class);
-        bind(TableDefinitionWriter.class);
+        bind(TableDefinitionRepository.class).to(MyBatisSqlSessionFactory.getConnectionDbName().getRepositoryClass());
+        bind(TableDefinitionWriterDomainService.class);
         bind(ExportTableDefinitionUsecase.class);
     }
 }

@@ -1,5 +1,7 @@
 package com.export_table_definition.infrastructure.mybatis.repository.dto;
 
+import com.export_table_definition.domain.model.BaseInfoEntity;
+
 import lombok.Data;
 
 /**
@@ -13,4 +15,8 @@ import lombok.Data;
 public class BaseInfoDto {
     private String dbName;
     private String baseInfo;
+    
+    public BaseInfoEntity toEntity() {
+        return new BaseInfoEntity(dbName, baseInfo);
+    }
 }

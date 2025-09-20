@@ -1,5 +1,7 @@
 package com.export_table_definition.infrastructure.mybatis.repository.dto;
 
+import com.export_table_definition.domain.model.AllConstraintEntity;
+
 import lombok.Data;
 
 /**
@@ -14,4 +16,8 @@ public class AllConstraintDto {
     private String schemaName;
     private String tableName;
     private String constraintInfo;
+    
+    public AllConstraintEntity toEntity() {
+        return new AllConstraintEntity(schemaName, tableName, constraintInfo);
+    }
 }

@@ -3,6 +3,7 @@ package com.export_table_definition.application.usecase;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +14,7 @@ import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
-import com.export_table_definition.domain.service.writer.TableDefinitionWriter;
+import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
 import com.export_table_definition.infrastructure.log.Log4J2;
 import com.export_table_definition.infrastructure.util.FileUtil;
 import com.google.inject.Inject;
@@ -28,11 +29,9 @@ import com.google.inject.Inject;
 public class ExportTableDefinitionUsecase {
 
     private final String OUTPUT_BASE_DIRECTORY = "./output";
-
-    private final Log4J2 logger = Log4J2.getInstance();
-
+    private final static Log4J2 logger = Log4J2.getInstance();
     private final TableDefinitionRepository tableDefinitionRepository;
-    private final TableDefinitionWriter tableDefinitionWriter;
+    private final TableDefinitionWriterDomainService tableDefinitionWriter;
 
     /**
      * コンストラクタ
@@ -41,7 +40,7 @@ public class ExportTableDefinitionUsecase {
      * @param writer テーブル定義を書き込むクラス
      */
     @Inject
-    public ExportTableDefinitionUsecase(TableDefinitionRepository repository, TableDefinitionWriter writer) {
+    public ExportTableDefinitionUsecase(TableDefinitionRepository repository, TableDefinitionWriterDomainService writer) {
         this.tableDefinitionRepository = repository;
         this.tableDefinitionWriter = writer;
     }
@@ -57,7 +56,8 @@ public class ExportTableDefinitionUsecase {
 
         // ベースディレクトリパス
         final String strOutputBaseDirectory = StringUtils.isBlank(outputPath) ? OUTPUT_BASE_DIRECTORY : outputPath;
-
+        final Path outputBaseDirectoryPath =  Paths.get(strOutputBaseDirectory);
+        
         // Entity取得
         final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
         final List<AllTableEntity> tableEntityList = tableDefinitionRepository.selectAllTableInfo(targetSchemaList, targetTableList);
@@ -67,13 +67,23 @@ public class ExportTableDefinitionUsecase {
         final List<AllForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(targetSchemaList, targetTableList);
 
         // テーブル定義の出力先ディレクトリ作成 -> ./output or {設定ファイルのFileParh}
-        final Path outputBaseDirectoryPath =  Paths.get(strOutputBaseDirectory);
         FileUtil.createDirectory(outputBaseDirectoryPath.toString());
         // テーブル一覧出力 -> ./output/tableList_{DB名}.md or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, outputBaseDirectoryPath);
-
         // テーブル定義出力
-        tableEntityList.forEach(tableVo -> {
+        tableEntityList.forEach(createTableExporter(targetSchemaList, targetTableList, outputBaseDirectoryPath,
+                baseEntity, columnEntityList, indexEntityList, constraintEntityList, foreignkeyEntityList));
+    }
+
+    private Path createOutputTablesDirectoryPath(Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, AllTableEntity tableVo) {
+        return outputBaseDirectoryPath.resolve(baseEntity.dbName()).resolve(tableVo.schemaName()).resolve(tableVo.tableType());
+    }
+    
+    private Consumer<AllTableEntity> createTableExporter(List<String> targetSchemaList, List<String> targetTableList,
+            Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, List<AllColumnEntity> columnEntityList,
+            List<AllIndexEntity> indexEntityList, List<AllConstraintEntity> constraintEntityList,
+            List<AllForeignkeyEntity> foreignkeyEntityList) {
+        return tableVo -> {
             if (!tableVo.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
                 return;
             }
@@ -91,11 +101,7 @@ public class ExportTableDefinitionUsecase {
                     indexEntityList, constraintEntityList, foreignkeyEntityList, filePath);
 
             logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath.toString()));
-        });
-    }
-
-    private Path createOutputTablesDirectoryPath(Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, AllTableEntity tableVo) {
-        return outputBaseDirectoryPath.resolve(baseEntity.dbName()).resolve(tableVo.schemaName()).resolve(tableVo.tableType());
+        };
     }
 
 }

@@ -1,5 +1,7 @@
 package com.export_table_definition.infrastructure.mybatis.repository.dto;
 
+import com.export_table_definition.domain.model.AllIndexEntity;
+
 import lombok.Data;
 
 /**
@@ -14,4 +16,8 @@ public class AllIndexDto {
     private String schemaName;
     private String tableName;
     private String indexInfo;
+    
+    public AllIndexEntity toEntity() {
+        return new AllIndexEntity(schemaName, tableName, indexInfo);
+    }
 }

@@ -58,10 +58,3 @@ class AllTableEntityTest {
 	}
 
 }
-
-
-
-
-
-
-

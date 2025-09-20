@@ -17,9 +17,7 @@ import com.google.inject.Inject;
  */
 public class ExportTableDefinitionController {
 
-    private final String lineSeparator = System.getProperty("line.separator");
-    private final Log4J2 logger = Log4J2.getInstance();
-
+    private final static Log4J2 logger = Log4J2.getInstance();
     private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
 
     /**
@@ -47,8 +45,8 @@ public class ExportTableDefinitionController {
         } catch (Exception e) {
             logger.logError(e);
             return new ResultDto(ProcessResult.FAIL,
-                    String.format("Failed to output table definition document. %s [errmsg]:%s", lineSeparator,
-                            e.getMessage()));
+                    String.format("Failed to output table definition document. %s [errmsg]:%s", 
+                            System.getProperty("line.separator"), e.getMessage()));
         }
         logger.logInfo("[ END ] exportTableDefinition");
         return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");

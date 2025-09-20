@@ -1,5 +1,7 @@
 package com.export_table_definition.infrastructure.mybatis.repository.dto;
 
+import com.export_table_definition.domain.model.AllTableEntity;
+
 import lombok.Data;
 
 /**
@@ -18,4 +20,8 @@ public class AllTableDto {
     private String tableInfoList;
     private String tableInfo;
     private String definition;
+    
+    public AllTableEntity toEntity() {
+        return new AllTableEntity(schemaName, logicalTableName, physicalTableName, tableType, tableInfoList, tableInfo, definition);
+    }
 }

@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.export_table_definition.infrastructure.mybatis.type.DatabaseType;
 import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
 
 /**
@@ -62,11 +63,12 @@ public final class MyBatisSqlSessionFactory {
     /**
      * 接続するデータベースの名称を取得する
      * 
-     * @return 接続するデータベースの名称
+     * @return 接続するデータベースの列挙型
      */
-    public static String getConnectionDbName() {
+    public static DatabaseType getConnectionDbName() {
         try (final SqlSession session = getSqlSessionFactory().openSession()) {
-            return session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
+            final String dbName = session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
+            return DatabaseType.findByName(dbName);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

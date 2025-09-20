@@ -1,6 +1,8 @@
 package com.export_table_definition.domain.repository;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
 import com.export_table_definition.domain.model.AllConstraintEntity;
@@ -69,4 +71,19 @@ public interface TableDefinitionRepository {
      * @return データベースの外部キー情報
      */
     List<AllForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList);
+    
+    /**
+     * DTOのListをEntityのListに変換する共通メソッド
+     * 
+     * @param <D> DTOクラスの型
+     * @param <E> Entityクラスの型
+     * @param dtoList DTOのList
+     * @param mapper DTOからEntityへの変換関数
+     * @return EntityのList
+     */
+    default <D, E> List<E> makeEntityList(List<D> dtoList, Function<D, E> mapper) {
+        return dtoList.stream()
+                .map(mapper)
+                .collect(Collectors.toList());
+    }
 }
