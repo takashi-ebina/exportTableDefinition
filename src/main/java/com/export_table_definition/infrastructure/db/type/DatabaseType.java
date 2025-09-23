@@ -1,11 +1,11 @@
-package com.export_table_definition.infrastructure.mybatis.type;
+package com.export_table_definition.infrastructure.db.type;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
-import com.export_table_definition.infrastructure.mybatis.repository.OracleTableDefinitionRepository;
-import com.export_table_definition.infrastructure.mybatis.repository.PostgresTableDefinitionRepository;
+import com.export_table_definition.infrastructure.db.repository.OracleTableDefinitionRepository;
+import com.export_table_definition.infrastructure.db.repository.PostgresTableDefinitionRepository;
 
 /**
  * Databaseの種別をもつ列挙型クラス

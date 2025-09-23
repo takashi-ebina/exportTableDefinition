@@ -1,4 +1,4 @@
-package com.export_table_definition.infrastructure.mybatis.repository.dto;
+package com.export_table_definition.infrastructure.db.repository.dto;
 
 import com.export_table_definition.domain.model.AllColumnEntity;
 

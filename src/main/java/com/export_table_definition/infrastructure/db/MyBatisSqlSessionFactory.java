@@ -1,4 +1,4 @@
-package com.export_table_definition.infrastructure.mybatis;
+package com.export_table_definition.infrastructure.db;
 
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -10,8 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.export_table_definition.infrastructure.mybatis.type.DatabaseType;
-import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
+import com.export_table_definition.config.PropertyLoaderUtil;
+import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
 /**
  * SqlSessionFactoryクラス

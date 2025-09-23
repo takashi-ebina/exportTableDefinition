@@ -1,4 +1,4 @@
-package com.export_table_definition.domain.service.writer;
+package com.export_table_definition.infrastructure.file;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

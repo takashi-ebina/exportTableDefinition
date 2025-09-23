@@ -1,4 +1,4 @@
-package com.export_table_definition.infrastructure.mybatis.repository;
+package com.export_table_definition.infrastructure.db.repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,14 +14,14 @@ import com.export_table_definition.domain.model.AllIndexEntity;
 import com.export_table_definition.domain.model.AllTableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
-import com.export_table_definition.infrastructure.mybatis.MyBatisSqlSessionFactory;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.AllColumnDto;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.AllConstraintDto;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.AllForeignkeyDto;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.AllIndexDto;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.AllTableDto;
-import com.export_table_definition.infrastructure.mybatis.repository.dto.BaseInfoDto;
-import com.export_table_definition.infrastructure.mybatis.type.DatabaseType;
+import com.export_table_definition.infrastructure.db.MyBatisSqlSessionFactory;
+import com.export_table_definition.infrastructure.db.repository.dto.AllColumnDto;
+import com.export_table_definition.infrastructure.db.repository.dto.AllConstraintDto;
+import com.export_table_definition.infrastructure.db.repository.dto.AllForeignkeyDto;
+import com.export_table_definition.infrastructure.db.repository.dto.AllIndexDto;
+import com.export_table_definition.infrastructure.db.repository.dto.AllTableDto;
+import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;
+import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
 /**
  * テーブル定義出力に関するリポジトリの基底クラス

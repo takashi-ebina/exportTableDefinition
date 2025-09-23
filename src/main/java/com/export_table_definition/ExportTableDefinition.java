@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.export_table_definition.infrastructure.module.ExportTableDefinitionModule;
-import com.export_table_definition.infrastructure.util.PropertyLoaderUtil;
+import com.export_table_definition.config.PropertyLoaderUtil;
+import com.export_table_definition.config.module.ExportTableDefinitionModule;
 import com.export_table_definition.presentation.controller.ExportTableDefinitionController;
 import com.export_table_definition.presentation.controller.dto.ResultDto;
 import com.google.inject.Guice;

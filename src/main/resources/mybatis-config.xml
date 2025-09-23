@@ -7,12 +7,12 @@
 		<setting name="cacheEnabled" value="false"/>
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.BaseInfoDto" alias="BaseInfoDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllTableDto" alias="AllTableDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllColumnDto" alias="AllColumnDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllIndexDto" alias="AllIndexDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllConstraintDto" alias="AllConstraintDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.mybatis.repository.dto.AllForeignkeyDto" alias="AllForeignkeyDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto" alias="BaseInfoDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.AllTableDto" alias="AllTableDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.AllColumnDto" alias="AllColumnDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.AllIndexDto" alias="AllIndexDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.AllConstraintDto" alias="AllConstraintDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.AllForeignkeyDto" alias="AllForeignkeyDto"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

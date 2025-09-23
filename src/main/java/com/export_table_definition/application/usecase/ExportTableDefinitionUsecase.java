@@ -16,7 +16,6 @@ import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
 import com.export_table_definition.infrastructure.log.Log4J2;
-import com.export_table_definition.infrastructure.util.FileUtil;
 import com.google.inject.Inject;
 
 /**
@@ -66,8 +65,6 @@ public class ExportTableDefinitionUsecase {
         final List<AllConstraintEntity> constraintEntityList = tableDefinitionRepository.selectAllConstraintInfo(targetSchemaList, targetTableList);
         final List<AllForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(targetSchemaList, targetTableList);
 
-        // テーブル定義の出力先ディレクトリ作成 -> ./output or {設定ファイルのFileParh}
-        FileUtil.createDirectory(outputBaseDirectoryPath.toString());
         // テーブル一覧出力 -> ./output/tableList_{DB名}.md or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, outputBaseDirectoryPath);
         // テーブル定義出力
@@ -87,20 +84,15 @@ public class ExportTableDefinitionUsecase {
             if (!tableVo.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
                 return;
             }
-            // テーブル定義出力先ディレクトリパス 
-            //  -> ./output/{DB名}/{スキーマ名}/{TBL分類}
-            //     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}
-            final Path directoryPath = createOutputTablesDirectoryPath(outputBaseDirectoryPath, baseEntity, tableVo);
             // テーブル定義出力先ファイルパス
-            //  -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md 
-            //     or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
-            final Path filePath = directoryPath.resolve(tableVo.physicalTableName() + ".md");
+            // -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
+            // or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
+            final Path directoryPath = createOutputTablesDirectoryPath(outputBaseDirectoryPath, baseEntity, tableVo);
+            tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList,
+                    constraintEntityList, foreignkeyEntityList, directoryPath);
 
-            FileUtil.createDirectory(directoryPath.toString());
-            tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList,
-                    indexEntityList, constraintEntityList, foreignkeyEntityList, filePath);
-
-            logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath.toString()));
+            logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]",
+                    directoryPath.resolve(tableVo.physicalTableName() + ".md").toString()));
         };
     }
 

@@ -1,4 +1,4 @@
-package com.export_table_definition.infrastructure.util;
+package com.export_table_definition.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;

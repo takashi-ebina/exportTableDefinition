@@ -1,6 +1,6 @@
-package com.export_table_definition.infrastructure.mybatis.repository;
+package com.export_table_definition.infrastructure.db.repository;
 
-import com.export_table_definition.infrastructure.mybatis.type.DatabaseType;
+import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
 /**
  * [Postgres]テーブル定義出力に関するリポジトリクラス
