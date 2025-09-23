@@ -17,6 +17,11 @@ public class AllConstraintDto {
     private String tableName;
     private String constraintInfo;
     
+    /**
+     * DTOからEntityへの変換メソッド
+     * 
+     * @return AllConstraintEntityのインスタンス
+     */
     public AllConstraintEntity toEntity() {
         return new AllConstraintEntity(schemaName, tableName, constraintInfo);
     }

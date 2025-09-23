@@ -36,6 +36,8 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
 
     /**
      * コンストラクタ
+     * 
+     * @param databaseType データベースの種類
      */
     protected AbstractTableDefinitionRepository(DatabaseType databaseType) {
         this.baseSqlPath = "com.export_table_definition.domain.repository." + databaseType.getName() + ".TableDefinitionRepository.";

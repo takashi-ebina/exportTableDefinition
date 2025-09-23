@@ -19,7 +19,7 @@ public class TableDefinitionBufferedWriter implements AutoCloseable {
 
     /**
      * コンストラクタ
-     * @param path
+     * @param path 書き込み先のファイルパス
      */
     public TableDefinitionBufferedWriter(Path path) {
         try {

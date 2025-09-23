@@ -27,6 +27,11 @@ public class TableDefinitionWriterDomainService {
     private final int maxTableListTableSize = 3000;
     private final FileRepository fileRepository;
     
+    /**
+     * コンストラクタ
+     * 
+     * @param fileRepository ファイルリポジトリ
+     */
     @Inject
     public TableDefinitionWriterDomainService(FileRepository fileRepository) {
         this.fileRepository = fileRepository;
@@ -37,7 +42,7 @@ public class TableDefinitionWriterDomainService {
      * 
      * @param tables テーブル情報リスト
      * @param baseInfo データベースの基本情報
-     * @param outputFilePath 出力ファイル
+     * @param outputDirectoryPath 出力ファイル
      */
     public void writeTableDefinitionList(List<AllTableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
@@ -120,7 +125,7 @@ public class TableDefinitionWriterDomainService {
      * @param indexes インデックス情報
      * @param constraints 制約情報
      * @param foreignkeys 外部キー情報
-     * @param outputFile 出力ファイル
+     * @param outputDirectoryPath 出力ファイル
      */
     public void writeTableDefinition(AllTableEntity table, BaseInfoEntity baseInfo, List<AllColumnEntity> columns,
             List<AllIndexEntity> indexes, List<AllConstraintEntity> constraints, List<AllForeignkeyEntity> foreignkeys,

@@ -17,6 +17,11 @@ public class AllForeignkeyDto {
     private String tableName;
     private String foreignkeyInfo;
     
+    /**
+     * DTOからEntityへの変換メソッド
+     * 
+     * @return AllForeignkeyEntityのインスタンス
+     */
     public AllForeignkeyEntity toEntity() {
         return new AllForeignkeyEntity(schemaName, tableName, foreignkeyInfo);
     }

@@ -17,6 +17,11 @@ public class AllColumnDto {
     private String tableName;
     private String columnInfo;
     
+    /**
+     * DTOからEntityへの変換メソッド
+     * 
+     * @return AllColumnEntityのインスタンス
+     */
     public AllColumnEntity toEntity() {
         return new AllColumnEntity(schemaName, tableName, columnInfo);
     }

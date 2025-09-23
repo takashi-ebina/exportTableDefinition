@@ -16,6 +16,11 @@ public class BaseInfoDto {
     private String dbName;
     private String baseInfo;
     
+    /**
+     * DTOからEntityへの変換メソッド
+     * 
+     * @return BaseInfoEntityのインスタンス
+     */
     public BaseInfoEntity toEntity() {
         return new BaseInfoEntity(dbName, baseInfo);
     }

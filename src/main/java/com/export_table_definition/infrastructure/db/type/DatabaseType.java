@@ -15,7 +15,9 @@ import com.export_table_definition.infrastructure.db.repository.PostgresTableDef
  * @author takashi.ebina
  */
 public enum DatabaseType {
+    /** PostgreSQL */
     POSTGRESQL("postgresql", PostgresTableDefinitionRepository.class),
+    /** Oracle */
     ORACLE("oracle", OracleTableDefinitionRepository.class);
     
     private final String name;
@@ -53,7 +55,7 @@ public enum DatabaseType {
     /**
      * Database名に紐づくEnumを返却する。
      * 
-     * @param attribute Enum逆引きに用いる値
+     * @param name Enum逆引きに用いる値
      * @return DatabaseTypeを返却する。
      * @throws IllegalArgumentException 対象のEnumが存在しない場合にthrowする。
      */

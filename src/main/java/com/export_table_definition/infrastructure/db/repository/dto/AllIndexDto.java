@@ -17,6 +17,11 @@ public class AllIndexDto {
     private String tableName;
     private String indexInfo;
     
+    /**
+     * DTOからEntityへの変換メソッド
+     * 
+     * @return AllIndexEntityのインスタンス
+     */
     public AllIndexEntity toEntity() {
         return new AllIndexEntity(schemaName, tableName, indexInfo);
     }
