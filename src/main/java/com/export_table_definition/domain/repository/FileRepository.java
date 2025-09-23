@@ -3,9 +3,27 @@ package com.export_table_definition.domain.repository;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * ファイル操作に関するリポジトリインターフェース
+ * 
+ * @since 1.0
+ * @version 1.0
+ * @author takashi.ebina
+ */
 public interface FileRepository {
-    void writeFile(Path filePath, List<String> contents);
+    /**
+     * ファイルに書き込むメソッド
+     * 
+     * @param filePath 書き込み先のファイルパス
+     * @param contents 書き込む内容のリスト
+     */
+    public void writeFile(Path filePath, List<String> contents);
     
-    void createDirectory(String targetFilePath);
+    /**
+     * ディレクトリを作成するメソッド
+     * 
+     * @param filePath 作成するディレクトリのパス
+     */
+    public void createDirectory(Path filePath);
 
 }

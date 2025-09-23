@@ -40,7 +40,7 @@ public class TableDefinitionWriterDomainService {
      * @param outputFilePath 出力ファイル
      */
     public void writeTableDefinitionList(List<AllTableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
-        fileRepository.createDirectory(outputDirectoryPath.toString());
+        fileRepository.createDirectory(outputDirectoryPath);
          // テーブル一覧の件数がMarkdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
         if (tables.size() > maxTableListTableSize) {
             // Markdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
@@ -125,7 +125,7 @@ public class TableDefinitionWriterDomainService {
     public void writeTableDefinition(AllTableEntity table, BaseInfoEntity baseInfo, List<AllColumnEntity> columns,
             List<AllIndexEntity> indexes, List<AllConstraintEntity> constraints, List<AllForeignkeyEntity> foreignkeys,
             Path outputDirectoryPath) {
-        fileRepository.createDirectory(outputDirectoryPath.toString());
+        fileRepository.createDirectory(outputDirectoryPath);
         final Path filePath = outputDirectoryPath.resolve(table.physicalTableName() + ".md");
         final List<String> contents = new ArrayList<>();
         // ヘッダー

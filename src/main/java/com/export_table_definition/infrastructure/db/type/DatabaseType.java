@@ -9,6 +9,10 @@ import com.export_table_definition.infrastructure.db.repository.PostgresTableDef
 
 /**
  * Databaseの種別をもつ列挙型クラス
+ * 
+ * @since 1.0
+ * @version 1.0
+ * @author takashi.ebina
  */
 public enum DatabaseType {
     POSTGRESQL("postgresql", PostgresTableDefinitionRepository.class),
@@ -17,15 +21,31 @@ public enum DatabaseType {
     private final String name;
     private final Class<? extends TableDefinitionRepository> repositoryClass;
     
+    /**
+     * コンストラクタ
+     * 
+     * @param name Database名
+     * @param repositoryClass Databaseに紐づくリポジトリクラス
+     */
     DatabaseType(String name, Class<? extends TableDefinitionRepository> repositoryClass) {
         this.name = name;
         this.repositoryClass = repositoryClass;
     }
     
+    /**
+     * Database名を返却する。
+     * 
+     * @return Database名を返却する。
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * Databaseに紐づくリポジトリクラスを返却する。
+     * 
+     * @return リポジトリクラスを返却する。
+     */
     public Class<? extends TableDefinitionRepository> getRepositoryClass() {
         return repositoryClass;
     }
