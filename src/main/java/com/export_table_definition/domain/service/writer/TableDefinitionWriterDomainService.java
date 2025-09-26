@@ -4,11 +4,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
-import com.export_table_definition.domain.model.AllConstraintEntity;
-import com.export_table_definition.domain.model.AllForeignkeyEntity;
-import com.export_table_definition.domain.model.AllIndexEntity;
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
+import com.export_table_definition.domain.model.ForeignkeyEntity;
+import com.export_table_definition.domain.model.IndexEntity;
+import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.FileRepository;
 import com.export_table_definition.domain.service.writer.template.MarkdownTemplates;
@@ -44,7 +44,7 @@ public class TableDefinitionWriterDomainService {
      * @param baseInfo データベースの基本情報
      * @param outputDirectoryPath 出力ファイル
      */
-    public void writeTableDefinitionList(List<AllTableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
+    public void writeTableDefinitionList(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
          // テーブル一覧の件数がMarkdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
         if (tables.size() > maxTableListTableSize) {
@@ -56,7 +56,7 @@ public class TableDefinitionWriterDomainService {
         }
     }
     
-    private void writeMultipleTableFiles(List<AllTableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
+    private void writeMultipleTableFiles(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         final int maxTableSize = tables.size();
         int tableCount = 0;
         int fileIndex = 1;
@@ -99,7 +99,7 @@ public class TableDefinitionWriterDomainService {
         fileRepository.writeFile(filePath, contents);
     }
     
-    private void writeSingleTableFile(List<AllTableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
+    private void writeSingleTableFile(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, 0));
         final List<String> contents = new ArrayList<>();
         // ヘッダー
@@ -127,8 +127,8 @@ public class TableDefinitionWriterDomainService {
      * @param foreignkeys 外部キー情報
      * @param outputDirectoryPath 出力ファイル
      */
-    public void writeTableDefinition(AllTableEntity table, BaseInfoEntity baseInfo, List<AllColumnEntity> columns,
-            List<AllIndexEntity> indexes, List<AllConstraintEntity> constraints, List<AllForeignkeyEntity> foreignkeys,
+    public void writeTableDefinition(TableEntity table, BaseInfoEntity baseInfo, List<ColumnEntity> columns,
+            List<IndexEntity> indexes, List<ConstraintEntity> constraints, List<ForeignkeyEntity> foreignkeys,
             Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
         final Path filePath = outputDirectoryPath.resolve(table.physicalTableName() + ".md");

@@ -6,7 +6,7 @@
 SELECT SYS_CONTEXT('USERENV','DB_NAME') AS "dbName", '|' || 'Oracle' || '|' ||  SYS_CONTEXT('USERENV','DB_NAME') || '|' || to_char(current_timestamp, 'yyyy/MM/dd') || '|' AS "baseInfo" FROM dual fetch first 1 rows only
 </select>
 
-<select id="selectAllTableInfo" resultType="AllTableDto">
+<select id="selectAllTableInfo" resultType="TableDto">
 WITH ora_all_tables AS (
     SELECT 
         COALESCE(t1.OWNER, '') AS schema_name,
@@ -117,7 +117,7 @@ ORDER BY
 
 </select>
 
-<select id="selectAllColumnInfo" resultType="AllColumnDto">
+<select id="selectAllColumnInfo" resultType="ColumnDto">
 
 WITH ora_all_columns AS (
     SELECT
@@ -195,7 +195,7 @@ ORDER BY
 
 </select>
 
-<select id="selectAllIndexInfo" resultType="AllIndexDto">
+<select id="selectAllIndexInfo" resultType="IndexDto">
 WITH ora_all_indexes AS (
     SELECT
         idx.owner AS schema_name,
@@ -241,7 +241,7 @@ ORDER BY
 </select>
 
 
-<select id="selectAllConstraintInfo" resultType="AllConstraintDto">
+<select id="selectAllConstraintInfo" resultType="ConstraintDto">
 WITH ora_all_constraints AS (
     SELECT
         ac.owner AS schema_name,
@@ -344,7 +344,7 @@ ORDER BY
     
 </select>
 
-<select id="selectAllForeignkeyInfo" resultType="AllForeignkeyDto">
+<select id="selectAllForeignkeyInfo" resultType="ForeignkeyDto">
 WITH ora_all_foreignkeys AS (
     SELECT 
         ac.constraint_name AS foreignkey_name,

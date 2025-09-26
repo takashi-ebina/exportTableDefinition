@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
-import com.export_table_definition.domain.model.AllConstraintEntity;
-import com.export_table_definition.domain.model.AllForeignkeyEntity;
-import com.export_table_definition.domain.model.AllIndexEntity;
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
+import com.export_table_definition.domain.model.ForeignkeyEntity;
+import com.export_table_definition.domain.model.IndexEntity;
+import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 
 /**
@@ -34,7 +34,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのテーブル情報
      */
-    List<AllTableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList);
+    List<TableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースのカラム情報を取得するメソッド
@@ -43,7 +43,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのカラム情報
      */
-    List<AllColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList);
+    List<ColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースのインデックス情報を取得するメソッド
@@ -52,7 +52,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのインデックス情報
      */
-    List<AllIndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList);
+    List<IndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースの制約情報を取得するメソッド
@@ -61,7 +61,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースの制約情報
      */
-    List<AllConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList);
+    List<ConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースの外部キー情報を取得するメソッド
@@ -70,7 +70,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースの外部キー情報
      */
-    List<AllForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList);
+    List<ForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList);
     
     /**
      * DTOのListをEntityのListに変換する共通メソッド

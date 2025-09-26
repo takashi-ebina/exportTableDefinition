@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
-import com.export_table_definition.domain.model.AllConstraintEntity;
-import com.export_table_definition.domain.model.AllForeignkeyEntity;
-import com.export_table_definition.domain.model.AllIndexEntity;
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
+import com.export_table_definition.domain.model.ForeignkeyEntity;
+import com.export_table_definition.domain.model.IndexEntity;
+import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
@@ -59,11 +59,11 @@ public class ExportTableDefinitionUsecase {
         
         // Entity取得
         final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
-        final List<AllTableEntity> tableEntityList = tableDefinitionRepository.selectAllTableInfo(targetSchemaList, targetTableList);
-        final List<AllColumnEntity> columnEntityList = tableDefinitionRepository.selectAllColumnInfo(targetSchemaList,targetTableList);
-        final List<AllIndexEntity> indexEntityList = tableDefinitionRepository.selectAllIndexInfo(targetSchemaList, targetTableList);
-        final List<AllConstraintEntity> constraintEntityList = tableDefinitionRepository.selectAllConstraintInfo(targetSchemaList, targetTableList);
-        final List<AllForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(targetSchemaList, targetTableList);
+        final List<TableEntity> tableEntityList = tableDefinitionRepository.selectAllTableInfo(targetSchemaList, targetTableList);
+        final List<ColumnEntity> columnEntityList = tableDefinitionRepository.selectAllColumnInfo(targetSchemaList,targetTableList);
+        final List<IndexEntity> indexEntityList = tableDefinitionRepository.selectAllIndexInfo(targetSchemaList, targetTableList);
+        final List<ConstraintEntity> constraintEntityList = tableDefinitionRepository.selectAllConstraintInfo(targetSchemaList, targetTableList);
+        final List<ForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(targetSchemaList, targetTableList);
 
         // テーブル一覧出力 -> ./output/tableList_{DB名}.md or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, outputBaseDirectoryPath);
@@ -72,27 +72,23 @@ public class ExportTableDefinitionUsecase {
                 baseEntity, columnEntityList, indexEntityList, constraintEntityList, foreignkeyEntityList));
     }
 
-    private Path createOutputTablesDirectoryPath(Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, AllTableEntity tableVo) {
-        return outputBaseDirectoryPath.resolve(baseEntity.dbName()).resolve(tableVo.schemaName()).resolve(tableVo.tableType());
-    }
-    
-    private Consumer<AllTableEntity> createTableExporter(List<String> targetSchemaList, List<String> targetTableList,
-            Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, List<AllColumnEntity> columnEntityList,
-            List<AllIndexEntity> indexEntityList, List<AllConstraintEntity> constraintEntityList,
-            List<AllForeignkeyEntity> foreignkeyEntityList) {
-        return tableVo -> {
-            if (!tableVo.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
+    private Consumer<TableEntity> createTableExporter(List<String> targetSchemaList, List<String> targetTableList,
+            Path outputBaseDirectoryPath, BaseInfoEntity baseEntity, List<ColumnEntity> columnEntityList,
+            List<IndexEntity> indexEntityList, List<ConstraintEntity> constraintEntityList,
+            List<ForeignkeyEntity> foreignkeyEntityList) {
+        return tableEntity -> {
+            if (!tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
                 return;
             }
             // テーブル定義出力先ファイルパス
             // -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
             // or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
-            final Path directoryPath = createOutputTablesDirectoryPath(outputBaseDirectoryPath, baseEntity, tableVo);
-            tableDefinitionWriter.writeTableDefinition(tableVo, baseEntity, columnEntityList, indexEntityList,
+            final Path directoryPath = tableEntity.toOutputDirectory(outputBaseDirectoryPath, baseEntity.dbName());
+            tableDefinitionWriter.writeTableDefinition(tableEntity, baseEntity, columnEntityList, indexEntityList,
                     constraintEntityList, foreignkeyEntityList, directoryPath);
 
             logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]",
-                    directoryPath.resolve(tableVo.physicalTableName() + ".md").toString()));
+                    directoryPath.resolve(tableEntity.physicalTableName() + ".md").toString()));
         };
     }
 

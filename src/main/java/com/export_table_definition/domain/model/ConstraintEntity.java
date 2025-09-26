@@ -7,7 +7,7 @@ package com.export_table_definition.domain.model;
  * @version 1.0
  * @author takashi.ebina
  */
-public record AllConstraintEntity(String schemaName, String tableName, String constraintInfo) {
+public record ConstraintEntity(String schemaName, String tableName, String constraintInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド

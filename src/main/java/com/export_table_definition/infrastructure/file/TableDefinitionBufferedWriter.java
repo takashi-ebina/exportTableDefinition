@@ -1,9 +1,12 @@
 package com.export_table_definition.infrastructure.file;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 /**
@@ -22,8 +25,17 @@ public class TableDefinitionBufferedWriter implements AutoCloseable {
      * @param path 書き込み先のファイルパス
      */
     public TableDefinitionBufferedWriter(Path path) {
+        this(path, StandardCharsets.UTF_8);
+    }
+    
+    /**
+     * コンストラクタ
+     * @param path 書き込み先のファイルパス
+     * @param charset 文字エンコード
+     */
+    public TableDefinitionBufferedWriter(Path path, Charset charset) {
         try {
-            this.bw = new BufferedWriter(new FileWriter(path.toFile(), false));
+            this.bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path.toFile(), false), charset));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

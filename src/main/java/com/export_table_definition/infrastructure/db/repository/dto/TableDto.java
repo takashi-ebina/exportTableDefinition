@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.TableEntity;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @author takashi.ebina
  */
 @Data
-public class AllTableDto {
+public class TableDto {
     private String schemaName;
     private String logicalTableName;
     private String physicalTableName;
@@ -26,7 +26,7 @@ public class AllTableDto {
      * 
      * @return AllTableEntityのインスタンス
      */
-    public AllTableEntity toEntity() {
-        return new AllTableEntity(schemaName, logicalTableName, physicalTableName, tableType, tableInfoList, tableInfo, definition);
+    public TableEntity toEntity() {
+        return new TableEntity(schemaName, logicalTableName, physicalTableName, tableType, tableInfoList, tableInfo, definition);
     }
 }

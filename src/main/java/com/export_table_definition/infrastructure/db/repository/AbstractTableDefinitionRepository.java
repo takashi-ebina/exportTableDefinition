@@ -7,19 +7,19 @@ import java.util.function.Function;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
-import com.export_table_definition.domain.model.AllConstraintEntity;
-import com.export_table_definition.domain.model.AllForeignkeyEntity;
-import com.export_table_definition.domain.model.AllIndexEntity;
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
+import com.export_table_definition.domain.model.ForeignkeyEntity;
+import com.export_table_definition.domain.model.IndexEntity;
+import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.infrastructure.db.MyBatisSqlSessionFactory;
-import com.export_table_definition.infrastructure.db.repository.dto.AllColumnDto;
-import com.export_table_definition.infrastructure.db.repository.dto.AllConstraintDto;
-import com.export_table_definition.infrastructure.db.repository.dto.AllForeignkeyDto;
-import com.export_table_definition.infrastructure.db.repository.dto.AllIndexDto;
-import com.export_table_definition.infrastructure.db.repository.dto.AllTableDto;
+import com.export_table_definition.infrastructure.db.repository.dto.ColumnDto;
+import com.export_table_definition.infrastructure.db.repository.dto.ConstraintDto;
+import com.export_table_definition.infrastructure.db.repository.dto.ForeignkeyDto;
+import com.export_table_definition.infrastructure.db.repository.dto.IndexDto;
+import com.export_table_definition.infrastructure.db.repository.dto.TableDto;
 import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;
 import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
@@ -57,50 +57,53 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<AllTableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllTableInfo", AllTableDto::toEntity);
+    public List<TableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllTableInfo", TableDto::toEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<AllColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllColumnInfo", AllColumnDto::toEntity);
+    public List<ColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllColumnInfo", ColumnDto::toEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<AllIndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllIndexInfo", AllIndexDto::toEntity);
+    public List<IndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllIndexInfo", IndexDto::toEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<AllConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllConstraintInfo", AllConstraintDto::toEntity);
+    public List<ConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllConstraintInfo", ConstraintDto::toEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<AllForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", AllForeignkeyDto::toEntity);
+    public List<ForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignkeyDto::toEntity);
     }
     
     private <D, E> List<E> selectTableDefinition(List<String> schemaList, List<String> tableList, String sqlId,
             Function<D, E> mapper) {
+        final String sqlPath = baseSqlPath + sqlId;
         try (SqlSession session = MyBatisSqlSessionFactory.openSession()) {
             final Map<String, Object> param = new HashMap<>();
             param.put("schemaList", schemaList);
             param.put("tableList", tableList);
-            final List<D> dtoList = session.selectList(baseSqlPath + sqlId, param);
+            final List<D> dtoList = session.selectList(sqlPath, param);
             return makeEntityList(dtoList, mapper);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to select: " + sqlPath, e);
         }
     }
 }

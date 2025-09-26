@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
-import com.export_table_definition.domain.model.AllConstraintEntity;
-import com.export_table_definition.domain.model.AllForeignkeyEntity;
-import com.export_table_definition.domain.model.AllIndexEntity;
-import com.export_table_definition.domain.model.AllTableEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
+import com.export_table_definition.domain.model.ForeignkeyEntity;
+import com.export_table_definition.domain.model.IndexEntity;
+import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 
 /**
@@ -21,7 +21,7 @@ import com.export_table_definition.domain.model.BaseInfoEntity;
 public class MarkdownTemplates {
     public static final String LINE_SEPARATOR = System.lineSeparator();
     public static final String LINE_SEPARATOR_DOUBLE = LINE_SEPARATOR + LINE_SEPARATOR;
-    public static final String HORIZON = "___";;
+    public static final String HORIZON = "___";
 
     /**
      * ヘッダー
@@ -68,9 +68,9 @@ public class MarkdownTemplates {
      * @param tables テーブル情報のリスト
      * @return テーブル一覧セクション文字列
      */
-    public static String tableList(List<AllTableEntity> tables) {
+    public static String tableList(List<TableEntity> tables) {
         return tableList()
-                + tables.stream().map(AllTableEntity::tableInfoList).collect(Collectors.joining(LINE_SEPARATOR))
+                + tables.stream().map(TableEntity::tableInfoList).collect(Collectors.joining(LINE_SEPARATOR))
                 + LINE_SEPARATOR;
     }
 
@@ -104,7 +104,7 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return テーブル情報セクション文字列
      */
-    public static String tableInfo(AllTableEntity table) {
+    public static String tableInfo(TableEntity table) {
         return """
                 ## テーブル情報
 
@@ -120,14 +120,14 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return カラム情報セクション文字列
      */
-    public static String columns(List<AllColumnEntity> columns, AllTableEntity table) {
+    public static String columns(List<ColumnEntity> columns, TableEntity table) {
         String header = """
                 ## カラム情報
 
                 | No. | 論理名 | 物理名 | データ型 | PK | Not Null | デフォルト | 備考 |
                 |:---|:---|:---|:---|:---|:---|:---|:---|
                 """;
-        return tableSection(columns, table, header, AllColumnEntity::columnInfo, AllColumnEntity::getSchemaTableName);
+        return tableSection(columns, table, header, ColumnEntity::columnInfo, ColumnEntity::getSchemaTableName);
     }
 
     /**
@@ -136,7 +136,7 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return ビュー情報セクション文字列
      */
-    public static String view(AllTableEntity table) {
+    public static String view(TableEntity table) {
         if (!table.isView()) {
             return "";
         }
@@ -158,14 +158,14 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return インデックス情報セクション文字列
      */
-    public static String indexes(List<AllIndexEntity> indexes, AllTableEntity table) {
+    public static String indexes(List<IndexEntity> indexes, TableEntity table) {
         String header = """
                 ## インデックス情報
 
                 | No. | インデックス名 | カラムリスト |
                 |:---|:---|:---|
                 """;
-        return tableSection(indexes, table, header, AllIndexEntity::indexInfo, AllIndexEntity::getSchemaTableName);
+        return tableSection(indexes, table, header, IndexEntity::indexInfo, IndexEntity::getSchemaTableName);
     }
 
     /**
@@ -175,15 +175,15 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return 制約情報セクション文字列
      */
-    public static String constraints(List<AllConstraintEntity> constraints, AllTableEntity table) {
+    public static String constraints(List<ConstraintEntity> constraints, TableEntity table) {
         String header = """
                 ## 制約情報
 
                 | No. | 制約名 | 種類 | 制約定義 |
                 |:---|:---|:---|:---|
                 """;
-        return tableSection(constraints, table, header, AllConstraintEntity::constraintInfo,
-                AllConstraintEntity::getSchemaTableName);
+        return tableSection(constraints, table, header, ConstraintEntity::constraintInfo,
+                ConstraintEntity::getSchemaTableName);
     }
 
     /**
@@ -193,15 +193,15 @@ public class MarkdownTemplates {
      * @param table テーブル情報
      * @return 外部キー情報セクション文字列
      */
-    public static String foreignKeys(List<AllForeignkeyEntity> foreignkeys, AllTableEntity table) {
+    public static String foreignKeys(List<ForeignkeyEntity> foreignkeys, TableEntity table) {
         String header = """
                 ## 外部キー情報
 
                 | No. | 外部キー名 | カラムリスト | 参照先 | 参照先カラムリスト |
                 |:---|:---|:---|:---|:---|
                 """;
-        return tableSection(foreignkeys, table, header, AllForeignkeyEntity::foreignkeyInfo,
-                AllForeignkeyEntity::getSchemaTableName);
+        return tableSection(foreignkeys, table, header, ForeignkeyEntity::foreignkeyInfo,
+                ForeignkeyEntity::getSchemaTableName);
     }
 
     /**
@@ -239,7 +239,7 @@ public class MarkdownTemplates {
         return LINE_SEPARATOR_DOUBLE;
     }
 
-    private static <T> String tableSection(List<T> list, AllTableEntity table, String header,
+    private static <T> String tableSection(List<T> list, TableEntity table, String header,
             Function<T, String> infoMapper, Function<T, String> schemaTableNameGetter) {
         return header + list.stream().filter(e -> schemaTableNameGetter.apply(e).equals(table.getSchemaTableName()))
                 .map(infoMapper).collect(Collectors.joining(LINE_SEPARATOR)) + LINE_SEPARATOR_DOUBLE;

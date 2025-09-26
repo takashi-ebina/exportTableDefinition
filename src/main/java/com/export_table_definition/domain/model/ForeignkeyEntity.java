@@ -1,13 +1,13 @@
 package com.export_table_definition.domain.model;
 
 /**
- * カラム情報に関するrecordクラス
+ * 外部キー情報に関するrecordクラス
  * 
  * @since 1.0
  * @version 1.0
  * @author takashi.ebina
  */
-public record AllColumnEntity(String schemaName, String tableName, String columnInfo) {
+public record ForeignkeyEntity(String schemaName, String tableName, String foreignkeyInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド
@@ -17,5 +17,4 @@ public record AllColumnEntity(String schemaName, String tableName, String column
     public String getSchemaTableName() {
         return schemaName + "." + tableName;
     }
-
 }

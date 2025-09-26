@@ -6,7 +6,7 @@
 SELECT current_database() AS "dbName", concat('|', 'PostgreSQL', '|', current_database(), '|', to_char(current_timestamp, 'yyyy/MM/dd'), '|') AS "baseInfo" fetch first 1 rows only;
 </select>
 
-<select id="selectAllTableInfo" resultType="AllTableDto">
+<select id="selectAllTableInfo" resultType="TableDto">
 WITH all_tables AS (
     SELECT 
         coalesce(t1.schemaname, '') AS schema_name,
@@ -100,7 +100,7 @@ ORDER BY
     schema_name, physical_table_name;
 </select>
 
-<select id="selectAllColumnInfo" resultType="AllColumnDto">
+<select id="selectAllColumnInfo" resultType="ColumnDto">
 WITH all_columns AS (
     (
         SELECT
@@ -283,7 +283,7 @@ ORDER BY
     schema_name, table_name, column_num;
 </select>
 
-<select id="selectAllIndexInfo" resultType="AllIndexDto">
+<select id="selectAllIndexInfo" resultType="IndexDto">
 WITH all_indexes AS (
     SELECT
         t5.schemaname AS schema_name,
@@ -334,7 +334,7 @@ ORDER BY
     schema_name, table_name;
 </select>
 
-<select id="selectAllConstraintInfo" resultType="AllConstraintDto">
+<select id="selectAllConstraintInfo" resultType="ConstraintDto">
 WITH all_constraints AS (
     SELECT
         t3.nspname AS schema_name,
@@ -382,7 +382,7 @@ ORDER BY
     schema_name, table_name, constraints_type, constraints_name;
 </select>
 
-<select id="selectAllForeignkeyInfo" resultType="AllForeignkeyDto">
+<select id="selectAllForeignkeyInfo" resultType="ForeignkeyDto">
 WITH all_foreignkeys AS (
     SELECT
         t1.constraint_name AS foreignkey_name,

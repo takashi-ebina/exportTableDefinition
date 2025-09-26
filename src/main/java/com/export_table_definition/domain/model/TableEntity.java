@@ -1,5 +1,6 @@
 package com.export_table_definition.domain.model;
 
+import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  * @author takashi.ebina
  */
-public record AllTableEntity(String schemaName, String logicalTableName, String physicalTableName, String tableType,
+public record TableEntity(String schemaName, String logicalTableName, String physicalTableName, String tableType,
         String tableInfoList, String tableInfo, String definition) {
 
     /**
@@ -89,5 +90,21 @@ public record AllTableEntity(String schemaName, String logicalTableName, String 
             return isSchemaMatch;
         }
         return isSchemaMatch && isTableMatch;
+    }
+    
+    /**
+     * テーブル定義書の出力先ディレクトリパスを取得するメソッド<br>
+     * <br>
+     * 出力先ディレクトリパスは以下の形式となる<br>
+     * {base}/{DB名}/{スキーマ名}/{TBL分類}/
+     * 
+     * @param base ベースディレクトリパス
+     * @param dbName DB名
+     * @return テーブル定義書の出力先ディレクトリパス
+     */
+    public Path toOutputDirectory(Path base, String dbName) {
+        return base.resolve(dbName)
+                   .resolve(schemaName)
+                   .resolve(tableType);
     }
 }

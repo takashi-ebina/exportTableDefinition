@@ -38,14 +38,13 @@ public final class MyBatisSqlSessionFactory {
      */
     public static SqlSessionFactory getSqlSessionFactory() {
         if (sqlSessionFactory == null) {
-            try {
-                final InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+            try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 final Properties properties = new Properties();
                 final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("mybatis");
                 res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("SqlSessionFactory initialization failed.", e);
             }
         }
         return sqlSessionFactory;
@@ -70,7 +69,7 @@ public final class MyBatisSqlSessionFactory {
             final String dbName = session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
             return DatabaseType.findByName(dbName);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to get the database name." ,e);
         }
     }
 }

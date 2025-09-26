@@ -1,13 +1,13 @@
 package com.export_table_definition.domain.model;
 
 /**
- * 外部キー情報に関するrecordクラス
+ * インデックス情報に関するrecordクラス
  * 
  * @since 1.0
  * @version 1.0
  * @author takashi.ebina
  */
-public record AllForeignkeyEntity(String schemaName, String tableName, String foreignkeyInfo) {
+public record IndexEntity(String schemaName, String tableName, String indexInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド

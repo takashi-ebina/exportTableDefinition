@@ -13,9 +13,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class AllTableEntityTest {
+class TableEntityTest {
 	
-	private AllTableEntity allTableEntity;
+	private TableEntity tableEntity;
 
 	@Nested
 	class testNeedsWriteTableDefinition {
@@ -39,8 +39,8 @@ class AllTableEntityTest {
 		@MethodSource("testNeedsWriteTableDefinitionProvider")
 		void success1(String definition, List<String> targetSchemaList, List<String> targetTableList, boolean expected) {
 			// Given
-			allTableEntity = 
-					new AllTableEntity(
+		    tableEntity = 
+					new TableEntity(
 							"test_schema", 
 							"テストテーブル",
 							"testTable",
@@ -50,7 +50,7 @@ class AllTableEntityTest {
 							""
 						);
 			// When
-			boolean result =  allTableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList);
+			boolean result =  tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList);
 			// Then
 			assertEquals(expected, result);
 		}

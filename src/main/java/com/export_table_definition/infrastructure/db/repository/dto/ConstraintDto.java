@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.AllConstraintEntity;
+import com.export_table_definition.domain.model.ConstraintEntity;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @author takashi.ebina
  */
 @Data
-public class AllConstraintDto {
+public class ConstraintDto {
     private String schemaName;
     private String tableName;
     private String constraintInfo;
@@ -22,7 +22,7 @@ public class AllConstraintDto {
      * 
      * @return AllConstraintEntityのインスタンス
      */
-    public AllConstraintEntity toEntity() {
-        return new AllConstraintEntity(schemaName, tableName, constraintInfo);
+    public ConstraintEntity toEntity() {
+        return new ConstraintEntity(schemaName, tableName, constraintInfo);
     }
 }

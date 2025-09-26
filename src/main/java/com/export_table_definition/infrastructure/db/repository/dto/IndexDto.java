@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.AllIndexEntity;
+import com.export_table_definition.domain.model.IndexEntity;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @author takashi.ebina
  */
 @Data
-public class AllIndexDto {
+public class IndexDto {
     private String schemaName;
     private String tableName;
     private String indexInfo;
@@ -22,7 +22,7 @@ public class AllIndexDto {
      * 
      * @return AllIndexEntityのインスタンス
      */
-    public AllIndexEntity toEntity() {
-        return new AllIndexEntity(schemaName, tableName, indexInfo);
+    public IndexEntity toEntity() {
+        return new IndexEntity(schemaName, tableName, indexInfo);
     }
 }

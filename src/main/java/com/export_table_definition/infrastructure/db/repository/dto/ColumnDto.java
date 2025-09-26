@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.AllColumnEntity;
+import com.export_table_definition.domain.model.ColumnEntity;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @author takashi.ebina
  */
 @Data
-public class AllColumnDto {
+public class ColumnDto {
     private String schemaName;
     private String tableName;
     private String columnInfo;
@@ -22,7 +22,7 @@ public class AllColumnDto {
      * 
      * @return AllColumnEntityのインスタンス
      */
-    public AllColumnEntity toEntity() {
-        return new AllColumnEntity(schemaName, tableName, columnInfo);
+    public ColumnEntity toEntity() {
+        return new ColumnEntity(schemaName, tableName, columnInfo);
     }
 }

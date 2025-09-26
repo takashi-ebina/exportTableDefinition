@@ -69,7 +69,7 @@ public class PropertyLoaderUtil {
                         new URL[]{getPropertiesFileDir().toURI().toURL()});
                 return ResourceBundle.getBundle(f, Locale.JAPAN, urlLoader);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Failed to get the URL of the property file directory.", e);
             }
         });
     }
@@ -80,11 +80,11 @@ public class PropertyLoaderUtil {
             // 実行可能Jarファイルから実行した場合
             return p1.toFile();
         }
-        Path p2 = Paths.get("src\\main\\resources\\conf");
+        Path p2 = Paths.get("src", "main", "resources", "conf");
         if (Files.exists(p2)) {
             // プロジェクトから実行した場合
             return p2.toFile();
         }
-        throw new FileNotFoundException("conf directory dose not exist");
+        throw new FileNotFoundException("conf directory does not exist.");
     }
 }

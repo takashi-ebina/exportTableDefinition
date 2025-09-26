@@ -1,13 +1,13 @@
 package com.export_table_definition.domain.model;
 
 /**
- * インデックス情報に関するrecordクラス
+ * カラム情報に関するrecordクラス
  * 
  * @since 1.0
  * @version 1.0
  * @author takashi.ebina
  */
-public record AllIndexEntity(String schemaName, String tableName, String indexInfo) {
+public record ColumnEntity(String schemaName, String tableName, String columnInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド
@@ -17,4 +17,5 @@ public record AllIndexEntity(String schemaName, String tableName, String indexIn
     public String getSchemaTableName() {
         return schemaName + "." + tableName;
     }
+
 }
