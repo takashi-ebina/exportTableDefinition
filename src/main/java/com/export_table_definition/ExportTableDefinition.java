@@ -1,10 +1,6 @@
 package com.export_table_definition;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.export_table_definition.config.PropertyLoaderUtil;
 import com.export_table_definition.config.module.ExportTableDefinitionModule;
@@ -27,11 +23,10 @@ public class ExportTableDefinition {
      * @param args コマンドライン引数
      */
     public static void main(String[] args) {
-        // プロパティファイルの読み込み
-        final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("ExportTableDefinition");
-        final List<String> schemaList = convertStringToList(res.getString("schema"));
-        final List<String> tableList = convertStringToList(res.getString("table"));
-        final String outputPath = res.getString("outputPath");
+        // プロパティファイルの読み込み ExportTableDefinition
+        final List<String> schemaList = PropertyLoaderUtil.getList("ExportTableDefinition", "schema");
+        final List<String> tableList = PropertyLoaderUtil.getList("ExportTableDefinition", "table");
+        final String outputPath = PropertyLoaderUtil.getString("ExportTableDefinition", "outputPath");
 
         // 処理開始メッセージ出力
         System.out.println("Starting output of table definition document.");
@@ -45,12 +40,5 @@ public class ExportTableDefinition {
 
         // 処理終了メッセージ出力
         System.out.println(resultDto.getResultMessage());
-    }
-
-    private static List<String> convertStringToList(String input) {
-        if (StringUtils.isEmpty(input)) {
-            return List.of();
-        }
-        return Arrays.asList(input.split(","));
     }
 }

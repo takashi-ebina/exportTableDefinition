@@ -8,8 +8,12 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * プロパティファイルに関するユーティリティクラス
@@ -20,6 +24,8 @@ import java.util.ResourceBundle;
  */
 public class PropertyLoaderUtil {
 
+    private static final Map<String, ResourceBundle> CACHE = new ConcurrentHashMap<>();
+    
     /**
      * コンストラクタ（インスタンス化不可）
      */
@@ -30,17 +36,42 @@ public class PropertyLoaderUtil {
      * プロパティファイルの読み込みを行うメソッド
      * 
      * @param fileName プロパティファイルのファイル名
+     * @param key      取得するキー
+     * @return キーに対応する値
+     */
+    public static String getString(String fileName, String key) {
+        return getResourceBundle(fileName).getString(key);
+    }
+    
+    /**
+     * プロパティファイルの読み込みを行うメソッド（カンマ区切りの値をリストで取得）
+     * 
+     * @param fileName プロパティファイルのファイル名
+     * @param key      取得するキー
+     * @return キーに対応するカンマ区切りの値を分割したリスト
+     */
+    public static List<String> getList(String fileName, String key) {
+        return Arrays.stream(getString(fileName, key).split(","))
+                .filter(s -> !s.isBlank())
+                .toList();
+    }
+    
+    /**
+     * プロパティファイルの読み込みを行うメソッド（キャッシュを利用）
+     * 
+     * @param fileName プロパティファイルのファイル名
      * @return プロパティファイルを読み込んだResourceBundleオブジェクト
      */
     public static ResourceBundle getResourceBundle(String fileName) {
-        final URLClassLoader urlLoader;
-        try {
-            urlLoader = new URLClassLoader(new URL[] { getPropertiesFileDir().toURI().toURL() });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return ResourceBundle.getBundle(fileName, Locale.JAPAN, urlLoader);
-
+        return CACHE.computeIfAbsent(fileName, f -> {
+            try {
+                URLClassLoader urlLoader = new URLClassLoader(
+                        new URL[]{getPropertiesFileDir().toURI().toURL()});
+                return ResourceBundle.getBundle(f, Locale.JAPAN, urlLoader);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private static File getPropertiesFileDir() throws FileNotFoundException {
