@@ -1,11 +1,11 @@
-package com.export_table_definition.presentation.controller;
+package com.export_table_definition.presentation;
 
 import java.util.List;
 
-import com.export_table_definition.application.usecase.ExportTableDefinitionUsecase;
+import com.export_table_definition.application.ExportTableDefinitionUsecase;
 import com.export_table_definition.infrastructure.log.Log4J2;
-import com.export_table_definition.presentation.controller.dto.ResultDto;
-import com.export_table_definition.presentation.controller.type.ProcessResult;
+import com.export_table_definition.presentation.dto.ResultDto;
+import com.export_table_definition.presentation.type.ProcessResult;
 import com.google.inject.Inject;
 
 /**

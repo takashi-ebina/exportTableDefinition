@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.export_table_definition.config.PropertyLoaderUtil;
 import com.export_table_definition.config.module.ExportTableDefinitionModule;
-import com.export_table_definition.presentation.controller.ExportTableDefinitionController;
-import com.export_table_definition.presentation.controller.dto.ResultDto;
+import com.export_table_definition.presentation.ExportTableDefinitionController;
+import com.export_table_definition.presentation.dto.ResultDto;
 import com.google.inject.Guice;
 
 /**

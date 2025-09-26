@@ -1,6 +1,6 @@
 package com.export_table_definition.config.module;
 
-import com.export_table_definition.application.usecase.ExportTableDefinitionUsecase;
+import com.export_table_definition.application.ExportTableDefinitionUsecase;
 import com.export_table_definition.domain.repository.FileRepository;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;

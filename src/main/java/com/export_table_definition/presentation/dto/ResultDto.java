@@ -1,6 +1,6 @@
-package com.export_table_definition.presentation.controller.dto;
+package com.export_table_definition.presentation.dto;
 
-import com.export_table_definition.presentation.controller.type.ProcessResult;
+import com.export_table_definition.presentation.type.ProcessResult;
 
 /**
  * 処理結果に関するrecordクラス

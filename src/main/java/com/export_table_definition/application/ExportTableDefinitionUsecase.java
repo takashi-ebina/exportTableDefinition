@@ -1,4 +1,4 @@
-package com.export_table_definition.application.usecase;
+package com.export_table_definition.application;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
