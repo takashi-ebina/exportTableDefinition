@@ -24,7 +24,6 @@ import com.google.inject.Inject;
  */
 public class TableDefinitionWriterDomainService {
     
-    private final String tableListFilePrefix = "tableList";
     private final int maxTableListTableSize = 3000;
     private final FileRepository fileRepository;
     
@@ -63,7 +62,7 @@ public class TableDefinitionWriterDomainService {
         int fileIndex = 1;
         while (tableCount < maxTableSize) {
             // Markdownの表に表示できる最大件数毎に、テーブル一覧を分割して出力する
-            final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, fileIndex));
+            final Path filePath = baseInfo.toTableListFile(outputDirectoryPath, fileIndex);
             final List<String> contents = new ArrayList<>();
             // ヘッダー
             contents.add(TableDefinitionListTemplates.header(baseInfo));
@@ -73,10 +72,10 @@ public class TableDefinitionWriterDomainService {
             contents.add(TableDefinitionListTemplates.tableList());
             for (int i = 0; i < maxTableListTableSize && tableCount < maxTableSize; i++) {
                 // Markdownの表に表示できる最大件数分、テーブルを出力する
-                contents.add(tables.get(tableCount).tableInfoList() + TableDefinitionListTemplates.LINE_SEPARATOR);
+                contents.add(TableDefinitionListTemplates.tableInfoListLine(tables.get(tableCount)));
                 tableCount++;
             }
-            contents.add(TableDefinitionListTemplates.LINE_SEPARATOR);
+            contents.add(TableDefinitionListTemplates.lineSeparator());
             // フッター
             contents.add(TableDefinitionListTemplates.writeTableListFooter(baseInfo, maxTableSize, tableCount, fileIndex));
 
@@ -86,7 +85,7 @@ public class TableDefinitionWriterDomainService {
     }
 
     private void writeSummaryFile(int totalFiles, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
-        final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, 0));
+        final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
         final List<String> contents = new ArrayList<>();
         // ヘッダー
         contents.add(TableDefinitionListTemplates.header(baseInfo));
@@ -101,7 +100,7 @@ public class TableDefinitionWriterDomainService {
     }
     
     private void writeSingleTableFile(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
-        final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, 0));
+        final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
         final List<String> contents = new ArrayList<>();
         // ヘッダー
         contents.add(TableDefinitionListTemplates.header(baseInfo));
@@ -111,10 +110,6 @@ public class TableDefinitionWriterDomainService {
         contents.add(TableDefinitionListTemplates.tableList(tables));
         fileRepository.writeFile(filePath, contents);
 
-    }
-
-    private String makeTableListFileName(BaseInfoEntity baseInfo, int fileIndex) {
-        return tableListFilePrefix + "_" + baseInfo.dbName() + (fileIndex > 0 ? "_" + fileIndex : "") + ".md";
     }
     
     /**

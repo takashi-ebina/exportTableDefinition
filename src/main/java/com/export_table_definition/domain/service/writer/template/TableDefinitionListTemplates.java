@@ -14,9 +14,9 @@ import com.export_table_definition.domain.model.TableEntity;
  * @author takashi.ebina
  */
 public class TableDefinitionListTemplates {
-    public static final String LINE_SEPARATOR = System.lineSeparator();
-    public static final String LINE_SEPARATOR_DOUBLE = LINE_SEPARATOR + LINE_SEPARATOR;
-    public static final String HORIZON = "___";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String LINE_SEPARATOR_DOUBLE = LINE_SEPARATOR + LINE_SEPARATOR;
+    private static final String HORIZON = "___";
 
     /**
      * テーブル定義一覧ヘッダー
@@ -68,6 +68,16 @@ public class TableDefinitionListTemplates {
                 + tables.stream().map(TableEntity::tableInfoList).collect(Collectors.joining(LINE_SEPARATOR))
                 + LINE_SEPARATOR;
     }
+    
+    /**
+     * テーブル一覧セクション（テーブル情報1行分）
+     * 
+     * @param table テーブル情報
+     * @return テーブル一覧セクション文字列
+     */
+    public static String tableInfoListLine(TableEntity table) {
+        return table.tableInfoList() + LINE_SEPARATOR;
+    }
 
     /**
      * サブテーブル一覧リンクセクション
@@ -103,5 +113,14 @@ public class TableDefinitionListTemplates {
                     + String.format("[次へ>>](./tableList_%s_%s.md) ", baseInfo.dbName(), fileIndex + 1);
         }
         return LINE_SEPARATOR_DOUBLE;
+    }
+    
+    /**
+     * 改行コードを取得するメソッド
+     * 
+     * @return 改行コード
+     */
+    public static String lineSeparator() {
+        return LINE_SEPARATOR;
     }
 }

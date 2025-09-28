@@ -19,9 +19,9 @@ import com.export_table_definition.domain.model.TableEntity;
  * @author takashi.ebina
  */
 public class TableDefinitionTemplates {
-    public static final String LINE_SEPARATOR = System.lineSeparator();
-    public static final String LINE_SEPARATOR_DOUBLE = LINE_SEPARATOR + LINE_SEPARATOR;
-    public static final String HORIZON = "___";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String LINE_SEPARATOR_DOUBLE = LINE_SEPARATOR + LINE_SEPARATOR;
+    private static final String HORIZON = "___";
 
     /**
      * テーブル定義ヘッダー
