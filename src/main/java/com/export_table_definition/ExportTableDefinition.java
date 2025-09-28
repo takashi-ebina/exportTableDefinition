@@ -23,7 +23,7 @@ public class ExportTableDefinition {
      * @param args コマンドライン引数
      */
     public static void main(String[] args) {
-        // プロパティファイルの読み込み ExportTableDefinition
+        // プロパティファイルの読み込み
         final List<String> schemaList = PropertyLoader.getList("ExportTableDefinition", "schema");
         final List<String> tableList = PropertyLoader.getList("ExportTableDefinition", "table");
         final String outputPath = PropertyLoader.getString("ExportTableDefinition", "outputPath");

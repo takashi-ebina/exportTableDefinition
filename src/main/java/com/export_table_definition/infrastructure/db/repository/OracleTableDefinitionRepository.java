@@ -12,7 +12,7 @@ import com.export_table_definition.infrastructure.db.type.DatabaseType;
  * @version 1.0
  * @author takashi.ebina
  */
-public class OracleTableDefinitionRepository extends AbstractTableDefinitionRepository {
+public final class OracleTableDefinitionRepository extends AbstractTableDefinitionRepository {
 
     /**
      * コンストラクタ
