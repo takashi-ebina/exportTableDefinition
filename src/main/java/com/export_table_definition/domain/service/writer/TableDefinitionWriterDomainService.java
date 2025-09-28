@@ -24,7 +24,7 @@ import com.google.inject.Inject;
  */
 public class TableDefinitionWriterDomainService {
     
-    private final int maxTableListTableSize = 3000;
+    private final int MAX_TABLE_LIST_SIZE = 3000;
     private final FileRepository fileRepository;
     
     /**
@@ -47,7 +47,7 @@ public class TableDefinitionWriterDomainService {
     public void writeTableDefinitionList(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
          // テーブル一覧の件数がMarkdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
-        if (tables.size() > maxTableListTableSize) {
+        if (tables.size() > MAX_TABLE_LIST_SIZE) {
             // Markdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
             writeMultipleTableFiles(tables, baseInfo, outputDirectoryPath);
             writeSummaryFile(tables.size(), baseInfo, outputDirectoryPath);
@@ -69,7 +69,7 @@ public class TableDefinitionWriterDomainService {
             contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
             // テーブル一覧
             contents.add(TableDefinitionListTemplates.tableListTableHeader());
-            for (int i = 0; i < maxTableListTableSize && tableCount < maxTableSize; i++) {
+            for (int i = 0; i < MAX_TABLE_LIST_SIZE && tableCount < maxTableSize; i++) {
                 // Markdownの表に表示できる最大件数分、テーブルを出力する
                 contents.add(TableDefinitionListTemplates.tableListLine(tables.get(tableCount)));
                 tableCount++;
@@ -90,8 +90,8 @@ public class TableDefinitionWriterDomainService {
         // 基本情報
         contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
         // 分割したテーブル一覧のリンク
-        for (int i = 1; i <= totalFiles / maxTableListTableSize
-                + (totalFiles % maxTableListTableSize > 0 ? 1 : 0); i++) {
+        for (int i = 1; i <= totalFiles / MAX_TABLE_LIST_SIZE
+                + (totalFiles % MAX_TABLE_LIST_SIZE > 0 ? 1 : 0); i++) {
             contents.add(TableDefinitionListTemplates.subTableListLink(baseInfo, i));
         }
         fileRepository.writeFile(baseInfo.toTableListFile(outputDirectoryPath), contents);
