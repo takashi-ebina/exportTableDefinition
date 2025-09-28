@@ -7,12 +7,12 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.model.ColumnEntity;
 import com.export_table_definition.domain.model.ConstraintEntity;
 import com.export_table_definition.domain.model.ForeignkeyEntity;
 import com.export_table_definition.domain.model.IndexEntity;
 import com.export_table_definition.domain.model.TableEntity;
-import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
 import com.export_table_definition.infrastructure.log.Log4J2;
@@ -83,12 +83,11 @@ public class ExportTableDefinitionUsecase {
             // テーブル定義出力先ファイルパス
             // -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
             // or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
-            final Path directoryPath = tableEntity.toOutputDirectory(outputBaseDirectoryPath, baseEntity.dbName());
             tableDefinitionWriter.writeTableDefinition(tableEntity, baseEntity, columnEntityList, indexEntityList,
-                    constraintEntityList, foreignkeyEntityList, directoryPath);
+                    constraintEntityList, foreignkeyEntityList, outputBaseDirectoryPath);
 
             logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]",
-                    directoryPath.resolve(tableEntity.physicalTableName() + ".md").toString()));
+                    tableEntity.toTableDefinitionFile(outputBaseDirectoryPath, baseEntity.dbName()).toString()));
         };
     }
 

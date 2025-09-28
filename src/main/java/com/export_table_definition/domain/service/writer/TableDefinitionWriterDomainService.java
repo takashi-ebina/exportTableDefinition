@@ -62,7 +62,6 @@ public class TableDefinitionWriterDomainService {
         int fileIndex = 1;
         while (tableCount < maxTableSize) {
             // Markdownの表に表示できる最大件数毎に、テーブル一覧を分割して出力する
-            final Path filePath = baseInfo.toTableListFile(outputDirectoryPath, fileIndex);
             final List<String> contents = new ArrayList<>();
             // ヘッダー
             contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
@@ -79,13 +78,12 @@ public class TableDefinitionWriterDomainService {
             // フッター
             contents.add(TableDefinitionListTemplates.writeTableListFooter(baseInfo, maxTableSize, tableCount, fileIndex));
 
-            fileRepository.writeFile(filePath, contents);
+            fileRepository.writeFile(baseInfo.toTableListFile(outputDirectoryPath, fileIndex), contents);
             fileIndex++;
         }
     }
 
     private void writeSummaryFile(int totalFiles, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
-        final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
         final List<String> contents = new ArrayList<>();
         // ヘッダー
         contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
@@ -96,20 +94,16 @@ public class TableDefinitionWriterDomainService {
                 + (totalFiles % maxTableListTableSize > 0 ? 1 : 0); i++) {
             contents.add(TableDefinitionListTemplates.subTableListLink(baseInfo, i));
         }
-        fileRepository.writeFile(filePath, contents);
+        fileRepository.writeFile(baseInfo.toTableListFile(outputDirectoryPath), contents);
     }
     
     private void writeSingleTableFile(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
-        final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
-        final List<String> contents = new ArrayList<>();
-        // ヘッダー
-        contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
-        // 基本情報
-        contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
-        // テーブル一覧
-        contents.add(TableDefinitionListTemplates.tableList(tables));
-        fileRepository.writeFile(filePath, contents);
-
+        final List<String> contents = List.of(
+                TableDefinitionListTemplates.fileHeader(baseInfo), // ヘッダー
+                TableDefinitionListTemplates.baseInfo(baseInfo),   // 基本情報
+                TableDefinitionListTemplates.tableList(tables)     // テーブル一覧
+            );   
+        fileRepository.writeFile(baseInfo.toTableListFile(outputDirectoryPath), contents);
     }
     
     /**
@@ -121,34 +115,26 @@ public class TableDefinitionWriterDomainService {
      * @param indexes インデックス情報
      * @param constraints 制約情報
      * @param foreignkeys 外部キー情報
-     * @param outputDirectoryPath 出力ファイル
+     * @param outputBaseDirectoryPath 出力ファイル
      */
     public void writeTableDefinition(TableEntity table, BaseInfoEntity baseInfo, List<ColumnEntity> columns,
             List<IndexEntity> indexes, List<ConstraintEntity> constraints, List<ForeignkeyEntity> foreignkeys,
-            Path outputDirectoryPath) {
-        fileRepository.createDirectory(outputDirectoryPath);
-        final Path filePath = outputDirectoryPath.resolve(table.physicalTableName() + ".md");
-        final List<String> contents = new ArrayList<>();
-        // ヘッダー
-        contents.add(TableDefinitionTemplates.fileHeader(table));
-        // 基本情報
-        contents.add(TableDefinitionTemplates.baseInfo(baseInfo));
-        // テーブル説明
-        contents.add(TableDefinitionTemplates.tableExplanation());
-        // テーブル情報
-        contents.add(TableDefinitionTemplates.tableInfo(table));
-        // カラム情報
-        contents.add(TableDefinitionTemplates.columns(columns, table));
-        // View情報
-        contents.add(TableDefinitionTemplates.view(table));
-        // インデックス情報
-        contents.add(TableDefinitionTemplates.indexes(indexes, table));
-        // 制約情報
-        contents.add(TableDefinitionTemplates.constraints(constraints, table));
-        // 外部キー情報
-        contents.add(TableDefinitionTemplates.foreignKeys(foreignkeys, table));
-        // フッター
-        contents.add(TableDefinitionTemplates.footer(baseInfo));
+            Path outputBaseDirectoryPath) {
+        final Path directoryPath = table.toTableDefinitionDirectory(outputBaseDirectoryPath, baseInfo.dbName());
+        final Path filePath = table.toTableDefinitionFile(directoryPath, baseInfo.dbName());
+        final List<String> contents = List.of(
+                TableDefinitionTemplates.fileHeader(table), // ヘッダー
+                TableDefinitionTemplates.baseInfo(baseInfo), // 基本情報
+                TableDefinitionTemplates.tableExplanation(), // テーブル説明
+                TableDefinitionTemplates.tableInfo(table), // テーブル情報
+                TableDefinitionTemplates.columns(columns, table), // カラム情報
+                TableDefinitionTemplates.view(table), // View情報
+                TableDefinitionTemplates.indexes(indexes, table), // インデックス情報
+                TableDefinitionTemplates.constraints(constraints, table), // 制約情報
+                TableDefinitionTemplates.foreignKeys(foreignkeys, table), // 外部キー情報
+                TableDefinitionTemplates.footer(baseInfo) // フッター
+            );
+        fileRepository.createDirectory(directoryPath);
         fileRepository.writeFile(filePath, contents);
     }
 }

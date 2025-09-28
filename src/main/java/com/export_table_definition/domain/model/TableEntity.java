@@ -102,9 +102,23 @@ public record TableEntity(String schemaName, String logicalTableName, String phy
      * @param dbName DB名
      * @return テーブル定義書の出力先ディレクトリパス
      */
-    public Path toOutputDirectory(Path base, String dbName) {
+    public Path toTableDefinitionDirectory(Path base, String dbName) {
         return base.resolve(dbName)
                    .resolve(schemaName)
                    .resolve(tableType);
+    }
+    
+    /**
+     * テーブル定義書の出力先ファイルパスを取得するメソッド<br>
+     * <br>
+     * 出力先ファイルパスは以下の形式となる<br>
+     * {base}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
+     * 
+     * @param base ベースディレクトリパス
+     * @param dbName DB名
+     * @return テーブル定義書の出力先ファイルパス
+     */
+    public Path toTableDefinitionFile(Path base, String dbName) {
+        return base.resolve(physicalTableName + ".md");
     }
 }
