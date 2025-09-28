@@ -65,14 +65,14 @@ public class TableDefinitionWriterDomainService {
             final Path filePath = baseInfo.toTableListFile(outputDirectoryPath, fileIndex);
             final List<String> contents = new ArrayList<>();
             // ヘッダー
-            contents.add(TableDefinitionListTemplates.header(baseInfo));
+            contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
             // 基本情報
             contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
             // テーブル一覧
-            contents.add(TableDefinitionListTemplates.tableList());
+            contents.add(TableDefinitionListTemplates.tableListTableHeader());
             for (int i = 0; i < maxTableListTableSize && tableCount < maxTableSize; i++) {
                 // Markdownの表に表示できる最大件数分、テーブルを出力する
-                contents.add(TableDefinitionListTemplates.tableInfoListLine(tables.get(tableCount)));
+                contents.add(TableDefinitionListTemplates.tableListLine(tables.get(tableCount)));
                 tableCount++;
             }
             contents.add(TableDefinitionListTemplates.lineSeparator());
@@ -88,7 +88,7 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(TableDefinitionListTemplates.header(baseInfo));
+        contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
         // 基本情報
         contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
         // 分割したテーブル一覧のリンク
@@ -103,7 +103,7 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = baseInfo.toTableListFile(outputDirectoryPath);
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(TableDefinitionListTemplates.header(baseInfo));
+        contents.add(TableDefinitionListTemplates.fileHeader(baseInfo));
         // 基本情報
         contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
         // テーブル一覧
@@ -130,7 +130,7 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = outputDirectoryPath.resolve(table.physicalTableName() + ".md");
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(TableDefinitionTemplates.header(table));
+        contents.add(TableDefinitionTemplates.fileHeader(table));
         // 基本情報
         contents.add(TableDefinitionTemplates.baseInfo(baseInfo));
         // テーブル説明

@@ -29,7 +29,7 @@ public class TableDefinitionTemplates {
      * @param table テーブル情報
      * @return ヘッダー文字列
      */
-    public static String header(TableEntity table) {
+    public static String fileHeader(TableEntity table) {
         return "# " + table.getHeaderTableName() + LINE_SEPARATOR_DOUBLE;
     }
 

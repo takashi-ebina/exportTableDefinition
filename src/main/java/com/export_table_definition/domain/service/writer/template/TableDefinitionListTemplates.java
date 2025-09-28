@@ -24,7 +24,7 @@ public class TableDefinitionListTemplates {
      * @param baseInfo データベース基本情報
      * @return ヘッダー文字列
      */
-    public static String header(BaseInfoEntity baseInfo) {
+    public static String fileHeader(BaseInfoEntity baseInfo) {
         return "# " + String.format("テーブル一覧（DB名：%s）", baseInfo.dbName()) + LINE_SEPARATOR_DOUBLE;
     }
 
@@ -48,7 +48,7 @@ public class TableDefinitionListTemplates {
      * 
      * @return テーブル一覧セクション文字列
      */
-    public static String tableList() {
+    public static String tableListTableHeader() {
         return """
                 ## テーブル情報
 
@@ -58,25 +58,25 @@ public class TableDefinitionListTemplates {
     }
 
     /**
+     * テーブル一覧セクション（テーブル情報1行分）
+     * 
+     * @param table テーブル情報
+     * @return テーブル一覧セクション文字列
+     */
+    public static String tableListLine(TableEntity table) {
+        return table.tableInfoList() + LINE_SEPARATOR;
+    }
+    
+    /**
      * テーブル一覧セクション（テーブル情報付き）
      * 
      * @param tables テーブル情報のリスト
      * @return テーブル一覧セクション文字列
      */
     public static String tableList(List<TableEntity> tables) {
-        return tableList()
+        return tableListTableHeader()
                 + tables.stream().map(TableEntity::tableInfoList).collect(Collectors.joining(LINE_SEPARATOR))
                 + LINE_SEPARATOR;
-    }
-    
-    /**
-     * テーブル一覧セクション（テーブル情報1行分）
-     * 
-     * @param table テーブル情報
-     * @return テーブル一覧セクション文字列
-     */
-    public static String tableInfoListLine(TableEntity table) {
-        return table.tableInfoList() + LINE_SEPARATOR;
     }
 
     /**
