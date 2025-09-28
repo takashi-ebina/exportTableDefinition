@@ -4,14 +4,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.model.ColumnEntity;
 import com.export_table_definition.domain.model.ConstraintEntity;
 import com.export_table_definition.domain.model.ForeignkeyEntity;
 import com.export_table_definition.domain.model.IndexEntity;
 import com.export_table_definition.domain.model.TableEntity;
-import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.FileRepository;
-import com.export_table_definition.domain.service.writer.template.MarkdownTemplates;
+import com.export_table_definition.domain.service.writer.template.TableDefinitionListTemplates;
+import com.export_table_definition.domain.service.writer.template.TableDefinitionTemplates;
 import com.google.inject.Inject;
 
 /**
@@ -65,19 +66,19 @@ public class TableDefinitionWriterDomainService {
             final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, fileIndex));
             final List<String> contents = new ArrayList<>();
             // ヘッダー
-            contents.add(MarkdownTemplates.header(String.format("テーブル一覧（DB名：%s）", baseInfo.dbName())));
+            contents.add(TableDefinitionListTemplates.header(baseInfo));
             // 基本情報
-            contents.add(MarkdownTemplates.baseInfo(baseInfo));
+            contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
             // テーブル一覧
-            contents.add(MarkdownTemplates.tableList());
+            contents.add(TableDefinitionListTemplates.tableList());
             for (int i = 0; i < maxTableListTableSize && tableCount < maxTableSize; i++) {
                 // Markdownの表に表示できる最大件数分、テーブルを出力する
-                contents.add(tables.get(tableCount).tableInfoList() + MarkdownTemplates.LINE_SEPARATOR);
+                contents.add(tables.get(tableCount).tableInfoList() + TableDefinitionListTemplates.LINE_SEPARATOR);
                 tableCount++;
             }
-            contents.add(MarkdownTemplates.LINE_SEPARATOR);
+            contents.add(TableDefinitionListTemplates.LINE_SEPARATOR);
             // フッター
-            contents.add(MarkdownTemplates.writeTableListFooter(baseInfo, maxTableSize, tableCount, fileIndex));
+            contents.add(TableDefinitionListTemplates.writeTableListFooter(baseInfo, maxTableSize, tableCount, fileIndex));
 
             fileRepository.writeFile(filePath, contents);
             fileIndex++;
@@ -88,13 +89,13 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, 0));
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(MarkdownTemplates.header(String.format("テーブル一覧（DB名：%s）", baseInfo.dbName())));
+        contents.add(TableDefinitionListTemplates.header(baseInfo));
         // 基本情報
-        contents.add(MarkdownTemplates.baseInfo(baseInfo));
+        contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
         // 分割したテーブル一覧のリンク
         for (int i = 1; i <= totalFiles / maxTableListTableSize
                 + (totalFiles % maxTableListTableSize > 0 ? 1 : 0); i++) {
-            contents.add(MarkdownTemplates.subTableListLink(baseInfo, i));
+            contents.add(TableDefinitionListTemplates.subTableListLink(baseInfo, i));
         }
         fileRepository.writeFile(filePath, contents);
     }
@@ -103,11 +104,11 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = outputDirectoryPath.resolve(makeTableListFileName(baseInfo, 0));
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(MarkdownTemplates.header(String.format("テーブル一覧（DB名：%s）", baseInfo.dbName())));
+        contents.add(TableDefinitionListTemplates.header(baseInfo));
         // 基本情報
-        contents.add(MarkdownTemplates.baseInfo(baseInfo));
+        contents.add(TableDefinitionListTemplates.baseInfo(baseInfo));
         // テーブル一覧
-        contents.add(MarkdownTemplates.tableList(tables));
+        contents.add(TableDefinitionListTemplates.tableList(tables));
         fileRepository.writeFile(filePath, contents);
 
     }
@@ -134,25 +135,25 @@ public class TableDefinitionWriterDomainService {
         final Path filePath = outputDirectoryPath.resolve(table.physicalTableName() + ".md");
         final List<String> contents = new ArrayList<>();
         // ヘッダー
-        contents.add(MarkdownTemplates.header(table.getHeaderTableName()));
+        contents.add(TableDefinitionTemplates.header(table));
         // 基本情報
-        contents.add(MarkdownTemplates.baseInfo(baseInfo));
+        contents.add(TableDefinitionTemplates.baseInfo(baseInfo));
         // テーブル説明
-        contents.add(MarkdownTemplates.tableExplanation());
+        contents.add(TableDefinitionTemplates.tableExplanation());
         // テーブル情報
-        contents.add(MarkdownTemplates.tableInfo(table));
+        contents.add(TableDefinitionTemplates.tableInfo(table));
         // カラム情報
-        contents.add(MarkdownTemplates.columns(columns, table));
+        contents.add(TableDefinitionTemplates.columns(columns, table));
         // View情報
-        contents.add(MarkdownTemplates.view(table));
+        contents.add(TableDefinitionTemplates.view(table));
         // インデックス情報
-        contents.add(MarkdownTemplates.indexes(indexes, table));
+        contents.add(TableDefinitionTemplates.indexes(indexes, table));
         // 制約情報
-        contents.add(MarkdownTemplates.constraints(constraints, table));
+        contents.add(TableDefinitionTemplates.constraints(constraints, table));
         // 外部キー情報
-        contents.add(MarkdownTemplates.foreignKeys(foreignkeys, table));
+        contents.add(TableDefinitionTemplates.foreignKeys(foreignkeys, table));
         // フッター
-        contents.add(MarkdownTemplates.footer(baseInfo));
+        contents.add(TableDefinitionTemplates.footer(baseInfo));
         fileRepository.writeFile(filePath, contents);
     }
 }
