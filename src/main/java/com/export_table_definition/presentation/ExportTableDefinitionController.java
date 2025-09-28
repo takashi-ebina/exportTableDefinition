@@ -50,6 +50,6 @@ public class ExportTableDefinitionController {
         }
         logger.logInfo("[ END ] exportTableDefinition");
         return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");
-    };
+    }
 
 }

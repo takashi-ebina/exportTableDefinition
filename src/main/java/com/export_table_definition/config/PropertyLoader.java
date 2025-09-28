@@ -3,6 +3,7 @@ package com.export_table_definition.config;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -22,14 +23,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * @author takashi.ebina
  */
-public class PropertyLoaderUtil {
+public class PropertyLoader {
 
     private static final Map<String, ResourceBundle> CACHE = new ConcurrentHashMap<>();
     
     /**
      * コンストラクタ（インスタンス化不可）
      */
-    private PropertyLoaderUtil() {
+    private PropertyLoader() {
     }
 
     /**
@@ -69,7 +70,7 @@ public class PropertyLoaderUtil {
                         new URL[]{getPropertiesFileDir().toURI().toURL()});
                 return ResourceBundle.getBundle(f, Locale.JAPAN, urlLoader);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to get the URL of the property file directory.", e);
+                throw new UncheckedIOException("Failed to get the URL of the property file directory.", e);
             }
         });
     }

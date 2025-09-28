@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.export_table_definition.config.PropertyLoaderUtil;
+import com.export_table_definition.config.PropertyLoader;
 import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
 /**
@@ -40,7 +40,7 @@ public final class MyBatisSqlSessionFactory {
         if (sqlSessionFactory == null) {
             try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 final Properties properties = new Properties();
-                final ResourceBundle res = PropertyLoaderUtil.getResourceBundle("mybatis");
+                final ResourceBundle res = PropertyLoader.getResourceBundle("mybatis");
                 res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
             } catch (Exception e) {
