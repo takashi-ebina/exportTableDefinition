@@ -28,8 +28,8 @@ import com.google.inject.Inject;
  */
 public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUsecase {
 
-    private final String OUTPUT_BASE_DIRECTORY = "./output";
-    private final static Log4J2 logger = Log4J2.getInstance();
+    private static final String OUTPUT_BASE_DIRECTORY = "./output";
+    private static final Log4J2 logger = Log4J2.getInstance();
     private final TableDefinitionRepository tableDefinitionRepository;
     private final TableDefinitionWriterDomainService tableDefinitionWriter;
 

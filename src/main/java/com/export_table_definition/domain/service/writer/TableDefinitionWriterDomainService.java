@@ -24,7 +24,7 @@ import com.google.inject.Inject;
  */
 public class TableDefinitionWriterDomainService {
     
-    private final int MAX_TABLE_LIST_SIZE = 3000;
+    private static final int MAX_TABLE_LIST_SIZE = 3000;
     private final FileRepository fileRepository;
     
     /**
@@ -42,7 +42,7 @@ public class TableDefinitionWriterDomainService {
      * 
      * @param tables テーブル情報リスト
      * @param baseInfo データベースの基本情報
-     * @param outputDirectoryPath 出力ファイル
+     * @param outputDirectoryPath 出力ディレクトリのパス
      */
     public void writeTableDefinitionList(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
@@ -115,7 +115,7 @@ public class TableDefinitionWriterDomainService {
      * @param indexes インデックス情報
      * @param constraints 制約情報
      * @param foreignkeys 外部キー情報
-     * @param outputBaseDirectoryPath 出力ファイル
+     * @param outputBaseDirectoryPath 出力ベースディレクトリのパス
      */
     public void writeTableDefinition(TableEntity table, BaseInfoEntity baseInfo, List<ColumnEntity> columns,
             List<IndexEntity> indexes, List<ConstraintEntity> constraints, List<ForeignkeyEntity> foreignkeys,

@@ -17,7 +17,7 @@ public class Log4J2 {
     /** 唯一のLog4J2インスタンス */
     private static Log4J2 thisInstance;
     /** 改行コード */
-    private final String lineSeparator = System.getProperty("line.separator");
+    private static final String lineSeparator = System.getProperty("line.separator");
 
     /**
      * インスタンス返却メソッド

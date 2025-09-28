@@ -17,7 +17,7 @@ import com.google.inject.Inject;
  */
 public class ExportTableDefinitionController {
 
-    private final static Log4J2 logger = Log4J2.getInstance();
+    private static final Log4J2 logger = Log4J2.getInstance();
     private final ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase;
 
     /**
