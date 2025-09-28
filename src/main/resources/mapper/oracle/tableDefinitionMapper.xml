@@ -104,6 +104,7 @@ WITH ora_all_tables AS (
         </if>
 )
 SELECT 
+    SYS_CONTEXT('USERENV','DB_NAME') AS "dbName",
     schema_name AS "schemaName",
     logical_table_name AS "logicalTableName",
     physical_table_name AS "physicalTableName",

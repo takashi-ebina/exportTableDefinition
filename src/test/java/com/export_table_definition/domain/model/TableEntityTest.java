@@ -41,6 +41,7 @@ class TableEntityTest {
 			// Given
 		    tableEntity = 
 					new TableEntity(
+					        "dbName",
 							"test_schema", 
 							"テストテーブル",
 							"testTable",

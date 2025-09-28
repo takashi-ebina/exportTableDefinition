@@ -120,8 +120,8 @@ public class TableDefinitionWriterDomainService {
     public void writeTableDefinition(TableEntity table, BaseInfoEntity baseInfo, List<ColumnEntity> columns,
             List<IndexEntity> indexes, List<ConstraintEntity> constraints, List<ForeignkeyEntity> foreignkeys,
             Path outputBaseDirectoryPath) {
-        final Path directoryPath = table.toTableDefinitionDirectory(outputBaseDirectoryPath, baseInfo.dbName());
-        final Path filePath = table.toTableDefinitionFile(directoryPath, baseInfo.dbName());
+        final Path directoryPath = table.toTableDefinitionDirectory(outputBaseDirectoryPath);
+        final Path filePath = table.toTableDefinitionFile(directoryPath);
         final List<String> contents = List.of(
                 TableDefinitionTemplates.fileHeader(table), // ヘッダー
                 TableDefinitionTemplates.baseInfo(baseInfo), // 基本情報

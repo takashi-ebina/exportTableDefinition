@@ -87,7 +87,7 @@ public class ExportTableDefinitionUsecase {
                     constraintEntityList, foreignkeyEntityList, outputBaseDirectoryPath);
 
             logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]",
-                    tableEntity.toTableDefinitionFile(outputBaseDirectoryPath, baseEntity.dbName()).toString()));
+                    tableEntity.toTableDefinitionFile(outputBaseDirectoryPath).toString()));
         };
     }
 

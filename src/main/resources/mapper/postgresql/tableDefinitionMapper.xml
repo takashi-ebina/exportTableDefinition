@@ -87,8 +87,9 @@ WITH all_tables AS (
         </foreach>
     </if>
 )
-SELECT 
-    schema_name AS "schemaName"
+SELECT
+    current_database() AS "dbName" 
+    , schema_name AS "schemaName"
     , logical_table_name AS "logicalTableName"
     , physical_table_name AS "physicalTableName"
     , table_type AS "tableType"

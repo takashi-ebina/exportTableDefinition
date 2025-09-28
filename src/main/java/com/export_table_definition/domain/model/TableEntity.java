@@ -12,8 +12,8 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  * @author takashi.ebina
  */
-public record TableEntity(String schemaName, String logicalTableName, String physicalTableName, String tableType,
-        String tableInfoList, String tableInfo, String definition) {
+public record TableEntity(String dbName, String schemaName, String logicalTableName, String physicalTableName,
+        String tableType, String tableInfoList, String tableInfo, String definition) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド
@@ -102,7 +102,7 @@ public record TableEntity(String schemaName, String logicalTableName, String phy
      * @param dbName DB名
      * @return テーブル定義書の出力先ディレクトリパス
      */
-    public Path toTableDefinitionDirectory(Path base, String dbName) {
+    public Path toTableDefinitionDirectory(Path base) {
         return base.resolve(dbName)
                    .resolve(schemaName)
                    .resolve(tableType);
@@ -118,7 +118,7 @@ public record TableEntity(String schemaName, String logicalTableName, String phy
      * @param dbName DB名
      * @return テーブル定義書の出力先ファイルパス
      */
-    public Path toTableDefinitionFile(Path base, String dbName) {
+    public Path toTableDefinitionFile(Path base) {
         return base.resolve(physicalTableName + ".md");
     }
 }

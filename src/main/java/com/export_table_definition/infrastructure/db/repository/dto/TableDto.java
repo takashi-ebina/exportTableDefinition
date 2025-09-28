@@ -13,6 +13,7 @@ import lombok.Data;
  */
 @Data
 public class TableDto {
+    private String dbName;
     private String schemaName;
     private String logicalTableName;
     private String physicalTableName;
@@ -27,6 +28,7 @@ public class TableDto {
      * @return AllTableEntityのインスタンス
      */
     public TableEntity toEntity() {
-        return new TableEntity(schemaName, logicalTableName, physicalTableName, tableType, tableInfoList, tableInfo, definition);
+        return new TableEntity(dbName, schemaName, logicalTableName, physicalTableName, tableType, tableInfoList,
+                tableInfo, definition);
     }
 }
