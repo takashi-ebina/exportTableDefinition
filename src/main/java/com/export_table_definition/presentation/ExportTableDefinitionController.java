@@ -2,7 +2,7 @@ package com.export_table_definition.presentation;
 
 import java.util.List;
 
-import com.export_table_definition.application.ExportTableDefinitionUsecase;
+import com.export_table_definition.application.impl.ExportTableDefinitionUsecaseImpl;
 import com.export_table_definition.infrastructure.log.Log4J2;
 import com.export_table_definition.presentation.dto.ResultDto;
 import com.export_table_definition.presentation.type.ProcessResult;
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 public class ExportTableDefinitionController {
 
     private final static Log4J2 logger = Log4J2.getInstance();
-    private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
+    private final ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase;
 
     /**
      * コンストラクタ
@@ -26,7 +26,7 @@ public class ExportTableDefinitionController {
      * @param exportTableDefinitionUsecase テーブル定義出力に関するユースケースクラス
      */
     @Inject
-    public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
+    public ExportTableDefinitionController(ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase) {
         this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
     }
 
