@@ -36,8 +36,8 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
     /**
      * コンストラクタ
      * 
-     * @param repository テーブル定義出力に関するリポジトリクラス
-     * @param writer テーブル定義を書き込むクラス
+     * @param tableDefinitionRepository テーブル定義出力に関するリポジトリクラス
+     * @param tableDefinitionWriter テーブル定義を書き込むクラス
      */
     @Inject
     public ExportTableDefinitionUsecaseImpl(TableDefinitionRepository tableDefinitionRepository,
