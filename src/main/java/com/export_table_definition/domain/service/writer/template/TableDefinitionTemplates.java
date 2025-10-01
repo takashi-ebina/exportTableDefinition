@@ -177,6 +177,17 @@ public class TableDefinitionTemplates {
                 + LINE_SEPARATOR;
     }
 
+    /**
+     * テーブルごとのセクションを生成する共通メソッド
+     * 
+     * @param <T> エンティティの型
+     * @param list エンティティのリスト
+     * @param table テーブル情報
+     * @param header セクションのヘッダー文字列
+     * @param infoMapper エンティティから情報文字列を生成する関数
+     * @param schemaTableNameGetter エンティティからスキーマ名とテーブル名を結合した文字列を取得する関数
+     * @return テーブルごとのセクション文字列
+     */
     private static <T> String tableSection(List<T> list, TableEntity table, String header,
             Function<T, String> infoMapper, Function<T, String> schemaTableNameGetter) {
         return header + list.stream().filter(e -> schemaTableNameGetter.apply(e).equals(table.getSchemaTableName()))

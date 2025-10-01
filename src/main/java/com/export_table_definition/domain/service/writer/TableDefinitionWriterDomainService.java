@@ -13,6 +13,7 @@ import com.export_table_definition.domain.model.TableEntity;
 import com.export_table_definition.domain.repository.FileRepository;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionListTemplates;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionTemplates;
+import com.export_table_definition.infrastructure.log.Log4J2;
 import com.google.inject.Inject;
 
 /**
@@ -25,6 +26,7 @@ import com.google.inject.Inject;
 public class TableDefinitionWriterDomainService {
     
     private static final int MAX_TABLE_LIST_SIZE = 3000;
+    private static final Log4J2 logger = Log4J2.getInstance();
     private final FileRepository fileRepository;
     
     /**
@@ -46,9 +48,8 @@ public class TableDefinitionWriterDomainService {
      */
     public void writeTableDefinitionList(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         fileRepository.createDirectory(outputDirectoryPath);
-         // テーブル一覧の件数がMarkdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
         if (tables.size() > MAX_TABLE_LIST_SIZE) {
-            // Markdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
+            // テーブル一覧の件数がMarkdownの表に表示できる最大件数を超える場合、テーブル一覧を分割して出力する
             writeMultipleTableFiles(tables, baseInfo, outputDirectoryPath);
             writeSummaryFile(tables.size(), baseInfo, outputDirectoryPath);
         } else {
@@ -56,6 +57,13 @@ public class TableDefinitionWriterDomainService {
         }
     }
     
+    /**
+     * テーブル一覧を分割して出力するメソッド（3000テーブル毎）
+     * 
+     * @param tables テーブル情報リスト
+     * @param baseInfo データベースの基本情報
+     * @param outputDirectoryPath 出力ディレクトリのパス
+     */
     private void writeMultipleTableFiles(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         final int maxTableSize = tables.size();
         int tableCount = 0;
@@ -83,6 +91,14 @@ public class TableDefinitionWriterDomainService {
         }
     }
 
+    /**
+     * テーブル一覧のサマリーファイルを書き込むメソッド<br>
+     * 分割したテーブル一覧のファイルへのリンクを記載する
+     * 
+     * @param totalFiles 分割したテーブル一覧ファイルの総数
+     * @param baseInfo データベースの基本情報
+     * @param outputDirectoryPath 出力ディレクトリのパス
+     */
     private void writeSummaryFile(int totalFiles, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         final List<String> contents = new ArrayList<>();
         // ヘッダー
@@ -96,7 +112,14 @@ public class TableDefinitionWriterDomainService {
         }
         fileRepository.writeFile(baseInfo.toTableListFile(outputDirectoryPath), contents);
     }
-    
+
+    /**
+     * テーブル一覧を1ファイルにまとめて出力するメソッド
+     * 
+     * @param tables テーブル情報リスト
+     * @param baseInfo データベースの基本情報
+     * @param outputDirectoryPath 出力ディレクトリのパス
+     */
     private void writeSingleTableFile(List<TableEntity> tables, BaseInfoEntity baseInfo, Path outputDirectoryPath) {
         final List<String> contents = List.of(
                 TableDefinitionListTemplates.fileHeader(baseInfo), // ヘッダー
@@ -132,9 +155,10 @@ public class TableDefinitionWriterDomainService {
                 TableDefinitionTemplates.indexes(indexes, table), // インデックス情報
                 TableDefinitionTemplates.constraints(constraints, table), // 制約情報
                 TableDefinitionTemplates.foreignKeys(foreignkeys, table), // 外部キー情報
-                TableDefinitionTemplates.footer(baseInfo) // フッター
+                TableDefinitionTemplates.footer(baseInfo)         // フッター
             );
         fileRepository.createDirectory(directoryPath);
         fileRepository.writeFile(filePath, contents);
+        logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath.toString()));
     }
 }
