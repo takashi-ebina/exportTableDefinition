@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.export_table_definition.application.ExportTableDefinitionUsecase;
+import com.export_table_definition.application.dto.TableDefinitionWriterCommand;
 import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.model.ColumnEntity;
 import com.export_table_definition.domain.model.ConstraintEntity;
@@ -65,7 +66,8 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         // テーブル定義出力 -> ./output/ or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
         tableEntityList.stream()
                 .filter(tableEntity -> tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList))
-                .forEach(tableEntity -> tableDefinitionWriter.writeTableDefinition(tableEntity, baseInfoEntity, columnEntityList,
-                        indexEntityList, constraintEntityList, foreignkeyEntityList, outputBaseDirectoryPath));
+                .map(tableEntity -> new TableDefinitionWriterCommand(baseInfoEntity, tableEntity, columnEntityList,
+                        indexEntityList, constraintEntityList, foreignkeyEntityList, outputBaseDirectoryPath))
+                .forEach(tableDefinitionWriter::writeTableDefinition);
     }
 }
