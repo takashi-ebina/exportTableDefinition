@@ -3,6 +3,7 @@ package com.export_table_definition.application.impl;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,8 +55,10 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
     @Override
     public void exportTableDefinition(List<String> targetSchemaList, List<String> targetTableList, String outputPath) {
         // ベースディレクトリパス
-        final String strOutputBaseDirectory = StringUtils.isBlank(outputPath) ? OUTPUT_BASE_DIRECTORY : outputPath;
-        final Path outputBaseDirectoryPath =  Paths.get(strOutputBaseDirectory);
+        final Path outputBaseDir = Optional.ofNullable(outputPath)
+                .filter(StringUtils::isNotBlank)
+                .map(Paths::get)
+                .orElse(Paths.get(OUTPUT_BASE_DIRECTORY));
         
         // Entity取得
         final BaseInfoEntity baseInfoEntity = tableDefinitionRepository.selectBaseInfo();
@@ -71,13 +74,12 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         
 
         // テーブル一覧出力 -> ./output/ or {設定ファイルのFileParh}/tableList_{DB名}.md
-        tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDirectoryPath);
+        tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDir);
         // テーブル定義出力 -> ./output/ or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
         tableEntityList.stream()
                 .filter(tableEntity -> tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList))
-                .map(tableEntity -> new TableDefinitionContent(baseInfoEntity, tableEntity,
-                        columns.of(tableEntity), indexes.of(tableEntity), constraints.of(tableEntity),
-                        foreignkeys.of(tableEntity), outputBaseDirectoryPath))
+                .map(tableEntity -> TableDefinitionContent.assemble(
+                        baseInfoEntity, tableEntity, columns, indexes, constraints, foreignkeys, outputBaseDir))
                 .forEach(tableDefinitionWriter::writeTableDefinition);
     }
 }
