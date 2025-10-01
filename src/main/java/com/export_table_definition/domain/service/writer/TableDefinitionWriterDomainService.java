@@ -123,12 +123,12 @@ public class TableDefinitionWriterDomainService {
         final Path directoryPath = table.toTableDefinitionDirectory(outputBaseDirectoryPath);
         final Path filePath = table.toTableDefinitionFile(directoryPath);
         final List<String> contents = List.of(
-                TableDefinitionTemplates.fileHeader(table), // ヘッダー
-                TableDefinitionTemplates.baseInfo(baseInfo), // 基本情報
-                TableDefinitionTemplates.tableExplanation(), // テーブル説明
-                TableDefinitionTemplates.tableInfo(table), // テーブル情報
+                TableDefinitionTemplates.fileHeader(table),       // ヘッダー
+                TableDefinitionTemplates.baseInfo(baseInfo),      // 基本情報
+                TableDefinitionTemplates.tableExplanation(),      // テーブル説明
+                TableDefinitionTemplates.tableInfo(table),        // テーブル情報
                 TableDefinitionTemplates.columns(columns, table), // カラム情報
-                TableDefinitionTemplates.view(table), // View情報
+                TableDefinitionTemplates.view(table),             // View情報
                 TableDefinitionTemplates.indexes(indexes, table), // インデックス情報
                 TableDefinitionTemplates.constraints(constraints, table), // 制約情報
                 TableDefinitionTemplates.foreignKeys(foreignkeys, table), // 外部キー情報

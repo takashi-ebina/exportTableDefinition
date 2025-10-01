@@ -56,18 +56,18 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         final Path outputBaseDirectoryPath =  Paths.get(strOutputBaseDirectory);
         
         // Entity取得
-        final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
+        final BaseInfoEntity baseInfoEntity = tableDefinitionRepository.selectBaseInfo();
         final List<TableEntity> tableEntityList = tableDefinitionRepository.selectTableList(targetSchemaList, targetTableList);
         final List<ColumnEntity> columnEntityList = tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList);
         final List<IndexEntity> indexEntityList = tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList);
         final List<ConstraintEntity> constraintEntityList = tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList);
         final List<ForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectForeignkeyList(targetSchemaList, targetTableList);
 
-        // テーブル一覧出力 -> ./output/tableList_{DB名}.md or {設定ファイルのFileParh}/tableList_{DB名}.md
-        tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, outputBaseDirectoryPath);
-        // テーブル定義出力
+        // テーブル一覧出力 -> ./output/ or {設定ファイルのFileParh}/tableList_{DB名}.md
+        tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDirectoryPath);
+        // テーブル定義出力 -> ./output/ or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
         tableEntityList.forEach(createTableExporter(targetSchemaList, targetTableList, outputBaseDirectoryPath,
-                baseEntity, columnEntityList, indexEntityList, constraintEntityList, foreignkeyEntityList));
+                baseInfoEntity, columnEntityList, indexEntityList, constraintEntityList, foreignkeyEntityList));
     }
 
     private Consumer<TableEntity> createTableExporter(List<String> targetSchemaList, List<String> targetTableList,
@@ -75,15 +75,11 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
             List<IndexEntity> indexEntityList, List<ConstraintEntity> constraintEntityList,
             List<ForeignkeyEntity> foreignkeyEntityList) {
         return tableEntity -> {
-            if (!tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList)) {
-                return;
-            }
-            // テーブル定義出力先ファイルパス
-            // -> ./output/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
-            // or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
+            if (!tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList)) return;
+            
             tableDefinitionWriter.writeTableDefinition(tableEntity, baseEntity, columnEntityList, indexEntityList,
                     constraintEntityList, foreignkeyEntityList, outputBaseDirectoryPath);
-
+            
             logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]",
                     tableEntity.toTableDefinitionFile(outputBaseDirectoryPath).toString()));
         };
