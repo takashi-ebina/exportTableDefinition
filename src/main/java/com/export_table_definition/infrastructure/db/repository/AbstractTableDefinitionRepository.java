@@ -7,12 +7,12 @@ import java.util.function.Function;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.export_table_definition.domain.model.BaseInfoEntity;
-import com.export_table_definition.domain.model.ColumnEntity;
-import com.export_table_definition.domain.model.ConstraintEntity;
-import com.export_table_definition.domain.model.ForeignkeyEntity;
-import com.export_table_definition.domain.model.IndexEntity;
-import com.export_table_definition.domain.model.TableEntity;
+import com.export_table_definition.domain.model.entity.BaseInfoEntity;
+import com.export_table_definition.domain.model.entity.ColumnEntity;
+import com.export_table_definition.domain.model.entity.ConstraintEntity;
+import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.IndexEntity;
+import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.infrastructure.db.MyBatisSqlSessionFactory;
 import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;

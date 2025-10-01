@@ -4,9 +4,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.export_table_definition.application.dto.TableDefinitionWriterCommand;
-import com.export_table_definition.domain.model.BaseInfoEntity;
-import com.export_table_definition.domain.model.TableEntity;
+import com.export_table_definition.domain.model.TableDefinitionContent;
+import com.export_table_definition.domain.model.entity.BaseInfoEntity;
+import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.repository.FileRepository;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionListTemplates;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionTemplates;
@@ -129,22 +129,22 @@ public class TableDefinitionWriterDomainService {
     /**
      * テーブル定義の書き込み処理を行うメソッド
      * 
-     * @param command テーブル定義書き込みコマンド
+     * @param content テーブル定義出力に必要な情報をまとめたレコード
      */
-    public void writeTableDefinition(TableDefinitionWriterCommand command) {
-        final Path directoryPath = command.table().toTableDefinitionDirectory(command.outputBaseDir());
-        final Path filePath = command.table().toTableDefinitionFile(directoryPath);
+    public void writeTableDefinition(TableDefinitionContent content) {
+        final Path directoryPath = content.table().toTableDefinitionDirectory(content.outputBaseDir());
+        final Path filePath = content.table().toTableDefinitionFile(directoryPath);
         final List<String> contents = List.of(
-                TableDefinitionTemplates.fileHeader(command.table()),       // ヘッダー
-                TableDefinitionTemplates.baseInfo(command.baseInfo()),      // 基本情報
+                TableDefinitionTemplates.fileHeader(content.table()),       // ヘッダー
+                TableDefinitionTemplates.baseInfo(content.baseInfo()),      // 基本情報
                 TableDefinitionTemplates.tableExplanation(),                // テーブル説明
-                TableDefinitionTemplates.tableInfo(command.table()),        // テーブル情報
-                TableDefinitionTemplates.columns(command.columns(), command.table()), // カラム情報
-                TableDefinitionTemplates.view(command.table()),             // View情報
-                TableDefinitionTemplates.indexes(command.indexes(), command.table()), // インデックス情報
-                TableDefinitionTemplates.constraints(command.constraints(), command.table()), // 制約情報
-                TableDefinitionTemplates.foreignKeys(command.foreignKeys(), command.table()), // 外部キー情報
-                TableDefinitionTemplates.footer(command.baseInfo())         // フッター
+                TableDefinitionTemplates.tableInfo(content.table()),        // テーブル情報
+                TableDefinitionTemplates.columns(content.columns(), content.table()), // カラム情報
+                TableDefinitionTemplates.view(content.table()),             // View情報
+                TableDefinitionTemplates.indexes(content.indexes(), content.table()), // インデックス情報
+                TableDefinitionTemplates.constraints(content.constraints(), content.table()), // 制約情報
+                TableDefinitionTemplates.foreignKeys(content.foreignKeys(), content.table()), // 外部キー情報
+                TableDefinitionTemplates.footer(content.baseInfo())         // フッター
             );
         fileRepository.createDirectory(directoryPath);
         fileRepository.writeFile(filePath, contents);

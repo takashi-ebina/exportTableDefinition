@@ -1,13 +1,13 @@
-package com.export_table_definition.domain.model;
+package com.export_table_definition.domain.model.entity;
 
 /**
- * 制約情報に関するrecordクラス
+ * カラム情報に関するrecordクラス
  * 
  * @since 1.0
  * @version 1.0
  * @author takashi.ebina
  */
-public record ConstraintEntity(String schemaName, String tableName, String constraintInfo) {
+public record ColumnEntity(String schemaName, String tableName, String columnInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド

@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.TableEntity;
+import com.export_table_definition.domain.model.entity.TableEntity;
 
 import lombok.Data;
 

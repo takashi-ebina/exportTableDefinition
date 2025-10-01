@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.export_table_definition.domain.model.BaseInfoEntity;
-import com.export_table_definition.domain.model.ColumnEntity;
-import com.export_table_definition.domain.model.ConstraintEntity;
-import com.export_table_definition.domain.model.ForeignkeyEntity;
-import com.export_table_definition.domain.model.IndexEntity;
-import com.export_table_definition.domain.model.TableEntity;
+import com.export_table_definition.domain.model.entity.BaseInfoEntity;
+import com.export_table_definition.domain.model.entity.ColumnEntity;
+import com.export_table_definition.domain.model.entity.ConstraintEntity;
+import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.IndexEntity;
+import com.export_table_definition.domain.model.entity.TableEntity;
 
 /**
  * テーブル定義出力に関するリポジトリインターフェース

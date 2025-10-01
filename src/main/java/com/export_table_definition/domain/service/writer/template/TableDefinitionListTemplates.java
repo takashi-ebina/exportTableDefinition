@@ -3,8 +3,8 @@ package com.export_table_definition.domain.service.writer.template;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.export_table_definition.domain.model.BaseInfoEntity;
-import com.export_table_definition.domain.model.TableEntity;
+import com.export_table_definition.domain.model.entity.BaseInfoEntity;
+import com.export_table_definition.domain.model.entity.TableEntity;
 
 /**
  * テーブル定義一覧書き込みに利用するMarkdownのテンプレートを扱うクラス

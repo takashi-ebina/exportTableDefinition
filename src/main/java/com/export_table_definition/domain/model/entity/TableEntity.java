@@ -1,4 +1,4 @@
-package com.export_table_definition.domain.model;
+package com.export_table_definition.domain.model.entity;
 
 import java.nio.file.Path;
 import java.util.List;

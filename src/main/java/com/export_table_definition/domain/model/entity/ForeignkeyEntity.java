@@ -1,4 +1,4 @@
-package com.export_table_definition.domain.model;
+package com.export_table_definition.domain.model.entity;
 
 /**
  * 外部キー情報に関するrecordクラス
