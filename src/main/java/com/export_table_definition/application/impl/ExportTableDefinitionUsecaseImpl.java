@@ -57,11 +57,11 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         
         // Entity取得
         final BaseInfoEntity baseEntity = tableDefinitionRepository.selectBaseInfo();
-        final List<TableEntity> tableEntityList = tableDefinitionRepository.selectAllTableInfo(targetSchemaList, targetTableList);
-        final List<ColumnEntity> columnEntityList = tableDefinitionRepository.selectAllColumnInfo(targetSchemaList,targetTableList);
-        final List<IndexEntity> indexEntityList = tableDefinitionRepository.selectAllIndexInfo(targetSchemaList, targetTableList);
-        final List<ConstraintEntity> constraintEntityList = tableDefinitionRepository.selectAllConstraintInfo(targetSchemaList, targetTableList);
-        final List<ForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectAllForeignkeyInfo(targetSchemaList, targetTableList);
+        final List<TableEntity> tableEntityList = tableDefinitionRepository.selectTableList(targetSchemaList, targetTableList);
+        final List<ColumnEntity> columnEntityList = tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList);
+        final List<IndexEntity> indexEntityList = tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList);
+        final List<ConstraintEntity> constraintEntityList = tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList);
+        final List<ForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectForeignkeyList(targetSchemaList, targetTableList);
 
         // テーブル一覧出力 -> ./output/tableList_{DB名}.md or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseEntity, outputBaseDirectoryPath);

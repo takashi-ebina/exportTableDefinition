@@ -7,20 +7,20 @@ import java.util.function.Function;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.model.ColumnEntity;
 import com.export_table_definition.domain.model.ConstraintEntity;
 import com.export_table_definition.domain.model.ForeignkeyEntity;
 import com.export_table_definition.domain.model.IndexEntity;
 import com.export_table_definition.domain.model.TableEntity;
-import com.export_table_definition.domain.model.BaseInfoEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.infrastructure.db.MyBatisSqlSessionFactory;
+import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;
 import com.export_table_definition.infrastructure.db.repository.dto.ColumnDto;
 import com.export_table_definition.infrastructure.db.repository.dto.ConstraintDto;
 import com.export_table_definition.infrastructure.db.repository.dto.ForeignkeyDto;
 import com.export_table_definition.infrastructure.db.repository.dto.IndexDto;
 import com.export_table_definition.infrastructure.db.repository.dto.TableDto;
-import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;
 import com.export_table_definition.infrastructure.db.type.DatabaseType;
 
 /**
@@ -57,7 +57,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<TableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList) {
+    public List<TableEntity> selectTableList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllTableInfo", TableDto::toEntity);
     }
 
@@ -65,7 +65,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<ColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList) {
+    public List<ColumnEntity> selectColumnList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllColumnInfo", ColumnDto::toEntity);
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<IndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList) {
+    public List<IndexEntity> selectIndexList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllIndexInfo", IndexDto::toEntity);
     }
 
@@ -81,7 +81,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<ConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList) {
+    public List<ConstraintEntity> selectConstraintList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllConstraintInfo", ConstraintDto::toEntity);
     }
 
@@ -89,7 +89,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<ForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList) {
+    public List<ForeignkeyEntity> selectForeignkeyList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignkeyDto::toEntity);
     }
     

@@ -34,7 +34,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのテーブル情報
      */
-    List<TableEntity> selectAllTableInfo(List<String> schemaList, List<String> tableList);
+    List<TableEntity> selectTableList(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースのカラム情報を取得するメソッド
@@ -43,7 +43,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのカラム情報
      */
-    List<ColumnEntity> selectAllColumnInfo(List<String> schemaList, List<String> tableList);
+    List<ColumnEntity> selectColumnList(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースのインデックス情報を取得するメソッド
@@ -52,7 +52,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースのインデックス情報
      */
-    List<IndexEntity> selectAllIndexInfo(List<String> schemaList, List<String> tableList);
+    List<IndexEntity> selectIndexList(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースの制約情報を取得するメソッド
@@ -61,7 +61,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースの制約情報
      */
-    List<ConstraintEntity> selectAllConstraintInfo(List<String> schemaList, List<String> tableList);
+    List<ConstraintEntity> selectConstraintList(List<String> schemaList, List<String> tableList);
 
     /**
      * データベースの外部キー情報を取得するメソッド
@@ -70,7 +70,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースの外部キー情報
      */
-    List<ForeignkeyEntity> selectAllForeignkeyInfo(List<String> schemaList, List<String> tableList);
+    List<ForeignkeyEntity> selectForeignkeyList(List<String> schemaList, List<String> tableList);
     
     /**
      * DTOのListをEntityのListに変換する共通メソッド
