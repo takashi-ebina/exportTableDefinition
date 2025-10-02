@@ -14,10 +14,6 @@ import com.export_table_definition.domain.model.collection.Constraints;
 import com.export_table_definition.domain.model.collection.Foreignkeys;
 import com.export_table_definition.domain.model.collection.Indexes;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
-import com.export_table_definition.domain.model.entity.ColumnEntity;
-import com.export_table_definition.domain.model.entity.ConstraintEntity;
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
-import com.export_table_definition.domain.model.entity.IndexEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
 import com.export_table_definition.domain.service.writer.TableDefinitionWriterDomainService;
@@ -63,15 +59,10 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         // Entity取得
         final BaseInfoEntity baseInfoEntity = tableDefinitionRepository.selectBaseInfo();
         final List<TableEntity> tableEntityList = tableDefinitionRepository.selectTableList(targetSchemaList, targetTableList);
-        final List<ColumnEntity> columnEntityList = tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList);
-        final List<IndexEntity> indexEntityList = tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList);
-        final List<ConstraintEntity> constraintEntityList = tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList);
-        final List<ForeignkeyEntity> foreignkeyEntityList = tableDefinitionRepository.selectForeignkeyList(targetSchemaList, targetTableList);
-        final Columns columns = Columns.from(columnEntityList);
-        final Indexes indexes = Indexes.from(indexEntityList);
-        final Constraints constraints = Constraints.from(constraintEntityList);
-        final Foreignkeys foreignkeys = Foreignkeys.from(foreignkeyEntityList);
-        
+        final Columns columns = Columns.of(tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList));
+        final Indexes indexes = Indexes.of(tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList));
+        final Constraints constraints = Constraints.of(tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList));
+        final Foreignkeys foreignkeys = Foreignkeys.of(tableDefinitionRepository.selectForeignkeyList(targetSchemaList, targetTableList));
 
         // テーブル一覧出力 -> ./output/ or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDir);

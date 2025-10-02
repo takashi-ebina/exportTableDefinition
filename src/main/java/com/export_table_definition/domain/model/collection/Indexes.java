@@ -17,7 +17,7 @@ public final class Indexes extends AbstractEntities<IndexEntity> {
         super(byKey);
     }
 
-    public static Indexes from(List<IndexEntity> list) {
+    public static Indexes of(List<IndexEntity> list) {
         return new Indexes(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
     }
 

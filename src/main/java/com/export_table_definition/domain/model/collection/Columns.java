@@ -17,7 +17,7 @@ public final class Columns extends AbstractEntities<ColumnEntity> {
         super(byKey);
     }
 
-    public static Columns from(List<ColumnEntity> list) {
+    public static Columns of(List<ColumnEntity> list) {
         return new Columns(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
     }
 

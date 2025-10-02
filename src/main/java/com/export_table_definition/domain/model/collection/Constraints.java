@@ -17,7 +17,7 @@ public final class Constraints extends AbstractEntities<ConstraintEntity> {
         super(byKey);
     }
 
-    public static Constraints from(List<ConstraintEntity> list) {
+    public static Constraints of(List<ConstraintEntity> list) {
         return new Constraints(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
     }
 

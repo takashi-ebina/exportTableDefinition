@@ -17,7 +17,7 @@ public final class Foreignkeys extends AbstractEntities<ForeignkeyEntity> {
         super(byKey);
     }
 
-    public static Foreignkeys from(List<ForeignkeyEntity> list) {
+    public static Foreignkeys of(List<ForeignkeyEntity> list) {
         return new Foreignkeys(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
     }
 
