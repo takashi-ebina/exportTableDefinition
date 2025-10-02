@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.export_table_definition.application.ExportTableDefinitionUsecase;
 import com.export_table_definition.application.impl.ExportTableDefinitionUsecaseImpl;
 import com.export_table_definition.presentation.dto.ResultDto;
 import com.export_table_definition.presentation.type.ProcessResult;
@@ -20,7 +21,7 @@ import com.google.inject.Inject;
 public class ExportTableDefinitionController {
 
     private static final Logger logger = LogManager.getLogger(ExportTableDefinitionController.class);
-    private final ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase;
+    private final ExportTableDefinitionUsecase exportTableDefinitionUsecase;
 
     /**
      * コンストラクタ

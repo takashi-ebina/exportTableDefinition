@@ -95,24 +95,24 @@ public class TableDefinitionListTemplates {
      * テーブル一覧フッター（ページング用）
      * 
      * @param baseInfo データベース基本情報
-     * @param maxTablesize 1ページあたりの最大テーブル数
-     * @param tableCount テーブル数
+     * @param totalPages 1ページあたりの最大テーブル数
+     * @param currentPage テーブル数
      * @param fileIndex ファイルインデックス
      * @return テーブル一覧フッター文字列
      */
-    public static String writeTableListFooter(BaseInfoEntity baseInfo, int maxTablesize, int tableCount,
-            int fileIndex) {
-        if (fileIndex != 1) {
-            // 前のページが存在する場合
-            return HORIZON + LINE_SEPARATOR_DOUBLE
-                    + String.format("[<<前へ](./tableList_%s_%s.md) ", baseInfo.dbName(), fileIndex - 1);
+    public static String writeTableListFooter(BaseInfoEntity baseInfo, int totalPages, int currentPage, int fileIndex) {
+        if (totalPages <= 1) {
+            return LINE_SEPARATOR;
         }
-        if (tableCount < maxTablesize) {
-            // 次のページが存在する場合
-            return HORIZON + LINE_SEPARATOR_DOUBLE
-                    + String.format("[次へ>>](./tableList_%s_%s.md) ", baseInfo.dbName(), fileIndex + 1);
+        StringBuilder sb = new StringBuilder(HORIZON).append(LINE_SEPARATOR_DOUBLE);
+        if (currentPage > 1) {
+            sb.append(String.format("[<<前へ](./tableList_%s_%d.md) ", baseInfo.dbName(), currentPage - 1));
         }
-        return LINE_SEPARATOR_DOUBLE;
+        if (currentPage < totalPages) {
+            sb.append(String.format("[次へ>>](./tableList_%s_%d.md) ", baseInfo.dbName(), currentPage + 1));
+        }
+        sb.append(LINE_SEPARATOR);
+        return sb.toString();
     }
     
     /**

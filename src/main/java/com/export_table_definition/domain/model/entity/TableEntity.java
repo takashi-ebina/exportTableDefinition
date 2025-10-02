@@ -1,9 +1,10 @@
 package com.export_table_definition.domain.model.entity;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.export_table_definition.domain.model.type.TableType;
 
 /**
  * テーブル情報に関するrecordクラス
@@ -43,7 +44,7 @@ public record TableEntity(String dbName, String schemaName, String logicalTableN
      * @return view または materialized viewの場合はture。それ以外の場合はfalseを返却
      */
     public boolean isView() {
-        return "materialized_view".equals(tableType) || "view".equals(tableType);
+        return TableType.isViewType(tableType);
     }
 
     /**
@@ -90,35 +91,5 @@ public record TableEntity(String dbName, String schemaName, String logicalTableN
             return isSchemaMatch;
         }
         return isSchemaMatch && isTableMatch;
-    }
-    
-    /**
-     * テーブル定義書の出力先ディレクトリパスを取得するメソッド<br>
-     * <br>
-     * 出力先ディレクトリパスは以下の形式となる<br>
-     * {base}/{DB名}/{スキーマ名}/{TBL分類}/
-     * 
-     * @param base ベースディレクトリパス
-     * @param dbName DB名
-     * @return テーブル定義書の出力先ディレクトリパス
-     */
-    public Path toTableDefinitionDirectory(Path base) {
-        return base.resolve(dbName)
-                   .resolve(schemaName)
-                   .resolve(tableType);
-    }
-    
-    /**
-     * テーブル定義書の出力先ファイルパスを取得するメソッド<br>
-     * <br>
-     * 出力先ファイルパスは以下の形式となる<br>
-     * {base}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
-     * 
-     * @param base ベースディレクトリパス
-     * @param dbName DB名
-     * @return テーブル定義書の出力先ファイルパス
-     */
-    public Path toTableDefinitionFile(Path base) {
-        return base.resolve(physicalTableName + ".md");
     }
 }
