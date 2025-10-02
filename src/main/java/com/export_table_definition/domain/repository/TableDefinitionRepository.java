@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.ColumnEntity;
 import com.export_table_definition.domain.model.entity.ConstraintEntity;
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.ForeignKeyEntity;
 import com.export_table_definition.domain.model.entity.IndexEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
 
@@ -70,7 +70,7 @@ public interface TableDefinitionRepository {
      * @param tableList テーブル定義出力対象のテーブルのリスト
      * @return データベースの外部キー情報
      */
-    List<ForeignkeyEntity> selectForeignkeyList(List<String> schemaList, List<String> tableList);
+    List<ForeignKeyEntity> selectForeignKeyList(List<String> schemaList, List<String> tableList);
     
     /**
      * DTOのListをEntityのListに変換する共通メソッド

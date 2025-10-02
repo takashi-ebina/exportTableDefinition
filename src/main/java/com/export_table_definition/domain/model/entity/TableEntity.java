@@ -31,7 +31,7 @@ public record TableEntity(String dbName, String schemaName, String logicalTableN
      *         論理テーブル名が存在しない場合は 物理テーブル名 形式の名称を返却
      */
     public String getHeaderTableName() {
-        if (StringUtils.isEmpty(logicalTableName)) {
+        if (StringUtils.isBlank(logicalTableName)) {
             return physicalTableName;
         }
         return physicalTableName + "（" + logicalTableName + "）";

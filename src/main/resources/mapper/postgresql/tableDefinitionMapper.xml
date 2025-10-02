@@ -383,7 +383,7 @@ ORDER BY
     schema_name, table_name, constraints_type, constraints_name;
 </select>
 
-<select id="selectAllForeignkeyInfo" resultType="ForeignkeyDto">
+<select id="selectAllForeignKeyInfo" resultType="ForeignKeyDto">
 WITH all_foreignkeys AS (
     SELECT
         t1.constraint_name AS foreignkey_name,

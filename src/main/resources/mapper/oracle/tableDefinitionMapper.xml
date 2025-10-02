@@ -345,7 +345,7 @@ ORDER BY
     
 </select>
 
-<select id="selectAllForeignkeyInfo" resultType="ForeignkeyDto">
+<select id="selectAllForeignKeyInfo" resultType="ForeignKeyDto">
 WITH ora_all_foreignkeys AS (
     SELECT 
         ac.constraint_name AS foreignkey_name,

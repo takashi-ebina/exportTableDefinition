@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.ColumnEntity;
 import com.export_table_definition.domain.model.entity.ConstraintEntity;
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.ForeignKeyEntity;
 import com.export_table_definition.domain.model.entity.IndexEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.repository.TableDefinitionRepository;
@@ -18,7 +18,7 @@ import com.export_table_definition.infrastructure.db.MyBatisSqlSessionFactory;
 import com.export_table_definition.infrastructure.db.repository.dto.BaseInfoDto;
 import com.export_table_definition.infrastructure.db.repository.dto.ColumnDto;
 import com.export_table_definition.infrastructure.db.repository.dto.ConstraintDto;
-import com.export_table_definition.infrastructure.db.repository.dto.ForeignkeyDto;
+import com.export_table_definition.infrastructure.db.repository.dto.ForeignKeyDto;
 import com.export_table_definition.infrastructure.db.repository.dto.IndexDto;
 import com.export_table_definition.infrastructure.db.repository.dto.TableDto;
 import com.export_table_definition.infrastructure.db.type.DatabaseType;
@@ -89,8 +89,8 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * {@inheritDoc}
      */
     @Override
-    public List<ForeignkeyEntity> selectForeignkeyList(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignkeyDto::toEntity);
+    public List<ForeignKeyEntity> selectForeignKeyList(List<String> schemaList, List<String> tableList) {
+        return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignKeyDto::toEntity);
     }
     
     private <D, E> List<E> selectTableDefinition(List<String> schemaList, List<String> tableList, String sqlId,

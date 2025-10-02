@@ -8,13 +8,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 /**
  * プロパティファイルに関するユーティリティクラス
@@ -75,17 +75,17 @@ public class PropertyLoader {
         });
     }
 
+    /**
+     * プロパティファイルが存在するディレクトリを取得するメソッド
+     * 
+     * @return プロパティファイルが存在するディレクトリのFileオブジェクト
+     * @throws FileNotFoundException プロパティファイルが存在するディレクトリが見つからない場合
+     */
     private static File getPropertiesFileDir() throws FileNotFoundException {
-        Path p1 = Paths.get("conf");
-        if (Files.exists(p1)) {
-            // 実行可能Jarファイルから実行した場合
-            return p1.toFile();
-        }
-        Path p2 = Paths.get("src", "main", "resources", "conf");
-        if (Files.exists(p2)) {
-            // プロジェクトから実行した場合
-            return p2.toFile();
-        }
-        throw new FileNotFoundException("conf directory does not exist.");
+        return Stream.of(Path.of("conf"), Path.of("src","main","resources","conf"))
+            .filter(Files::exists)
+            .findFirst()
+            .map(Path::toFile)
+            .orElseThrow(() -> new FileNotFoundException("conf directory does not exist."));
     }
 }

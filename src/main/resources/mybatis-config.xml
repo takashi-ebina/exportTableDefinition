@@ -12,7 +12,7 @@
 		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.ColumnDto" alias="ColumnDto"/>
 		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.IndexDto" alias="IndexDto"/>
 		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.ConstraintDto" alias="ConstraintDto"/>
-		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.ForeignkeyDto" alias="ForeignkeyDto"/>
+		<typeAlias type="com.export_table_definition.infrastructure.db.repository.dto.ForeignKeyDto" alias="ForeignKeyDto"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

@@ -11,7 +11,7 @@ import com.export_table_definition.application.ExportTableDefinitionUsecase;
 import com.export_table_definition.domain.model.TableDefinitionContent;
 import com.export_table_definition.domain.model.collection.Columns;
 import com.export_table_definition.domain.model.collection.Constraints;
-import com.export_table_definition.domain.model.collection.Foreignkeys;
+import com.export_table_definition.domain.model.collection.ForeignKeys;
 import com.export_table_definition.domain.model.collection.Indexes;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
@@ -62,7 +62,7 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         final Columns columns = Columns.of(tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList));
         final Indexes indexes = Indexes.of(tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList));
         final Constraints constraints = Constraints.of(tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList));
-        final Foreignkeys foreignkeys = Foreignkeys.of(tableDefinitionRepository.selectForeignkeyList(targetSchemaList, targetTableList));
+        final ForeignKeys foreignKeys = ForeignKeys.of(tableDefinitionRepository.selectForeignKeyList(targetSchemaList, targetTableList));
 
         // テーブル一覧出力 -> ./output/ or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDir);
@@ -70,7 +70,7 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
         tableEntityList.stream()
                 .filter(tableEntity -> tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList))
                 .map(tableEntity -> TableDefinitionContent.assemble(
-                        baseInfoEntity, tableEntity, columns, indexes, constraints, foreignkeys, outputBaseDir))
+                        baseInfoEntity, tableEntity, columns, indexes, constraints, foreignKeys, outputBaseDir))
                 .forEach(tableDefinitionWriter::writeTableDefinition);
     }
 }

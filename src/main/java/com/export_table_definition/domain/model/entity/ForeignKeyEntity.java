@@ -7,7 +7,7 @@ package com.export_table_definition.domain.model.entity;
  * @version 1.0
  * @author takashi.ebina
  */
-public record ForeignkeyEntity(String schemaName, String tableName, String foreignkeyInfo) {
+public record ForeignKeyEntity(String schemaName, String tableName, String foreignkeyInfo) {
 
     /**
      * スキーマ.テーブル 形式の名称を取得するメソッド

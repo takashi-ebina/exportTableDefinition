@@ -4,13 +4,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.export_table_definition.domain.model.TableDefinitionContent;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.repository.FileRepository;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionListTemplates;
 import com.export_table_definition.domain.service.writer.template.TableDefinitionTemplates;
-import com.export_table_definition.infrastructure.log.Log4J2;
 import com.google.inject.Inject;
 
 /**
@@ -23,7 +25,7 @@ import com.google.inject.Inject;
 public class TableDefinitionWriterDomainService {
     
     private static final int MAX_TABLE_LIST_SIZE = 3000;
-    private static final Log4J2 logger = Log4J2.getInstance();
+    private static final Logger logger = LogManager.getLogger(TableDefinitionWriterDomainService.class);
     private final FileRepository fileRepository;
     
     /**
@@ -148,6 +150,6 @@ public class TableDefinitionWriterDomainService {
             );
         fileRepository.createDirectory(directoryPath);
         fileRepository.writeFile(filePath, contents);
-        logger.logDebug(String.format("exportTableDefinition complete. [filePath=%s]", filePath.toString()));
+        logger.debug(String.format("exportTableDefinition complete. [filePath=%s]", filePath.toString()));
     }
 }

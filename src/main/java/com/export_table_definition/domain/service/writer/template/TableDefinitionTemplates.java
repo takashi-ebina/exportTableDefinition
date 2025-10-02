@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.ColumnEntity;
 import com.export_table_definition.domain.model.entity.ConstraintEntity;
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.ForeignKeyEntity;
 import com.export_table_definition.domain.model.entity.IndexEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
 
@@ -155,15 +155,15 @@ public class TableDefinitionTemplates {
      * @param table テーブル情報
      * @return 外部キー情報セクション文字列
      */
-    public static String foreignKeys(List<ForeignkeyEntity> foreignkeys, TableEntity table) {
+    public static String foreignKeys(List<ForeignKeyEntity> foreignkeys, TableEntity table) {
         String header = """
                 ## 外部キー情報
 
                 | No. | 外部キー名 | カラムリスト | 参照先 | 参照先カラムリスト |
                 |:---|:---|:---|:---|:---|
                 """;
-        return tableSection(foreignkeys, table, header, ForeignkeyEntity::foreignkeyInfo,
-                ForeignkeyEntity::getSchemaTableName);
+        return tableSection(foreignkeys, table, header, ForeignKeyEntity::foreignkeyInfo,
+                ForeignKeyEntity::getSchemaTableName);
     }
 
     /**

@@ -2,8 +2,10 @@ package com.export_table_definition.presentation;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.export_table_definition.application.impl.ExportTableDefinitionUsecaseImpl;
-import com.export_table_definition.infrastructure.log.Log4J2;
 import com.export_table_definition.presentation.dto.ResultDto;
 import com.export_table_definition.presentation.type.ProcessResult;
 import com.google.inject.Inject;
@@ -17,7 +19,7 @@ import com.google.inject.Inject;
  */
 public class ExportTableDefinitionController {
 
-    private static final Log4J2 logger = Log4J2.getInstance();
+    private static final Logger logger = LogManager.getLogger(ExportTableDefinitionController.class);
     private final ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase;
 
     /**
@@ -39,16 +41,16 @@ public class ExportTableDefinitionController {
      * @return 処理結果
      */
     public ResultDto execute(List<String> schemaList, List<String> tableList, String outputPath) {
-        logger.logInfo("[START] exportTableDefinition");
+        logger.info("[START] exportTableDefinition");
         try {
             exportTableDefinitionUsecase.exportTableDefinition(schemaList, tableList, outputPath);
         } catch (Exception e) {
-            logger.logError(e);
+            logger.error(e);
             return new ResultDto(ProcessResult.FAIL,
                     String.format("Failed to output table definition document. %s [errmsg]:%s", 
                             System.getProperty("line.separator"), e.getMessage()));
         }
-        logger.logInfo("[ END ] exportTableDefinition");
+        logger.info("[ END ] exportTableDefinition");
         return new ResultDto(ProcessResult.SUCCESS, "Table definition output is complete.");
     }
 

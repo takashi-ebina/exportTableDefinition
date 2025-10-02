@@ -1,6 +1,6 @@
 package com.export_table_definition.infrastructure.db.repository.dto;
 
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.ForeignKeyEntity;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @author takashi.ebina
  */
 @Data
-public class ForeignkeyDto {
+public class ForeignKeyDto {
     private String schemaName;
     private String tableName;
     private String foreignkeyInfo;
@@ -22,7 +22,7 @@ public class ForeignkeyDto {
      * 
      * @return AllForeignkeyEntityのインスタンス
      */
-    public ForeignkeyEntity toEntity() {
-        return new ForeignkeyEntity(schemaName, tableName, foreignkeyInfo);
+    public ForeignKeyEntity toEntity() {
+        return new ForeignKeyEntity(schemaName, tableName, foreignkeyInfo);
     }
 }

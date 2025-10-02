@@ -3,7 +3,7 @@ package com.export_table_definition.domain.model.collection;
 import java.util.List;
 import java.util.Map;
 
-import com.export_table_definition.domain.model.entity.ForeignkeyEntity;
+import com.export_table_definition.domain.model.entity.ForeignKeyEntity;
 import com.export_table_definition.domain.model.value.TableKey;
 /**
  * 外部キー情報の集合を扱うクラス
@@ -12,20 +12,20 @@ import com.export_table_definition.domain.model.value.TableKey;
  * @version 1.0
  * @author takashi.ebina
  */
-public final class Foreignkeys extends AbstractEntities<ForeignkeyEntity> {
-    private Foreignkeys(Map<TableKey, List<ForeignkeyEntity>> byKey) {
+public final class ForeignKeys extends AbstractEntities<ForeignKeyEntity> {
+    private ForeignKeys(Map<TableKey, List<ForeignKeyEntity>> byKey) {
         super(byKey);
     }
 
-    public static Foreignkeys of(List<ForeignkeyEntity> list) {
-        return new Foreignkeys(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
+    public static ForeignKeys of(List<ForeignKeyEntity> list) {
+        return new ForeignKeys(index(list, c -> TableKey.of(c.schemaName(), c.tableName())));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected TableKey extractKey(ForeignkeyEntity e) {
+    protected TableKey extractKey(ForeignKeyEntity e) {
         return TableKey.of(e.schemaName(), e.tableName());
     }
 }
