@@ -107,7 +107,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">コンストラクタ</div>
 <div class="table-header col-last">説明</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.export_table_definition.domain.repository.FileRepository)" class="member-name-link">TableDefinitionWriterDomainService</a><wbr>(<a href="../../repository/FileRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">FileRepository</a>&nbsp;fileRepository)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.export_table_definition.domain.repository.FileRepository,com.export_table_definition.domain.service.path.OutputPathResolver)" class="member-name-link">TableDefinitionWriterDomainService</a><wbr>(<a href="../../repository/FileRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">FileRepository</a>&nbsp;fileRepository,
+ <a href="../path/OutputPathResolver.html" title="com.export_table_definition.domain.service.path内のインタフェース">OutputPathResolver</a>&nbsp;outputPathResolver)</code></div>
 <div class="col-last even-row-color">
 <div class="block">コンストラクタ</div>
 </div>
@@ -126,19 +127,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">メソッド</div>
 <div class="table-header col-last">説明</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTableDefinition(com.export_table_definition.domain.model.TableEntity,com.export_table_definition.domain.model.BaseInfoEntity,java.util.List,java.util.List,java.util.List,java.util.List,java.nio.file.Path)" class="member-name-link">writeTableDefinition</a><wbr>(<a href="../../model/TableEntity.html" title="com.export_table_definition.domain.model内のクラス">TableEntity</a>&nbsp;table,
- <a href="../../model/BaseInfoEntity.html" title="com.export_table_definition.domain.model内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ColumnEntity.html" title="com.export_table_definition.domain.model内のクラス">ColumnEntity</a>&gt;&nbsp;columns,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/IndexEntity.html" title="com.export_table_definition.domain.model内のクラス">IndexEntity</a>&gt;&nbsp;indexes,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ConstraintEntity.html" title="com.export_table_definition.domain.model内のクラス">ConstraintEntity</a>&gt;&nbsp;constraints,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ForeignkeyEntity.html" title="com.export_table_definition.domain.model内のクラス">ForeignkeyEntity</a>&gt;&nbsp;foreignkeys,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="java.nio.file内のクラスまたはインタフェース" class="external-link">Path</a>&nbsp;outputDirectoryPath)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTableDefinition(com.export_table_definition.domain.model.TableDefinitionContent)" class="member-name-link">writeTableDefinition</a><wbr>(<a href="../../model/TableDefinitionContent.html" title="com.export_table_definition.domain.model内のクラス">TableDefinitionContent</a>&nbsp;content)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">テーブル定義の書き込み処理を行うメソッド</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTableDefinitionList(java.util.List,com.export_table_definition.domain.model.BaseInfoEntity,java.nio.file.Path)" class="member-name-link">writeTableDefinitionList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/TableEntity.html" title="com.export_table_definition.domain.model内のクラス">TableEntity</a>&gt;&nbsp;tables,
- <a href="../../model/BaseInfoEntity.html" title="com.export_table_definition.domain.model内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTableDefinitionList(java.util.List,com.export_table_definition.domain.model.entity.BaseInfoEntity,java.nio.file.Path)" class="member-name-link">writeTableDefinitionList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/entity/TableEntity.html" title="com.export_table_definition.domain.model.entity内のクラス">TableEntity</a>&gt;&nbsp;tables,
+ <a href="../../model/entity/BaseInfoEntity.html" title="com.export_table_definition.domain.model.entity内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="java.nio.file内のクラスまたはインタフェース" class="external-link">Path</a>&nbsp;outputDirectoryPath)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">テーブル一覧の書き込み処理を行うメソッド</div>
@@ -161,14 +156,16 @@ loadScripts(document, 'script');</script>
 <h2>コンストラクタの詳細</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.export_table_definition.domain.repository.FileRepository)">
+<section class="detail" id="&lt;init&gt;(com.export_table_definition.domain.repository.FileRepository,com.export_table_definition.domain.service.path.OutputPathResolver)">
 <h3>TableDefinitionWriterDomainService</h3>
 <div class="member-signature"><span class="annotations">@Inject
-</span><span class="modifiers">public</span>&nbsp;<span class="element-name">TableDefinitionWriterDomainService</span><wbr><span class="parameters">(<a href="../../repository/FileRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">FileRepository</a>&nbsp;fileRepository)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">TableDefinitionWriterDomainService</span><wbr><span class="parameters">(<a href="../../repository/FileRepository.html" title="com.export_table_definition.domain.repository内のインタフェース">FileRepository</a>&nbsp;fileRepository,
+ <a href="../path/OutputPathResolver.html" title="com.export_table_definition.domain.service.path内のインタフェース">OutputPathResolver</a>&nbsp;outputPathResolver)</span></div>
 <div class="block">コンストラクタ</div>
 <dl class="notes">
 <dt>パラメータ:</dt>
 <dd><code>fileRepository</code> - ファイルリポジトリ</dd>
+<dd><code>outputPathResolver</code> - 出力パス解決クラス</dd>
 </dl>
 </section>
 </li>
@@ -181,40 +178,28 @@ loadScripts(document, 'script');</script>
 <h2>メソッドの詳細</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="writeTableDefinitionList(java.util.List,com.export_table_definition.domain.model.BaseInfoEntity,java.nio.file.Path)">
+<section class="detail" id="writeTableDefinitionList(java.util.List,com.export_table_definition.domain.model.entity.BaseInfoEntity,java.nio.file.Path)">
 <h3>writeTableDefinitionList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeTableDefinitionList</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/TableEntity.html" title="com.export_table_definition.domain.model内のクラス">TableEntity</a>&gt;&nbsp;tables,
- <a href="../../model/BaseInfoEntity.html" title="com.export_table_definition.domain.model内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeTableDefinitionList</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/entity/TableEntity.html" title="com.export_table_definition.domain.model.entity内のクラス">TableEntity</a>&gt;&nbsp;tables,
+ <a href="../../model/entity/BaseInfoEntity.html" title="com.export_table_definition.domain.model.entity内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="java.nio.file内のクラスまたはインタフェース" class="external-link">Path</a>&nbsp;outputDirectoryPath)</span></div>
 <div class="block">テーブル一覧の書き込み処理を行うメソッド</div>
 <dl class="notes">
 <dt>パラメータ:</dt>
 <dd><code>tables</code> - テーブル情報リスト</dd>
 <dd><code>baseInfo</code> - データベースの基本情報</dd>
-<dd><code>outputDirectoryPath</code> - 出力ファイル</dd>
+<dd><code>outputDirectoryPath</code> - 出力ディレクトリのパス</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="writeTableDefinition(com.export_table_definition.domain.model.TableEntity,com.export_table_definition.domain.model.BaseInfoEntity,java.util.List,java.util.List,java.util.List,java.util.List,java.nio.file.Path)">
+<section class="detail" id="writeTableDefinition(com.export_table_definition.domain.model.TableDefinitionContent)">
 <h3>writeTableDefinition</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeTableDefinition</span><wbr><span class="parameters">(<a href="../../model/TableEntity.html" title="com.export_table_definition.domain.model内のクラス">TableEntity</a>&nbsp;table,
- <a href="../../model/BaseInfoEntity.html" title="com.export_table_definition.domain.model内のクラス">BaseInfoEntity</a>&nbsp;baseInfo,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ColumnEntity.html" title="com.export_table_definition.domain.model内のクラス">ColumnEntity</a>&gt;&nbsp;columns,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/IndexEntity.html" title="com.export_table_definition.domain.model内のクラス">IndexEntity</a>&gt;&nbsp;indexes,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ConstraintEntity.html" title="com.export_table_definition.domain.model内のクラス">ConstraintEntity</a>&gt;&nbsp;constraints,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="java.util内のクラスまたはインタフェース" class="external-link">List</a>&lt;<a href="../../model/ForeignkeyEntity.html" title="com.export_table_definition.domain.model内のクラス">ForeignkeyEntity</a>&gt;&nbsp;foreignkeys,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="java.nio.file内のクラスまたはインタフェース" class="external-link">Path</a>&nbsp;outputDirectoryPath)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeTableDefinition</span><wbr><span class="parameters">(<a href="../../model/TableDefinitionContent.html" title="com.export_table_definition.domain.model内のクラス">TableDefinitionContent</a>&nbsp;content)</span></div>
 <div class="block">テーブル定義の書き込み処理を行うメソッド</div>
 <dl class="notes">
 <dt>パラメータ:</dt>
-<dd><code>table</code> - テーブル情報</dd>
-<dd><code>baseInfo</code> - データベースの基本情報</dd>
-<dd><code>columns</code> - カラム情報</dd>
-<dd><code>indexes</code> - インデックス情報</dd>
-<dd><code>constraints</code> - 制約情報</dd>
-<dd><code>foreignkeys</code> - 外部キー情報</dd>
-<dd><code>outputDirectoryPath</code> - 出力ファイル</dd>
+<dd><code>content</code> - テーブル定義出力に必要な情報をまとめたレコード</dd>
 </dl>
 </section>
 </li>

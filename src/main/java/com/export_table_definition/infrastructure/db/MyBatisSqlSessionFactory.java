@@ -9,6 +9,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.export_table_definition.config.PropertyLoader;
 import com.export_table_definition.infrastructure.db.type.DatabaseType;
@@ -22,6 +24,9 @@ import com.export_table_definition.infrastructure.db.type.DatabaseType;
  */
 public final class MyBatisSqlSessionFactory {
 
+    private static final Logger logger = LogManager.getLogger(MyBatisSqlSessionFactory.class);
+    private static final String MYBATIS_CONFIG = "mybatis-config.xml";
+    private static final String PROPERTY_BUNDLE_NAME = "mybatis";
     /** 唯一のSqlSessionFactoryインスタンス */
     private static SqlSessionFactory sqlSessionFactory;
 
@@ -36,15 +41,20 @@ public final class MyBatisSqlSessionFactory {
      * 
      * @return SqlSessionFactory
      */
-    public static SqlSessionFactory getSqlSessionFactory() {
+    public static synchronized SqlSessionFactory getSqlSessionFactory() {
         if (sqlSessionFactory == null) {
-            try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
+            logger.info("Initializing SqlSessionFactory from {} (bundle={})", MYBATIS_CONFIG, PROPERTY_BUNDLE_NAME);
+            try (final InputStream inputStream = Resources.getResourceAsStream(MYBATIS_CONFIG)) {
+                if (inputStream == null) {
+                    throw new IllegalStateException("Could not find resource: " + MYBATIS_CONFIG);
+                }
                 final Properties properties = new Properties();
-                final ResourceBundle res = PropertyLoader.getResourceBundle("mybatis");
+                final ResourceBundle res = PropertyLoader.getResourceBundle(PROPERTY_BUNDLE_NAME);
                 res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+                logger.info("SqlSessionFactory initialization completed.");
             } catch (Exception e) {
-                throw new RuntimeException("SqlSessionFactory initialization failed.", e);
+                throw new IllegalStateException("SqlSessionFactory initialization failed.", e);
             }
         }
         return sqlSessionFactory;
@@ -69,7 +79,7 @@ public final class MyBatisSqlSessionFactory {
             final String dbName = session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
             return DatabaseType.findByName(dbName);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get the database name.", e);
+            throw new IllegalStateException("Failed to get the database name.", e);
         }
     }
 }

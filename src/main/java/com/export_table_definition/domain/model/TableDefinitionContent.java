@@ -25,6 +25,18 @@ public record TableDefinitionContent(BaseInfoEntity baseInfo, TableEntity table,
         List<IndexEntity> indexes, List<ConstraintEntity> constraints, List<ForeignKeyEntity> foreignKeys,
         Path outputBaseDir) {
 
+    /**
+     * テーブル定義出力に必要な情報をまとめたレコードを組み立てる
+     * 
+     * @param baseInfo
+     * @param table
+     * @param columns
+     * @param indexes
+     * @param constraints
+     * @param foreignkeys
+     * @param baseDir
+     * @return TableDefinitionContent
+     */
     public static TableDefinitionContent assemble(BaseInfoEntity baseInfo, TableEntity table, Columns columns,
             Indexes indexes, Constraints constraints, ForeignKeys foreignkeys, Path baseDir) {
         return new TableDefinitionContent(baseInfo, table, columns.of(table), indexes.of(table), constraints.of(table),
