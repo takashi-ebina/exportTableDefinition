@@ -8,8 +8,8 @@ public enum TableType {
             return false;
         }
         return switch (raw.toLowerCase()) {
-            case "view", "materialized_view" -> true;
-            default -> false;
+        case "view", "materialized_view" -> true;
+        default -> false;
         };
     }
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.export_table_definition.domain.model.entity.ColumnEntity;
 import com.export_table_definition.domain.model.value.TableKey;
+
 /**
  * カラム情報の集合を扱うクラス
  * 

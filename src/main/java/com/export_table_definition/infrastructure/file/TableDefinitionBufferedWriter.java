@@ -22,15 +22,17 @@ public class TableDefinitionBufferedWriter implements AutoCloseable {
 
     /**
      * コンストラクタ
+     * 
      * @param path 書き込み先のファイルパス
      */
     public TableDefinitionBufferedWriter(Path path) {
         this(path, StandardCharsets.UTF_8);
     }
-    
+
     /**
      * コンストラクタ
-     * @param path 書き込み先のファイルパス
+     * 
+     * @param path    書き込み先のファイルパス
      * @param charset 文字エンコード
      */
     public TableDefinitionBufferedWriter(Path path, Charset charset) {

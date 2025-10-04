@@ -19,21 +19,21 @@ public enum DatabaseType {
     POSTGRESQL("postgresql", PostgresTableDefinitionRepository.class),
     /** Oracle */
     ORACLE("oracle", OracleTableDefinitionRepository.class);
-    
+
     private final String name;
     private final Class<? extends TableDefinitionRepository> repositoryClass;
-    
+
     /**
      * コンストラクタ
      * 
-     * @param name Database名
+     * @param name            Database名
      * @param repositoryClass Databaseに紐づくリポジトリクラス
      */
     DatabaseType(String name, Class<? extends TableDefinitionRepository> repositoryClass) {
         this.name = name;
         this.repositoryClass = repositoryClass;
     }
-    
+
     /**
      * Database名を返却する。
      * 
@@ -42,7 +42,7 @@ public enum DatabaseType {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Databaseに紐づくリポジトリクラスを返却する。
      * 
@@ -51,7 +51,7 @@ public enum DatabaseType {
     public Class<? extends TableDefinitionRepository> getRepositoryClass() {
         return repositoryClass;
     }
-    
+
     /**
      * Database名に紐づくEnumを返却する。
      * 

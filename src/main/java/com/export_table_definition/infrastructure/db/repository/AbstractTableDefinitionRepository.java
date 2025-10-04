@@ -40,9 +40,10 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      * @param databaseType データベースの種類
      */
     protected AbstractTableDefinitionRepository(DatabaseType databaseType) {
-        this.baseSqlPath = "com.export_table_definition.domain.repository." + databaseType.getName() + ".TableDefinitionRepository.";
+        this.baseSqlPath = "com.export_table_definition.domain.repository." + databaseType.getName()
+                + ".TableDefinitionRepository.";
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -53,6 +54,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
             return dto.toEntity();
         }
     }
+
     /**
      * {@inheritDoc}
      */
@@ -92,7 +94,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
     public List<ForeignKeyEntity> selectForeignKeyList(List<String> schemaList, List<String> tableList) {
         return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignKeyDto::toEntity);
     }
-    
+
     private <D, E> List<E> selectTableDefinition(List<String> schemaList, List<String> tableList, String sqlId,
             Function<D, E> mapper) {
         final String sqlPath = baseSqlPath + sqlId;

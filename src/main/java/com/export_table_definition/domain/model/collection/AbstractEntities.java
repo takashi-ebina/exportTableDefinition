@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.domain.model.value.TableKey;
+
 /**
  * エンティティの集合を扱う抽象クラス
  * 
@@ -20,7 +21,7 @@ import com.export_table_definition.domain.model.value.TableKey;
 public abstract class AbstractEntities<T> {
     protected final Map<TableKey, List<T>> byKey;
 
-    /** 
+    /**
      * コンストラクタ
      * 
      * @param byKey テーブルキーをキー、エンティティのリストを値とするマップ
@@ -40,8 +41,8 @@ public abstract class AbstractEntities<T> {
     /**
      * リストをテーブルキーでインデックス化するユーティリティメソッド
      * 
-     * @param <E> エンティティの型
-     * @param list エンティティのリスト
+     * @param <E>   エンティティの型
+     * @param list  エンティティのリスト
      * @param keyFn エンティティからテーブルキーを抽出する関数
      * @return テーブルキーをキー、エンティティのリストを値とするマップ
      */

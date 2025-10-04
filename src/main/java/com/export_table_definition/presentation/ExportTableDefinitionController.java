@@ -37,7 +37,7 @@ public class ExportTableDefinitionController {
      * コントローラーメソッド
      * 
      * @param schemaList テーブル定義出力対象のスキーマのリスト
-     * @param tableList テーブル定義出力対象のテーブルのリスト
+     * @param tableList  テーブル定義出力対象のテーブルのリスト
      * @param outputPath テーブル定義出力の出力先のパス
      * @return 処理結果
      */
@@ -48,7 +48,7 @@ public class ExportTableDefinitionController {
         } catch (Exception e) {
             logger.error(e);
             return new ResultDto(ProcessResult.FAIL,
-                    String.format("Failed to output table definition document. %s [errmsg]:%s", 
+                    String.format("Failed to output table definition document. %s [errmsg]:%s",
                             System.getProperty("line.separator"), e.getMessage()));
         }
         logger.info("[ END ] exportTableDefinition");

@@ -2,6 +2,7 @@ package com.export_table_definition.domain.model.entity;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.export_table_definition.domain.model.type.TableType;
@@ -48,48 +49,32 @@ public record TableEntity(String dbName, String schemaName, String logicalTableN
     }
 
     /**
-     *  テーブル定義書の作成を行うか判定するメソッド<br>
-     *  <br>
-     *  条件を整理すると以下となる
-     *  
-     * +------------------+-----------------+------------------+-----------------+---------------------------+ <br>
-     * | 条件                                                                    | 結果                      | <br>
-     * +------------------+-----------------+------------------+-----------------+                           + <br>
-     * | リストの中身が1件以上か            | 対象のスキーマ／TBLが存在するか    |                           | <br>
-     * +------------------+-----------------+------------------+-----------------+---------------------------+ <br>
-     * | targetSchemaList | targetTableList | targetSchemaList | targetTableList | TBL定義の書込を実施するか | <br>
-     * +------------------+-----------------+------------------+-----------------+---------------------------+ <br>
-     * | ×               | ×              | ―               | ―              | TRUE                      | <br>
-     * | ×               | ○              | ―               | ○              | TRUE                      | <br>
-     * | ×               | ○              | ―               | ×              | FALSE                     | <br>
-     * | ○               | ×              | ○               | ―              | TRUE                      | <br>
-     * | ○               | ×              | ×               | ―              | FALSE                     | <br>
-     * | ○               | ○              | ○               | ○              | TRUE                      | <br>
-     * | ○               | ○              | ○               | ×              | FALSE                     | <br>
-     * | ○               | ○              | ×               | ○              | FALSE                     | <br>
-     * | ○               | ○              | ×               | ×              | FALSE                     | <br>
-     * +------------------+-----------------+------------------+-----------------+---------------------------+ <br>
-     *
+     * テーブル定義書の作成を行うか判定するメソッド<br>
+     * 
+     * <ul>
+     * <li>スキーマ名リスト・テーブル名リストの両方が空またはnullの場合、常にtrueを返します。</li>
+     * <li>スキーマ名リストのみ指定されている場合、スキーマ名が一致すればtrueを返します。</li>
+     * <li>テーブル名リストのみ指定されている場合、テーブル名が一致すればtrueを返します。</li>
+     * <li>両方指定されている場合、スキーマ名・テーブル名の両方が一致した場合のみtrueを返します。</li>
+     * </ul>
+     * 
      * @param targetSchemaList スキーマ名のリスト
-     * @param targetTableList テーブル名のリスト
+     * @param targetTableList  テーブル名のリスト
      * @return テーブル定義書の書き込みが必要かどうか
      */
     public boolean needsWriteTableDefinition(List<String> targetSchemaList, List<String> targetTableList) {
-        final boolean hasSchemaList = targetSchemaList != null && !targetSchemaList.isEmpty();
-        final boolean hasTableList = targetTableList != null && !targetTableList.isEmpty();
-
-        final boolean isSchemaMatch = hasSchemaList && targetSchemaList.contains(schemaName);
-        final boolean isTableMatch = hasTableList && targetTableList.contains(physicalTableName);
+        final boolean hasSchemaList = CollectionUtils.isNotEmpty(targetSchemaList);
+        final boolean hasTableList = CollectionUtils.isNotEmpty(targetTableList);
 
         if (!hasSchemaList && !hasTableList) {
             return true;
         }
         if (!hasSchemaList) {
-            return isTableMatch;
+            return targetTableList.contains(physicalTableName);
         }
         if (!hasTableList) {
-            return isSchemaMatch;
+            return targetSchemaList.contains(schemaName);
         }
-        return isSchemaMatch && isTableMatch;
+        return targetSchemaList.contains(schemaName) && targetTableList.contains(physicalTableName);
     }
 }

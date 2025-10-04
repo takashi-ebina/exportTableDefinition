@@ -36,7 +36,7 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
      * コンストラクタ
      * 
      * @param tableDefinitionRepository テーブル定義出力に関するリポジトリクラス
-     * @param tableDefinitionWriter テーブル定義を書き込むクラス
+     * @param tableDefinitionWriter     テーブル定義を書き込むクラス
      */
     @Inject
     public ExportTableDefinitionUsecaseImpl(TableDefinitionRepository tableDefinitionRepository,
@@ -51,26 +51,29 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
     @Override
     public void exportTableDefinition(List<String> targetSchemaList, List<String> targetTableList, String outputPath) {
         // ベースディレクトリパス
-        final Path outputBaseDir = Optional.ofNullable(outputPath)
-                .filter(StringUtils::isNotBlank)
-                .map(Paths::get)
+        final Path outputBaseDir = Optional.ofNullable(outputPath).filter(StringUtils::isNotBlank).map(Paths::get)
                 .orElse(Paths.get(OUTPUT_BASE_DIRECTORY));
-        
+
         // Entity取得
         final BaseInfoEntity baseInfoEntity = tableDefinitionRepository.selectBaseInfo();
-        final List<TableEntity> tableEntityList = tableDefinitionRepository.selectTableList(targetSchemaList, targetTableList);
-        final Columns columns = Columns.of(tableDefinitionRepository.selectColumnList(targetSchemaList,targetTableList));
-        final Indexes indexes = Indexes.of(tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList));
-        final Constraints constraints = Constraints.of(tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList));
-        final ForeignKeys foreignKeys = ForeignKeys.of(tableDefinitionRepository.selectForeignKeyList(targetSchemaList, targetTableList));
+        final List<TableEntity> tableEntityList = tableDefinitionRepository.selectTableList(targetSchemaList,
+                targetTableList);
+        final Columns columns = Columns
+                .of(tableDefinitionRepository.selectColumnList(targetSchemaList, targetTableList));
+        final Indexes indexes = Indexes
+                .of(tableDefinitionRepository.selectIndexList(targetSchemaList, targetTableList));
+        final Constraints constraints = Constraints
+                .of(tableDefinitionRepository.selectConstraintList(targetSchemaList, targetTableList));
+        final ForeignKeys foreignKeys = ForeignKeys
+                .of(tableDefinitionRepository.selectForeignKeyList(targetSchemaList, targetTableList));
 
         // テーブル一覧出力 -> ./output/ or {設定ファイルのFileParh}/tableList_{DB名}.md
         tableDefinitionWriter.writeTableDefinitionList(tableEntityList, baseInfoEntity, outputBaseDir);
         // テーブル定義出力 -> ./output/ or {設定ファイルのFileParh}/{DB名}/{スキーマ名}/{TBL分類}/{物理テーブル名}.md
         tableEntityList.stream()
                 .filter(tableEntity -> tableEntity.needsWriteTableDefinition(targetSchemaList, targetTableList))
-                .map(tableEntity -> TableDefinitionContent.assemble(
-                        baseInfoEntity, tableEntity, columns, indexes, constraints, foreignKeys, outputBaseDir))
+                .map(tableEntity -> TableDefinitionContent.assemble(baseInfoEntity, tableEntity, columns, indexes,
+                        constraints, foreignKeys, outputBaseDir))
                 .forEach(tableDefinitionWriter::writeTableDefinition);
     }
 }

@@ -69,7 +69,7 @@ public final class MyBatisSqlSessionFactory {
             final String dbName = session.getConnection().getMetaData().getDatabaseProductName().toLowerCase();
             return DatabaseType.findByName(dbName);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get the database name." ,e);
+            throw new RuntimeException("Failed to get the database name.", e);
         }
     }
 }

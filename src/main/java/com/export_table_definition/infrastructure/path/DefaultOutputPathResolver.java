@@ -26,10 +26,7 @@ public class DefaultOutputPathResolver implements OutputPathResolver {
     public Path resolveTableDefinitionDirectory(BaseInfoEntity baseInfo, TableEntity table, Path baseOutputDir) {
         Objects.requireNonNull(baseInfo);
         Objects.requireNonNull(table);
-        return baseOutputDir
-                .resolve(baseInfo.dbName())
-                .resolve(table.schemaName())
-                .resolve(table.tableType());
+        return baseOutputDir.resolve(baseInfo.dbName()).resolve(table.schemaName()).resolve(table.tableType());
     }
 
     /**
@@ -56,4 +53,5 @@ public class DefaultOutputPathResolver implements OutputPathResolver {
     public Path resolveTableListFile(BaseInfoEntity baseInfo, Path baseOutputDir, int pageIndex) {
         return baseOutputDir.resolve(String.format(TABLE_LIST_PAGED_FILENAME_PATTERN, baseInfo.dbName(), pageIndex));
     }
+
 }
