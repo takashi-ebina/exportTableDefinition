@@ -16,8 +16,7 @@ import com.export_table_definition.domain.model.entity.TableEntity;
 import com.export_table_definition.testsupport.MarkdownAssert;
 
 /**
- * TableDefinitionListTemplates の詳細テスト。 既存 TableDefinitionListTemplatesTest
- * を補強する形。
+ * TableDefinitionListTemplates の詳細テスト
  */
 public class TableDefinitionListTemplatesTest {
 
