@@ -1,7 +1,6 @@
 package com.export_table_definition.infrastructure.path;
 
 import java.nio.file.Path;
-import java.util.Objects;
 
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 import com.export_table_definition.domain.model.entity.TableEntity;
@@ -24,8 +23,6 @@ public class DefaultOutputPathResolver implements OutputPathResolver {
      */
     @Override
     public Path resolveTableDefinitionDirectory(BaseInfoEntity baseInfo, TableEntity table, Path baseOutputDir) {
-        Objects.requireNonNull(baseInfo);
-        Objects.requireNonNull(table);
         return baseOutputDir.resolve(baseInfo.dbName()).resolve(table.schemaName()).resolve(table.tableType());
     }
 

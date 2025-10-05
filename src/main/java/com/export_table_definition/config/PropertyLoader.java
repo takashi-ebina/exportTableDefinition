@@ -64,8 +64,8 @@ public class PropertyLoader {
     public static ResourceBundle getResourceBundle(String fileName) {
         return CACHE.computeIfAbsent(fileName, f -> {
             try {
-                URLClassLoader urlLoader = new URLClassLoader(new URL[] { getPropertiesFileDir().toURI().toURL() });
-                return ResourceBundle.getBundle(f, Locale.JAPAN, urlLoader);
+                return ResourceBundle.getBundle(f, Locale.JAPAN,
+                        new URLClassLoader(new URL[] { getPropertiesFileDir().toURI().toURL() }));
             } catch (IOException e) {
                 throw new UncheckedIOException("Failed to get the URL of the property file directory.", e);
             }
