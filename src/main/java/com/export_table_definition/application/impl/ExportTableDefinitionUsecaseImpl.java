@@ -51,7 +51,7 @@ public class ExportTableDefinitionUsecaseImpl implements ExportTableDefinitionUs
     @Override
     public void exportTableDefinition(List<String> targetSchemaList, List<String> targetTableList, String outputPath) {
         // ベースディレクトリパス取得
-        Path outputBaseDir = Optional.ofNullable(outputPath).filter(StringUtils::isNotBlank).map(Paths::get)
+        final Path outputBaseDir = Optional.ofNullable(outputPath).filter(StringUtils::isNotBlank).map(Paths::get)
                 .orElse(Paths.get(OUTPUT_BASE_DIRECTORY));
 
         // Entity取得

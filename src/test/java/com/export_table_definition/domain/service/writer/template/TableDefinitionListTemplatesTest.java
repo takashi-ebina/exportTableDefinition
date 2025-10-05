@@ -25,7 +25,6 @@ public class TableDefinitionListTemplatesTest {
     private static final String NL2 = NL + NL;
 
     private BaseInfoEntity baseInfo() {
-        // BaseInfoEntity の実際のコンストラクタに合わせて調整してください。
         return new BaseInfoEntity("TEST_DB", "| pg | TEST_DB | 2025-01-01 |");
     }
 

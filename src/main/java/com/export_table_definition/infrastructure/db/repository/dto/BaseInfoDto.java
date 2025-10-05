@@ -2,8 +2,6 @@ package com.export_table_definition.infrastructure.db.repository.dto;
 
 import com.export_table_definition.domain.model.entity.BaseInfoEntity;
 
-import lombok.Data;
-
 /**
  * データベースの基本情報に関してORMのデータの受け渡しに利用するDTOクラス
  * 
@@ -11,11 +9,7 @@ import lombok.Data;
  * @version 1.0
  * @author takashi.ebina
  */
-@Data
-public class BaseInfoDto {
-    private String dbName;
-    private String baseInfo;
-    
+public record BaseInfoDto(String dbName, String baseInfo) {
     /**
      * DTOからEntityへの変換メソッド
      * 

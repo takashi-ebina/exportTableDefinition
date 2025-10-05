@@ -2,8 +2,6 @@ package com.export_table_definition.infrastructure.db.repository.dto;
 
 import com.export_table_definition.domain.model.entity.ColumnEntity;
 
-import lombok.Data;
-
 /**
  * カラム情報に関してORMのデータの受け渡しに利用するDTOクラス
  * 
@@ -11,12 +9,8 @@ import lombok.Data;
  * @version 1.0
  * @author takashi.ebina
  */
-@Data
-public class ColumnDto {
-    private String schemaName;
-    private String tableName;
-    private String columnInfo;
-    
+public record ColumnDto(String schemaName, String tableName, String columnInfo) {
+
     /**
      * DTOからEntityへの変換メソッド
      * 

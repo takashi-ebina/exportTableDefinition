@@ -92,7 +92,7 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
      */
     @Override
     public List<ForeignKeyEntity> selectForeignKeyList(List<String> schemaList, List<String> tableList) {
-        return selectTableDefinition(schemaList, tableList, "selectAllForeignkeyInfo", ForeignKeyDto::toEntity);
+        return selectTableDefinition(schemaList, tableList, "selectAllForeignKeyInfo", ForeignKeyDto::toEntity);
     }
 
     private <D, E> List<E> selectTableDefinition(List<String> schemaList, List<String> tableList, String sqlId,

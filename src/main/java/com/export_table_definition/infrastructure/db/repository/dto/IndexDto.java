@@ -2,8 +2,6 @@ package com.export_table_definition.infrastructure.db.repository.dto;
 
 import com.export_table_definition.domain.model.entity.IndexEntity;
 
-import lombok.Data;
-
 /**
  * インデックス情報に関してORMのデータの受け渡しに利用するDTOクラス
  * 
@@ -11,12 +9,8 @@ import lombok.Data;
  * @version 1.0
  * @author takashi.ebina
  */
-@Data
-public class IndexDto {
-    private String schemaName;
-    private String tableName;
-    private String indexInfo;
-    
+public record IndexDto(String schemaName, String tableName, String indexInfo) {
+
     /**
      * DTOからEntityへの変換メソッド
      * 

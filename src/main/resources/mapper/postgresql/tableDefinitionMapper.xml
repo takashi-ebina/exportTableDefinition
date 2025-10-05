@@ -2,11 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.export_table_definition.domain.repository.postgresql.TableDefinitionRepository">
 
-<select id="selectBaseInfo" resultType="BaseInfoDto">
+<select id="selectBaseInfo" resultMap="BaseInfoDtoMap">
 SELECT current_database() AS "dbName", concat('|', 'PostgreSQL', '|', current_database(), '|', to_char(current_timestamp, 'yyyy/MM/dd'), '|') AS "baseInfo" fetch first 1 rows only;
 </select>
 
-<select id="selectAllTableInfo" resultType="TableDto">
+<resultMap id="BaseInfoDtoMap" type="BaseInfoDto">
+  <constructor>
+    <arg column="dbName" javaType="String"/>
+    <arg column="baseInfo" javaType="String"/>
+  </constructor>
+</resultMap>
+
+<select id="selectAllTableInfo" resultMap="TableDtoMap">
 WITH all_tables AS (
     SELECT 
         coalesce(t1.schemaname, '') AS schema_name,
@@ -101,7 +108,20 @@ ORDER BY
     schema_name, physical_table_name;
 </select>
 
-<select id="selectAllColumnInfo" resultType="ColumnDto">
+<resultMap id="TableDtoMap" type="TableDto">
+  <constructor>
+    <arg column="dbName" javaType="String"/>
+    <arg column="schemaName" javaType="String"/>
+    <arg column="logicalTableName" javaType="String"/>
+    <arg column="physicalTableName" javaType="String"/>
+    <arg column="tableType" javaType="String"/>
+    <arg column="tableInfoList" javaType="String"/>
+    <arg column="tableInfo" javaType="String"/>
+    <arg column="definition" javaType="String"/>
+  </constructor>
+</resultMap>
+
+<select id="selectAllColumnInfo" resultMap="ColumnDtoMap">
 WITH all_columns AS (
     (
         SELECT
@@ -284,7 +304,15 @@ ORDER BY
     schema_name, table_name, column_num;
 </select>
 
-<select id="selectAllIndexInfo" resultType="IndexDto">
+<resultMap id="ColumnDtoMap" type="ColumnDto">
+  <constructor>
+    <arg column="schemaName" javaType="String"/>
+    <arg column="tableName" javaType="String"/>
+    <arg column="columnInfo" javaType="String"/>
+  </constructor>
+</resultMap>
+
+<select id="selectAllIndexInfo" resultMap="IndexDtoMap">
 WITH all_indexes AS (
     SELECT
         t5.schemaname AS schema_name,
@@ -335,7 +363,15 @@ ORDER BY
     schema_name, table_name;
 </select>
 
-<select id="selectAllConstraintInfo" resultType="ConstraintDto">
+<resultMap id="IndexDtoMap" type="IndexDto">
+  <constructor>
+    <arg column="schemaName" javaType="String"/>
+    <arg column="tableName" javaType="String"/>
+    <arg column="indexInfo" javaType="String"/>
+  </constructor>
+</resultMap>
+
+<select id="selectAllConstraintInfo" resultMap="ConstraintDtoMap">
 WITH all_constraints AS (
     SELECT
         t3.nspname AS schema_name,
@@ -383,7 +419,15 @@ ORDER BY
     schema_name, table_name, constraints_type, constraints_name;
 </select>
 
-<select id="selectAllForeignKeyInfo" resultType="ForeignKeyDto">
+<resultMap id="ConstraintDtoMap" type="ConstraintDto">
+  <constructor>
+    <arg column="schemaName" javaType="String"/>
+    <arg column="tableName" javaType="String"/>
+    <arg column="constraintInfo" javaType="String"/>
+  </constructor>
+</resultMap>
+
+<select id="selectAllForeignKeyInfo" resultMap="ForeignKeyDtoMap">
 WITH all_foreignkeys AS (
     SELECT
         t1.constraint_name AS foreignkey_name,
@@ -438,5 +482,13 @@ FROM
 ORDER BY
     schema_name, table_name;
 </select>
+
+<resultMap id="ForeignKeyDtoMap" type="ForeignKeyDto">
+  <constructor>
+    <arg column="schemaName" javaType="String"/>
+    <arg column="tableName" javaType="String"/>
+    <arg column="foreignkeyInfo" javaType="String"/>
+  </constructor>
+</resultMap>
 
 </mapper>
