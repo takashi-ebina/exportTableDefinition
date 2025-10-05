@@ -2,8 +2,6 @@ package com.export_table_definition.infrastructure.db;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -48,10 +46,8 @@ public final class MyBatisSqlSessionFactory {
                 if (inputStream == null) {
                     throw new IllegalStateException("Could not find resource: " + MYBATIS_CONFIG);
                 }
-                final Properties properties = new Properties();
-                final ResourceBundle res = PropertyLoader.getResourceBundle(PROPERTY_BUNDLE_NAME);
-                res.keySet().stream().forEach(key -> properties.setProperty(key, res.getString(key)));
-                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,
+                        PropertyLoader.getProperties(PROPERTY_BUNDLE_NAME));
                 logger.info("SqlSessionFactory initialization completed.");
             } catch (Exception e) {
                 throw new IllegalStateException("SqlSessionFactory initialization failed.", e);

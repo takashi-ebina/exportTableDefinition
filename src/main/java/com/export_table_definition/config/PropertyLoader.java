@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -70,6 +71,19 @@ public class PropertyLoader {
                 throw new UncheckedIOException("Failed to get the URL of the property file directory.", e);
             }
         });
+    }
+
+    /**
+     * プロパティファイルの読み込みを行うメソッド（Propertiesオブジェクトで取得）
+     * 
+     * @param fileName プロパティファイルのファイル名
+     * @return プロパティファイルを読み込んだPropertiesオブジェクト
+     */
+    public static Properties getProperties(String fileName) {
+        final Properties props = new Properties();
+        final ResourceBundle res = getResourceBundle(fileName);
+        res.keySet().stream().forEach(key -> props.setProperty(key, res.getString(key)));
+        return props;
     }
 
     /**
