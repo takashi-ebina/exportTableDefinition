@@ -1,6 +1,5 @@
 package com.export_table_definition.infrastructure.db.repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -99,10 +98,8 @@ public abstract class AbstractTableDefinitionRepository implements TableDefiniti
             Function<D, E> mapper) {
         final String sqlPath = baseSqlPath + sqlId;
         try (SqlSession session = MyBatisSqlSessionFactory.openSession()) {
-            final Map<String, Object> param = new HashMap<>();
-            param.put("schemaList", schemaList);
-            param.put("tableList", tableList);
-            final List<D> dtoList = session.selectList(sqlPath, param);
+            final List<D> dtoList = session.selectList(sqlPath,
+                    Map.ofEntries(Map.entry("schemaList", schemaList), Map.entry("tableList", tableList)));
             return makeEntityList(dtoList, mapper);
         } catch (Exception e) {
             throw new RuntimeException("Failed to select: " + sqlPath, e);
