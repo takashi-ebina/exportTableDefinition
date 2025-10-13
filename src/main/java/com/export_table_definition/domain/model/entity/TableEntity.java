@@ -45,7 +45,7 @@ public record TableEntity(String dbName, String schemaName, String logicalTableN
      * @return view または materialized viewの場合はture。それ以外の場合はfalseを返却
      */
     public boolean isView() {
-        return TableType.isViewType(tableType);
+        return TableType.isViewType(this.tableType);
     }
 
     /**

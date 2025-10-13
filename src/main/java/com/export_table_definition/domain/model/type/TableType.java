@@ -1,5 +1,8 @@
 package com.export_table_definition.domain.model.type;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * テーブルの種類を表す列挙型
  * 
@@ -9,11 +12,43 @@ package com.export_table_definition.domain.model.type;
  */
 public enum TableType {
     /** テーブル */
-    TABLE,
+    TABLE("table"),
     /** ビュー */
-    VIEW,
+    VIEW("view"),
     /** マテリアライズドビュー */
-    MATERIALIZED_VIEW;
+    MATERIALIZED_VIEW("materialized_view");
+
+    private final String name;
+
+    /**
+     * コンストラクタ
+     * 
+     * @param name テーブル種類名
+     */
+    TableType(String name) {
+        this.name = name;
+    }
+
+    /**
+     * テーブル種類名を返却する。
+     * 
+     * @return テーブル種類名を返却する。
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * テーブルの種類に紐づくEnumを返却する。
+     * 
+     * @param name Enum逆引きに用いる値
+     * @return TableTypeを返却する。
+     * @throws IllegalArgumentException 対象のEnumが存在しない場合にthrowする。
+     */
+    public static TableType findByName(String name) {
+        return Arrays.stream(TableType.values()).filter(e -> Objects.equals(name, e.getName())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException());
+    }
 
     /**
      * 指定された文字列がビュータイプかどうかを判定する
@@ -22,12 +57,9 @@ public enum TableType {
      * @return ビュータイプの場合はtrue、そうでない場合はfalse
      */
     public static boolean isViewType(String raw) {
-        if (raw == null) {
-            return false;
-        }
-        return switch (raw.toLowerCase()) {
-        case "view", "materialized_view" -> true;
-        default -> false;
+        return switch (findByName(raw)) {
+            case VIEW, MATERIALIZED_VIEW -> true;
+            default -> false;
         };
     }
 }
