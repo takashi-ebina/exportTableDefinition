@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.export_table_definition.application.ExportTableDefinitionUsecase;
-import com.export_table_definition.application.impl.ExportTableDefinitionUsecaseImpl;
 import com.export_table_definition.presentation.dto.ResultDto;
 import com.export_table_definition.presentation.type.ProcessResult;
 import com.google.inject.Inject;
@@ -29,7 +28,7 @@ public class ExportTableDefinitionController {
      * @param exportTableDefinitionUsecase テーブル定義出力に関するユースケースクラス
      */
     @Inject
-    public ExportTableDefinitionController(ExportTableDefinitionUsecaseImpl exportTableDefinitionUsecase) {
+    public ExportTableDefinitionController(ExportTableDefinitionUsecase exportTableDefinitionUsecase) {
         this.exportTableDefinitionUsecase = exportTableDefinitionUsecase;
     }
 
