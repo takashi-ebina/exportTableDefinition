@@ -1,5 +1,6 @@
 package com.export_table_definition.infrastructure.db;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
@@ -40,19 +41,20 @@ public final class MyBatisSqlSessionFactory {
      * @return SqlSessionFactory
      */
     public static synchronized SqlSessionFactory getSqlSessionFactory() {
-        if (sqlSessionFactory == null) {
-            logger.info("Initializing SqlSessionFactory from {} (bundle={})", MYBATIS_CONFIG, PROPERTY_BUNDLE_NAME);
-            try (final InputStream inputStream = Resources.getResourceAsStream(MYBATIS_CONFIG)) {
-                if (inputStream == null) {
-                    throw new IllegalStateException("Could not find resource: " + MYBATIS_CONFIG);
-                }
-                sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,
-                        PropertyLoader.getProperties(PROPERTY_BUNDLE_NAME));
-                logger.info("SqlSessionFactory initialization completed.");
-            } catch (Exception e) {
-                throw new IllegalStateException("SqlSessionFactory initialization failed.", e);
-            }
+        if (sqlSessionFactory != null) {
+            return sqlSessionFactory;
         }
+        logger.info("Initializing SqlSessionFactory from {} (bundle={})", MYBATIS_CONFIG, PROPERTY_BUNDLE_NAME);
+        try (final InputStream inputStream = Resources.getResourceAsStream(MYBATIS_CONFIG)) {
+            if (inputStream == null) {
+                throw new IllegalStateException("Could not find resource: " + MYBATIS_CONFIG);
+            }
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,
+                    PropertyLoader.getProperties(PROPERTY_BUNDLE_NAME));
+        } catch (IOException e) {
+            throw new IllegalStateException("SqlSessionFactory initialization failed.", e);
+        }
+        logger.info("SqlSessionFactory initialization completed.");
         return sqlSessionFactory;
     }
 
