@@ -105,11 +105,11 @@ public class TableDefinitionListTemplates {
             return LINE_SEPARATOR;
         }
         StringBuilder sb = new StringBuilder(HORIZON).append(LINE_SEPARATOR_DOUBLE);
-        if (currentPage > 1) {
-            sb.append(String.format("[<<前へ](./tableList_%s_%d.md) ", baseInfo.dbName(), currentPage - 1));
+        if (fileIndex > 1) {
+            sb.append(String.format("[<<前へ](./tableList_%s_%d.md) ", baseInfo.dbName(), fileIndex - 1));
         }
         if (currentPage < totalPages) {
-            sb.append(String.format("[次へ>>](./tableList_%s_%d.md) ", baseInfo.dbName(), currentPage + 1));
+            sb.append(String.format("[次へ>>](./tableList_%s_%d.md) ", baseInfo.dbName(), fileIndex + 1));
         }
         sb.append(LINE_SEPARATOR);
         return sb.toString();
