@@ -17,27 +17,37 @@ import com.google.inject.Guice;
  */
 public class ExportTableDefinition {
 
+    private ExportTableDefinitionController controller;
+
+    ExportTableDefinition(ExportTableDefinitionController controller) {
+        this.controller = controller;
+    }
+
     /**
      * テーブル定義出力処理のエントリーポイントメソッド
      * 
      * @param args コマンドライン引数
      */
     public static void main(String[] args) {
+        new ExportTableDefinition(Guice.createInjector(new ExportTableDefinitionModule())
+                .getInstance(ExportTableDefinitionController.class)).run();
+    }
+
+    /**
+     * テーブル定義出力処理実行メソッド
+     */
+    void run() {
         // プロパティファイルの読み込み
         final List<String> schemaList = PropertyLoader.getList("ExportTableDefinition", "schema");
         final List<String> tableList = PropertyLoader.getList("ExportTableDefinition", "table");
         final String outputPath = PropertyLoader.getString("ExportTableDefinition", "outputPath");
-
         // 処理開始メッセージ出力
-        System.out.println("Starting output of table definition document.");
-        System.out.println("Please wait a moment ...");
-        System.out.println("");
-
+        System.out.println("""
+                Starting output of table definition document.
+                Please wait a moment ...
+                """);
         // テーブル定義出力処理実行
-        final ExportTableDefinitionController controller = Guice.createInjector(new ExportTableDefinitionModule())
-                .getInstance(ExportTableDefinitionController.class);
         final ResultDto resultDto = controller.execute(schemaList, tableList, outputPath);
-
         // 処理終了メッセージ出力
         System.out.println(resultDto.getResultMessage());
     }
