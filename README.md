@@ -49,7 +49,7 @@ exportTableDefinition
 以下のコマンドを実行することで、`exportTableDefinition/build/libs`フォルダ配下に`exportTableDefinition-1.0-SNAPSHOT.jar`が作成される
 
 ```
-gradle build
+gradlew build
 ```
 
 ### Javadoc
@@ -57,16 +57,18 @@ gradle build
 以下のコマンドを実行することで、`exportTableDefinition/docs/javadoc`フォルダ配下にjavadocが作成される
 
 ```
-gradle javadoc
+gradlew javadoc
 ```
 
 ### 実行方法
 
-`conf/ExportTableDefinition.properties`及び`conf/mybatis.properties`に必要な設定値を記載した状態で以下のコマンドを実行する
+`conf/ExportTableDefinition.properties`（※）及び`conf/mybatis.properties`に必要な設定値を記載した状態で以下のコマンドを実行する
 
 ```
 java -jar .\exportTableDefinition-1.0-SNAPSHOT.jar
 ```
+
+※`conf/ExportTableDefinition.properties.template`を`conf/ExportTableDefinition.properties`にリネームしてください
 
 ### ExportTableDefinition.properties の記載内容
 
